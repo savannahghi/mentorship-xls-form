@@ -57,7 +57,18 @@ MetadataFormats = Literal["auto", "excel"]
     message="%(version)s"
 )
 @click.argument(
-    "metadata",
+    "checklist_metadata",
+    type=click.Path(
+        allow_dash=False,
+        dir_okay=False,
+        exists=True,
+        file_okay=True,
+        readable=True,
+        resolve_path=True,
+    )
+)
+@click.argument(
+    "facility_metadata",
     type=click.Path(
         allow_dash=False,
         dir_okay=False,
@@ -68,7 +79,8 @@ MetadataFormats = Literal["auto", "excel"]
     )
 )
 def main(
-    metadata: str,
+    checklist_metadata: str,
+    facility_metadata: str,
     metadata_format: SupportedMetaFormats,
     output_dir: str,
 ) -> None:
@@ -79,8 +91,10 @@ def main(
 
     \f
 
-    :param metadata: The path to the Excel file containing the mentorship
-        checklists metadata.
+    :param checklist_metadata: The path to the Excel file containing the
+        mentorship checklists metadata.
+    :param facility_metadata: The path to the JSON file containing the
+        facilities metadata.
     :param metadata_format: The format of the metadata file. Can be auto which
         allows the configuration format to be determined from the extension of
         the file name.
@@ -91,7 +105,7 @@ def main(
     """
 
     click.secho("Starting ...", fg="bright_blue")
-    main_pipeline_factory()(metadata)
+    main_pipeline_factory()((checklist_metadata, facility_metadata))
     click.secho("Done :)", fg="bright_blue")
 
 

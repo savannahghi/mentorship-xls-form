@@ -52,7 +52,16 @@ class DomainObject(metaclass=ABCMeta):
 # =============================================================================
 
 @define
-class Question(DomainObject, metaclass=ABCMeta):
+class Facility(DomainObject):
+    name: str = field()
+    mfl_code: str = field()
+    county: str = field()
+    sub_county: str = field(repr=False)
+    ward: str = field(repr=False)
+
+
+@define
+class Question(DomainObject):
     """A question in a mentorship checklist."""
 
     id: str = field()  # noqa: A003
@@ -81,7 +90,7 @@ class Question(DomainObject, metaclass=ABCMeta):
 
 
 @define
-class Section(DomainObject, metaclass=ABCMeta):
+class Section(DomainObject):
     """A section in a mentorship checklist."""
 
     id: str = field()  # noqa: A003
@@ -108,7 +117,7 @@ class Section(DomainObject, metaclass=ABCMeta):
 
 
 @define
-class MentorshipChecklist(DomainObject, metaclass=ABCMeta):
+class MentorshipChecklist(DomainObject):
     """A mentorship checklist."""
 
     id: str = field()  # noqa: A003

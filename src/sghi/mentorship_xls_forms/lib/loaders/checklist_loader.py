@@ -148,7 +148,7 @@ class InvalidMetadataError(LoadError):
 # =============================================================================
 
 @define
-class ExcelChecklistsMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
+class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
 
     _metadata_source: Final[ExcelWorkbook] = field(
         eq=False, hash=False, repr=False
@@ -334,7 +334,7 @@ class ExcelChecklistsMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
         select_one_options: str
     ) -> AbstractSet[str] | None:
         ensure_not_none(select_one_options)
-        eml = ExcelChecklistsMetadataLoader
+        eml = ChecklistsExcelMetadataLoader
         options: str | None = eml._metadata_na_to_python(select_one_options)
         return None if options is None else set(options.split(";"))
 
@@ -356,7 +356,7 @@ class ExcelChecklistsMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
         question_mapping: _QuestionMapping
     ) -> Question:
         ensure_not_none(question_mapping)
-        eml = ExcelChecklistsMetadataLoader
+        eml = ChecklistsExcelMetadataLoader
         return Question(
             id=question_mapping["Question ID"].strip(),
             label=question_mapping["Question Label"].strip(),
@@ -381,7 +381,7 @@ class ExcelChecklistsMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
         section_mapping: _SectionMapping
     ) -> Section:
         ensure_not_none(section_mapping)
-        eml = ExcelChecklistsMetadataLoader
+        eml = ChecklistsExcelMetadataLoader
         return Section(
             id=section_mapping["Section ID"].strip(),
             title=section_mapping["Section Title"].strip(),

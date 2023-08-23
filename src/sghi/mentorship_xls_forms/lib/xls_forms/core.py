@@ -53,6 +53,9 @@ class XLSFormChoice:
     label: str = field()
     list_name: str = field()
     name: str = field()
+    county: str | None = field(default=None, repr=False)
+    sub_county: str | None = field(default=None, repr=False)
+    ward: str | None = field(default=None, repr=False)
 
 
 @define
@@ -107,8 +110,18 @@ class XLSFormRecord:
         return cls(type="end_group")
 
     @classmethod
-    def of_note(cls, label: str | None, name: str | None = None) -> Self:
-        return cls(type="note", label=label, name=name)
+    def of_note(
+        cls,
+        label: str | None,
+        name: str | None = None,
+        calculation: str | None = None,
+    ) -> Self:
+        return cls(
+            type="note",
+            label=label,
+            name=name,
+            calculation=calculation
+        )
 
     @classmethod
     def of_positive_integer(

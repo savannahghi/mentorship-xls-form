@@ -1,0 +1,2207 @@
+[
+  {
+    "name": "AAR Clinic Sarit Centre (Westlands)",
+    "mfl_code": 16796,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Parklands/Highridge"
+  },
+  {
+    "name": "AAR Gwh Health Care Ltd",
+    "mfl_code": 19958,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Access Afya",
+    "mfl_code": 19467,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi South"
+  },
+  {
+    "name": "ACCESS AFYA KIAMBIU",
+    "mfl_code": 23850,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh South"
+  },
+  {
+    "name": "Adventist Centre For Care and Support (Kilimani)",
+    "mfl_code": 18535,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Aga Khan Hospital",
+    "mfl_code": 12867,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Parklands/Highridge"
+  },
+  {
+    "name": "Ajam Mission Health Centre",
+    "mfl_code": 18398,
+    "county": "Kajiado",
+    "sub_county": "Kajiado West",
+    "ward": "Keekonyokie"
+  },
+  {
+    "name": "Al Amin Nursing Home",
+    "mfl_code": 18769,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh North"
+  },
+  {
+    "name": "Alice Nursing Home",
+    "mfl_code": 12869,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Kware"
+  },
+  {
+    "name": "Alliance Medical Centre",
+    "mfl_code": 17847,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "California"
+  },
+  {
+    "name": "Amboseli Dispensary",
+    "mfl_code": 14200,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Entonet/Lenkism"
+  },
+  {
+    "name": "Amurt Health Centre",
+    "mfl_code": 12870,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Mountain View"
+  },
+  {
+    "name": "Andulus Medical Clinic",
+    "mfl_code": 18770,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh North"
+  },
+  {
+    "name": "APTC Health Centre",
+    "mfl_code": 12871,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Mihango"
+  },
+  {
+    "name": "Arrow Web Maternity and Nursing Home",
+    "mfl_code": 12872,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole Central"
+  },
+  {
+    "name": "Aski Medical Clinic",
+    "mfl_code": 12873,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole North"
+  },
+  {
+    "name": "Avenue Hospital",
+    "mfl_code": 12874,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Parklands/Highridge"
+  },
+  {
+    "name": "Babadogo (EDARP)",
+    "mfl_code": 12875,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Babandogo"
+  },
+  {
+    "name": "Babadogo Health Centre",
+    "mfl_code": 12876,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Babandogo"
+  },
+  {
+    "name": "Babadogo Medical Health Centre",
+    "mfl_code": 12877,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Babandogo"
+  },
+  {
+    "name": "Bahati Health Centre",
+    "mfl_code": 12879,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Maringo/Hamza"
+  },
+  {
+    "name": "Baldo Ippolita",
+    "mfl_code": 24270,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Kware"
+  },
+  {
+    "name": "Beacon of Hope Clinic (Ongata Rongai)",
+    "mfl_code": 16667,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Nkaimurunya"
+  },
+  {
+    "name": "Better Living Hospital",
+    "mfl_code": 23385,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "BHESP MOWLEM DICE CLINIC",
+    "mfl_code": 22863,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Mowlem"
+  },
+  {
+    "name": "Biafra Lions Clinic",
+    "mfl_code": 12883,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh South"
+  },
+  {
+    "name": "Biafra Medical Clinic",
+    "mfl_code": 12884,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh South"
+  },
+  {
+    "name": "Bissil Health Centre",
+    "mfl_code": 14259,
+    "county": "Kajiado",
+    "sub_county": "Kajiado Central",
+    "ward": "Matapato North"
+  },
+  {
+    "name": "Blessed Medicare Centre",
+    "mfl_code": 21903,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Kware"
+  },
+  {
+    "name": "Blissgvs Health Care Pipeline",
+    "mfl_code": 21050,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Embakasi"
+  },
+  {
+    "name": "Blue House Dispensary",
+    "mfl_code": 12885,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh North"
+  },
+  {
+    "name": "Bodaki Medical Clinic",
+    "mfl_code": 18805,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Gatina"
+  },
+  {
+    "name": "Bridging Out-Patient",
+    "mfl_code": 19405,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Kahawa West"
+  },
+  {
+    "name": "Bristal Park Hospital",
+    "mfl_code": 18271,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Embakasi"
+  },
+  {
+    "name": "Brother Andre Medial Centre",
+    "mfl_code": 12887,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Dandora Area Iv"
+  },
+  {
+    "name": "Buruburu Medical Clinic",
+    "mfl_code": 12888,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Harambee"
+  },
+  {
+    "name": "Cana Family Life Clinic",
+    "mfl_code": 12889,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Viwandani"
+  },
+  {
+    "name": "Care Hospital",
+    "mfl_code": 12865,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "California"
+  },
+  {
+    "name": "Chandaria Health Centre",
+    "mfl_code": 12893,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Uthiru/Ruthimitu"
+  },
+  {
+    "name": "Child Doctor Kenya",
+    "mfl_code": 19504,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Woodley/Kenyatta Golf Course"
+  },
+  {
+    "name": "Chonesus Clinic",
+    "mfl_code": 19035,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Lindi"
+  },
+  {
+    "name": "Church Army Medical Clinic",
+    "mfl_code": 18795,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Maringo/Hamza"
+  },
+  {
+    "name": "Cidi Mukuru Clinic",
+    "mfl_code": 12897,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Kwa Njenga"
+  },
+  {
+    "name": "Clinix Health Care",
+    "mfl_code": 23886,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi Central"
+  },
+  {
+    "name": "Columbia Africa Health Care Ltd",
+    "mfl_code": 22146,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Parklands/Highridge"
+  },
+  {
+    "name": "Conerstone Clinic",
+    "mfl_code": 12903,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Njiru"
+  },
+  {
+    "name": "Coptic Hospital (Ngong Road)",
+    "mfl_code": 12905,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Coptic Medical Clinic",
+    "mfl_code": 12904,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Viwandani"
+  },
+  {
+    "name": "Dandora (EDARP) Clinic",
+    "mfl_code": 12911,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Mowlem"
+  },
+  {
+    "name": "Dandora I Health Centre",
+    "mfl_code": 12913,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Dandora Area I"
+  },
+  {
+    "name": "Dandora II Health Centre",
+    "mfl_code": 12912,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Dandora Area I"
+  },
+  {
+    "name": "Divine Mercy Kariobangi",
+    "mfl_code": 18388,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Kariobangi South"
+  },
+  {
+    "name": "Diwopa Health Centre",
+    "mfl_code": 12917,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole Central"
+  },
+  {
+    "name": "Dorkcare Nursing Home",
+    "mfl_code": 12921,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh North"
+  },
+  {
+    "name": "Dr.Charles.J.R.Opondo (landmark plaza)",
+    "mfl_code": 20393,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Dr.K.Gicheru(Upper Hill Centre)",
+    "mfl_code": 20397,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Dr Maina Ruga Medical Clinic",
+    "mfl_code": 20106,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Ngara"
+  },
+  {
+    "name": "Dr.P.W.Kamau&Associates(Upper Hill Medical Centre)",
+    "mfl_code": 20396,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Eagle Health Care Solution",
+    "mfl_code": 21146,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Kangemi"
+  },
+  {
+    "name": "Eastleigh Health Centre",
+    "mfl_code": 12930,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Airbase"
+  },
+  {
+    "name": "EDARP Komarock Health Centre",
+    "mfl_code": 17719,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Komarock"
+  },
+  {
+    "name": "EDARP Njiru Clinic",
+    "mfl_code": 17548,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Njiru"
+  },
+  {
+    "name": "EDARP Ruai Clinic",
+    "mfl_code": 13169,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Ruai"
+  },
+  {
+    "name": "EDARP Soweto Health Centre",
+    "mfl_code": 13191,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Lower Savannah"
+  },
+  {
+    "name": "Edna Maternity",
+    "mfl_code": 12934,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh South"
+  },
+  {
+    "name": "Embakasi Health Centre",
+    "mfl_code": 12935,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Embakasi"
+  },
+  {
+    "name": "Embulbul Catholic Dispensary",
+    "mfl_code": 14445,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Oloolua"
+  },
+  {
+    "name": "Emerging Infectious Disease Center",
+    "mfl_code": 21215,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Parklands/Highridge"
+  },
+  {
+    "name": "Emmanuel Medical Centre",
+    "mfl_code": 18893,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Lower Savannah"
+  },
+  {
+    "name": "Entarara Health Centre",
+    "mfl_code": 14467,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Rombo"
+  },
+  {
+    "name": "Entasopia Health Centre",
+    "mfl_code": 14469,
+    "county": "Kajiado",
+    "sub_county": "Kajiado West",
+    "ward": "Magadi"
+  },
+  {
+    "name": "Ewuaso Kedong Health Centre",
+    "mfl_code": 14486,
+    "county": "Kajiado",
+    "sub_county": "Kajiado West",
+    "ward": "Ewuaso Oo Nkidong'i"
+  },
+  {
+    "name": "Family Care Medical Centre & Maternity",
+    "mfl_code": 12942,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Nairobi West"
+  },
+  {
+    "name": "Family Life Promotions and Services",
+    "mfl_code": 12941,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Maringo/Hamza"
+  },
+  {
+    "name": "Farmers choice wellness centre clinic",
+    "mfl_code": 20078,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Kahawa"
+  },
+  {
+    "name": "Fatima Health Centre (Lenkism)",
+    "mfl_code": 14493,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Entonet/Lenkism"
+  },
+  {
+    "name": "Fatima Maternity Hospital",
+    "mfl_code": 14494,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Nkaimurunya"
+  },
+  {
+    "name": "Focus Outreach Medical Mission",
+    "mfl_code": 19539,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Kitisuru"
+  },
+  {
+    "name": "Fremo Medical Centre",
+    "mfl_code": 18612,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Riruta"
+  },
+  {
+    "name": "Frepals Community Nursing Home",
+    "mfl_code": 12944,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Lindi"
+  },
+  {
+    "name": "Gertrudes Childrens Hospital",
+    "mfl_code": 12950,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Karura"
+  },
+  {
+    "name": "Githogoro Runda Baptist Clinic (Getrudes Nairobi)",
+    "mfl_code": 18887,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Karura"
+  },
+  {
+    "name": "Guru Nanak Hospital",
+    "mfl_code": 12965,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Ngara"
+  },
+  {
+    "name": "Gynapaed Dispensary (Kilimani-)",
+    "mfl_code": 12966,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Healthways Medical Centre",
+    "mfl_code": 18278,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "South C"
+  },
+  {
+    "name": "Hono Clinic",
+    "mfl_code": 12969,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Harambee"
+  },
+  {
+    "name": "Hope Medical Clinic ( Githurai)",
+    "mfl_code": 19278,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Githurai"
+  },
+  {
+    "name": "Hoymas VCT (Nairobi)",
+    "mfl_code": 20063,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Pangani"
+  },
+  {
+    "name": "Huruma (EDARP)",
+    "mfl_code": 12973,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi South"
+  },
+  {
+    "name": "Huruma Lions Dispensary",
+    "mfl_code": 12974,
+    "county": "Nairobi",
+    "sub_county": "Mathare",
+    "ward": "Ngei"
+  },
+  {
+    "name": "Huruma Maternity Hospital",
+    "mfl_code": 12975,
+    "county": "Nairobi",
+    "sub_county": "Mathare",
+    "ward": "Huruma"
+  },
+  {
+    "name": "Illasit Medical Clinic",
+    "mfl_code": 14567,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Rombo"
+  },
+  {
+    "name": "Imara Health Centre",
+    "mfl_code": 17685,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Imara Daima"
+  },
+  {
+    "name": "Immurtot Health Centre",
+    "mfl_code": 14573,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Entonet/Lenkism"
+  },
+  {
+    "name": "Iom Wellness Clinic",
+    "mfl_code": 19471,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Airbase"
+  },
+  {
+    "name": "Iran Medical Clinic (Ngara)",
+    "mfl_code": 19421,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Ngara"
+  },
+  {
+    "name": "Isinet Health Centre",
+    "mfl_code": 14581,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Imbrikani/Eselelnkei"
+  },
+  {
+    "name": "Isinya Health Centre",
+    "mfl_code": 14582,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Kaputiei North"
+  },
+  {
+    "name": "Jahmii Kipawa Medical Centre",
+    "mfl_code": 12986,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Kariobangi North"
+  },
+  {
+    "name": "Jamaa Mission Hospital",
+    "mfl_code": 12984,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Harambee"
+  },
+  {
+    "name": "Jamii Medical Clinic Mukuru",
+    "mfl_code": 19446,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Kwa Njenga"
+  },
+  {
+    "name": "Jericho Health Centre",
+    "mfl_code": 12988,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Harambee"
+  },
+  {
+    "name": "Jerusalem Clinic",
+    "mfl_code": 12989,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Kariobangi South"
+  },
+  {
+    "name": "Jinnah Ave Clinic",
+    "mfl_code": 12990,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "South C"
+  },
+  {
+    "name": "Jumuia Hospital Huruma",
+    "mfl_code": 12972,
+    "county": "Nairobi",
+    "sub_county": "Mathare",
+    "ward": "Kiamaiko"
+  },
+  {
+    "name": "Kabiro Medical Clinic",
+    "mfl_code": 12995,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kabiro"
+  },
+  {
+    "name": "Kahawa West Health Centre",
+    "mfl_code": 12997,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Kahawa"
+  },
+  {
+    "name": "Kajiado (AIC) Dispensary",
+    "mfl_code": 14650,
+    "county": "Kajiado",
+    "sub_county": "Kajiado Central",
+    "ward": "Dalalekutuk"
+  },
+  {
+    "name": "Kajiado County Referral Hospital",
+    "mfl_code": 14652,
+    "county": "Kajiado",
+    "sub_county": "Kajiado Central",
+    "ward": "Ildamat"
+  },
+  {
+    "name": "Kaloleni Dispensary",
+    "mfl_code": 12998,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Makongeni"
+  },
+  {
+    "name": "Kaloleni Health Servics",
+    "mfl_code": 12999,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Makongeni"
+  },
+  {
+    "name": "Kamiti Prison Hospital",
+    "mfl_code": 13000,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Kahawa West"
+  },
+  {
+    "name": "Kangemi Health Centre",
+    "mfl_code": 13001,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Kangemi"
+  },
+  {
+    "name": "Karen Health Centre",
+    "mfl_code": 13003,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Karen"
+  },
+  {
+    "name": "Kariobangi EDARP",
+    "mfl_code": 18743,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Kariobangi North"
+  },
+  {
+    "name": "Kariobangi Health Centre",
+    "mfl_code": 13006,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Kariobangi North"
+  },
+  {
+    "name": "Kariobangi South Clinic",
+    "mfl_code": 17434,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Kariobangi South"
+  },
+  {
+    "name": "Kariokor Clinic",
+    "mfl_code": 13007,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Ziwani/Kariokor"
+  },
+  {
+    "name": "Karura Health Centre (Kiambu Rd)",
+    "mfl_code": 13009,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Karura"
+  },
+  {
+    "name": "Kasarani Health Centre",
+    "mfl_code": 13010,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Kasarani"
+  },
+  {
+    "name": "Kasarani Maternity",
+    "mfl_code": 13011,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Clay City"
+  },
+  {
+    "name": "Kayole Hospital",
+    "mfl_code": 13014,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole Central"
+  },
+  {
+    "name": "Kayole I Health Centre",
+    "mfl_code": 13015,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole North"
+  },
+  {
+    "name": "Kayole II Sub-District Hospital",
+    "mfl_code": 13016,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole South"
+  },
+  {
+    "name": "Kenyatta University Dispensary",
+    "mfl_code": 13024,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Kahawa"
+  },
+  {
+    "name": "Kibera South Health Centre",
+    "mfl_code": 13030,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Mugumo-ini"
+  },
+  {
+    "name": "Kimana Health Centre",
+    "mfl_code": 14868,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Kimana"
+  },
+  {
+    "name": "Kings Cross Medical Clinic",
+    "mfl_code": 19436,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole Central"
+  },
+  {
+    "name": "Kitengela Medical Services",
+    "mfl_code": 14951,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Kitengela"
+  },
+  {
+    "name": "Kitengela Medical Services Kajiado",
+    "mfl_code": 18976,
+    "county": "Kajiado",
+    "sub_county": "Kajiado Central",
+    "ward": "Ildamat"
+  },
+  {
+    "name": "Kitengela sub-county hospital",
+    "mfl_code": 14950,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Oloosirkon/Sholinke"
+  },
+  {
+    "name": "Kivuli Dispensary",
+    "mfl_code": 13036,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Riruta"
+  },
+  {
+    "name": "Komarock Medical Clinic",
+    "mfl_code": 13038,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Komarock"
+  },
+  {
+    "name": "Korogocho Health Centre",
+    "mfl_code": 18895,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Korogocho"
+  },
+  {
+    "name": "Lad Nan Hospital",
+    "mfl_code": 19316,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Pangani"
+  },
+  {
+    "name": "Lagos Road Dispensary",
+    "mfl_code": 13039,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi Central"
+  },
+  {
+    "name": "Langata Health Centre (Mugumo-Ini)",
+    "mfl_code": 13041,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Mugumo-ini"
+  },
+  {
+    "name": "Langata Hospital",
+    "mfl_code": 13042,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Mugumo-ini"
+  },
+  {
+    "name": "Langata Women Prison Dispensary",
+    "mfl_code": 13044,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Mugumo-ini"
+  },
+  {
+    "name": "Lengo Medical Clinic",
+    "mfl_code": 18590,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Landimawe"
+  },
+  {
+    "name": "Lianas Clinic Health Centre",
+    "mfl_code": 13049,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Kangemi"
+  },
+  {
+    "name": "Loco Dispensary",
+    "mfl_code": 13051,
+    "county": "Nairobi",
+    "sub_county": "Mathare",
+    "ward": "Hospital"
+  },
+  {
+    "name": "Loitokitok Sub County Hospital",
+    "mfl_code": 15051,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Kuku"
+  },
+  {
+    "name": "Lower Kabete Dispensary (Kabete)",
+    "mfl_code": 13052,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Kitisuru"
+  },
+  {
+    "name": "Lunga Lunga Health Centre",
+    "mfl_code": 13053,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Viwandani"
+  },
+  {
+    "name": "Mafra Clinic",
+    "mfl_code": 19512,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Kangemi"
+  },
+  {
+    "name": "Magadi Hospital",
+    "mfl_code": 15107,
+    "county": "Kajiado",
+    "sub_county": "Kajiado West",
+    "ward": "Magadi"
+  },
+  {
+    "name": "Makadara Health Centre",
+    "mfl_code": 13056,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Maringo/Hamza"
+  },
+  {
+    "name": "Makadara Mercy Sisters Dispensary",
+    "mfl_code": 13057,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Maringo/Hamza"
+  },
+  {
+    "name": "Makina Clinic",
+    "mfl_code": 13058,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Makina"
+  },
+  {
+    "name": "Makina Community Clinic",
+    "mfl_code": 20624,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Makina"
+  },
+  {
+    "name": "Mama Lucy Kibaki Hospital - Embakasi",
+    "mfl_code": 17411,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Umoja II"
+  },
+  {
+    "name": "Maria Dominica Dispensary",
+    "mfl_code": 13061,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Karen"
+  },
+  {
+    "name": "Maria Immaculate Health Centre",
+    "mfl_code": 13062,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kileleshwa"
+  },
+  {
+    "name": "Mariakani Cottage Hospital Ltd",
+    "mfl_code": 13064,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Harambee"
+  },
+  {
+    "name": "Maria Maternity and Nursing Home",
+    "mfl_code": 13063,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole South"
+  },
+  {
+    "name": "Maringo Clinic",
+    "mfl_code": 13069,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Maringo/Hamza"
+  },
+  {
+    "name": "Marura Nursing Home",
+    "mfl_code": 13070,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Mathare North"
+  },
+  {
+    "name": "Marurui Dispensary",
+    "mfl_code": 13071,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Roysambu"
+  },
+  {
+    "name": "Mary Immaculate Clinic Mukuru",
+    "mfl_code": 12982,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Mugumo-ini"
+  },
+  {
+    "name": "Mary Immaculate Sisters Dispensary",
+    "mfl_code": 13072,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Maringo/Hamza"
+  },
+  {
+    "name": "Mary Mission",
+    "mfl_code": 17514,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Ngando"
+  },
+  {
+    "name": "Mashuru Health Centre",
+    "mfl_code": 15150,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Imaroro"
+  },
+  {
+    "name": "Matasia Nursing Home",
+    "mfl_code": 15153,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Olkeri"
+  },
+  {
+    "name": "Mathare 3A (EDARP)",
+    "mfl_code": 13075,
+    "county": "Nairobi",
+    "sub_county": "Mathare",
+    "ward": "Mabatini"
+  },
+  {
+    "name": "Mathare North Health Centre",
+    "mfl_code": 13077,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Mathare North"
+  },
+  {
+    "name": "Mathari Hospital",
+    "mfl_code": 13076,
+    "county": "Nairobi",
+    "sub_county": "Mathare",
+    "ward": "Hospital"
+  },
+  {
+    "name": "Mbagathi Hospital",
+    "mfl_code": 13080,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Woodley/Kenyatta Golf Course"
+  },
+  {
+    "name": "Mbotela Clinic",
+    "mfl_code": 13081,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Makongeni"
+  },
+  {
+    "name": "Medanta Africare",
+    "mfl_code": 19482,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kileleshwa"
+  },
+  {
+    "name": "Melchezedek Hospital",
+    "mfl_code": 13086,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kileleshwa"
+  },
+  {
+    "name": "Melchizedek Hospital Karen",
+    "mfl_code": 20072,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Karen"
+  },
+  {
+    "name": "Mercillin Afya Centre",
+    "mfl_code": 13088,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Lindi"
+  },
+  {
+    "name": "Mercy Mission Health Centre",
+    "mfl_code": 13089,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kabiro"
+  },
+  {
+    "name": "Meridian Equator Hospital",
+    "mfl_code": 13109,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Nairobi West"
+  },
+  {
+    "name": "Meridian Medical Centre (Capital Centre)",
+    "mfl_code": 18591,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "South C"
+  },
+  {
+    "name": "Meridian Medical Centre (Kileleshwa)",
+    "mfl_code": 19546,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kileleshwa"
+  },
+  {
+    "name": "Meridian Medical centre(Nation Centre Bldg )",
+    "mfl_code": 20104,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi Central"
+  },
+  {
+    "name": "Meridian Medical Donholm Clinic",
+    "mfl_code": 17727,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Upper Savannah"
+  },
+  {
+    "name": "Metropolitan Hospital Nairobi",
+    "mfl_code": 13090,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Harambee"
+  },
+  {
+    "name": "Mid Hill Medical Clinic",
+    "mfl_code": 13091,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Riruta"
+  },
+  {
+    "name": "Mile 46 Health Centre",
+    "mfl_code": 15185,
+    "county": "Kajiado",
+    "sub_county": "Kajiado West",
+    "ward": "Iloodokilani"
+  },
+  {
+    "name": "Mji Wa Huruma Dispensary",
+    "mfl_code": 13093,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Karura"
+  },
+  {
+    "name": "Mother & Child Hospital",
+    "mfl_code": 13096,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "California"
+  },
+  {
+    "name": "Mountcare Medical Centre",
+    "mfl_code": 13201,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Mountain View"
+  },
+  {
+    "name": "Mow Dispensary",
+    "mfl_code": 13097,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Landimawe"
+  },
+  {
+    "name": "Mukuru Health Centre",
+    "mfl_code": 18463,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Imara Daima"
+  },
+  {
+    "name": "Mukuru Mmm Clinic",
+    "mfl_code": 13101,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Kwa Njenga"
+  },
+  {
+    "name": "Muteithania Medical Clinic",
+    "mfl_code": 13103,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kabiro"
+  },
+  {
+    "name": "Mutuini Sub-District Hospital",
+    "mfl_code": 13105,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Mutu-ini"
+  },
+  {
+    "name": "Mwangaza ulio Na Tumaini clinic",
+    "mfl_code": 20091,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Dandora Area I"
+  },
+  {
+    "name": "Mwatate Healthcare Centre",
+    "mfl_code": 19454,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Mugumo-ini"
+  },
+  {
+    "name": "Mwera Medical Clinic",
+    "mfl_code": 19442,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole Central"
+  },
+  {
+    "name": "Nairobi East Hospital Ltd",
+    "mfl_code": 20264,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "California"
+  },
+  {
+    "name": "Nairobi South Clinic",
+    "mfl_code": 13113,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi South"
+  },
+  {
+    "name": "Nairobi South Hospital",
+    "mfl_code": 13112,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "South C"
+  },
+  {
+    "name": "Nairobi West Hospital",
+    "mfl_code": 13115,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Nairobi West"
+  },
+  {
+    "name": "Nairobi Women Hospital Ongata Rongai",
+    "mfl_code": 18195,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Nkaimurunya"
+  },
+  {
+    "name": "Nairobi Womens Hospital Adams",
+    "mfl_code": 16795,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Nairobi Womens Hospital (Hurlingham)",
+    "mfl_code": 13117,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Nairobi Women's Hospital Kitengela",
+    "mfl_code": 21283,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Kitengela"
+  },
+  {
+    "name": "Namanga Health Centre",
+    "mfl_code": 15294,
+    "county": "Kajiado",
+    "sub_county": "Kajiado Central",
+    "ward": "Matapato South"
+  },
+  {
+    "name": "Namelok Health Centre",
+    "mfl_code": 15296,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Kimana"
+  },
+  {
+    "name": "National Youth Service Hq Dispensary (Ruaraka)",
+    "mfl_code": 13130,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Utalii"
+  },
+  {
+    "name": "Ngaira Rhodes Dispensary",
+    "mfl_code": 13121,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Landimawe"
+  },
+  {
+    "name": "Ngara Health Centre (City Council of Nairobi)",
+    "mfl_code": 13122,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Ngara"
+  },
+  {
+    "name": "Ngong Road Dispensary",
+    "mfl_code": 13123,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Woodley/Kenyatta Golf Course"
+  },
+  {
+    "name": "Ngong Sub-County Hospital",
+    "mfl_code": 15351,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Ngong"
+  },
+  {
+    "name": "Ngumba Medical Centre",
+    "mfl_code": 19236,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Babandogo"
+  },
+  {
+    "name": "Nimoli Medical Centre",
+    "mfl_code": 13125,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Kasarani"
+  },
+  {
+    "name": "Njiru  Health Centre",
+    "mfl_code": 13126,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Njiru"
+  },
+  {
+    "name": "Nkama Dispensary",
+    "mfl_code": 15361,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Kuku"
+  },
+  {
+    "name": "Nyina Wa Mumbi Dispensary",
+    "mfl_code": 13129,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kawangware"
+  },
+  {
+    "name": "Ofafa I Clinic",
+    "mfl_code": 13132,
+    "county": "Nairobi",
+    "sub_county": "Makadara",
+    "ward": "Maringo/Hamza"
+  },
+  {
+    "name": "Ogwedhi Dispensary (Nairobi North)",
+    "mfl_code": 13133,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Kahawa West"
+  },
+  {
+    "name": "Ololua Dispensary",
+    "mfl_code": 17799,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Oloolua"
+  },
+  {
+    "name": "Oltepesi Dispensary",
+    "mfl_code": 15434,
+    "county": "Kajiado",
+    "sub_county": "Kajiado West",
+    "ward": "Keekonyokie"
+  },
+  {
+    "name": "Ongata Rongai Sub County Hospital",
+    "mfl_code": 15440,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Nkaimurunya"
+  },
+  {
+    "name": "Pangani Dispensary",
+    "mfl_code": 13138,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Pangani"
+  },
+  {
+    "name": "Patanisho Maternity and Nursing Home",
+    "mfl_code": 12977,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Lower Savannah"
+  },
+  {
+    "name": "PCEA Pipeline Clinic",
+    "mfl_code": 19700,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Pipeline"
+  },
+  {
+    "name": "Penda Medical Care-Kahawa West",
+    "mfl_code": 22946,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Kahawa West"
+  },
+  {
+    "name": "Penda Medical Centre Umoja 2",
+    "mfl_code": 20449,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Umoja I"
+  },
+  {
+    "name": "Pipeline Nursing Home",
+    "mfl_code": 12978,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Pipeline"
+  },
+  {
+    "name": "Precious Life Medical Clinic Ruai",
+    "mfl_code": 17996,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Ruai"
+  },
+  {
+    "name": "Premium Health Services",
+    "mfl_code": 18744,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Kariobangi North"
+  },
+  {
+    "name": "Provide Internatinal Clinic (Dandora)",
+    "mfl_code": 13148,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Dandora Area Iv"
+  },
+  {
+    "name": "Provide International Korogocho",
+    "mfl_code": 13150,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Korogocho"
+  },
+  {
+    "name": "Prudent Medical Clinic Kariobangi",
+    "mfl_code": 18001,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Komarock"
+  },
+  {
+    "name": "Pumwani Majengo Dispensary",
+    "mfl_code": 13155,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Pumwani"
+  },
+  {
+    "name": "Pumwani Maternity Hospital",
+    "mfl_code": 13156,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Pumwani"
+  },
+  {
+    "name": "Radiant Pangani Hospital",
+    "mfl_code": 13158,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Pangani"
+  },
+  {
+    "name": "Rays International Clinic Kariobangi",
+    "mfl_code": 17998,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Kariobangi South"
+  },
+  {
+    "name": "Redemeed Health Centre",
+    "mfl_code": 13160,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Babandogo"
+  },
+  {
+    "name": "Reuben Mukuru Health Centre",
+    "mfl_code": 13173,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Kwa Reuben"
+  },
+  {
+    "name": "Revival Home Based Care Clinic",
+    "mfl_code": 16168,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Mugumo-ini"
+  },
+  {
+    "name": "Riruta Health Centre",
+    "mfl_code": 13165,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kawangware"
+  },
+  {
+    "name": "Rombo Health Centre",
+    "mfl_code": 15490,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Rombo"
+  },
+  {
+    "name": "Round About Medical Dispensary",
+    "mfl_code": 13167,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Githurai"
+  },
+  {
+    "name": "Ruai Family Hospital LTD",
+    "mfl_code": 18390,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Ruai"
+  },
+  {
+    "name": "Ruai Health Centre",
+    "mfl_code": 13171,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Ruai"
+  },
+  {
+    "name": "Ruaraka Clinic",
+    "mfl_code": 13172,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Kasarani"
+  },
+  {
+    "name": "Ruaraka Uhai Neema Hospital",
+    "mfl_code": 18485,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Babandogo"
+  },
+  {
+    "name": "Salama Nursing Home",
+    "mfl_code": 13175,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Airbase"
+  },
+  {
+    "name": "Samaritan Medical Services (Dandora)",
+    "mfl_code": 13176,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Dandora Area Iv"
+  },
+  {
+    "name": "Sam-link medical centre",
+    "mfl_code": 20235,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Clay City"
+  },
+  {
+    "name": "Saola Maternity and Nursing Home",
+    "mfl_code": 13178,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Nyayo Highrise"
+  },
+  {
+    "name": "Shauri Moyo Baptist VCT Centre",
+    "mfl_code": 13183,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Pumwani"
+  },
+  {
+    "name": "Shauri Moyo Clinic",
+    "mfl_code": 13184,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Pumwani"
+  },
+  {
+    "name": "Shompole Health Centre",
+    "mfl_code": 15560,
+    "county": "Kajiado",
+    "sub_county": "Kajiado West",
+    "ward": "Magadi"
+  },
+  {
+    "name": "Simba Health Centre",
+    "mfl_code": 15574,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Kenyawa-poka"
+  },
+  {
+    "name": "SOS Dispensary",
+    "mfl_code": 13189,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Kariobangi South"
+  },
+  {
+    "name": "South B Hospital Ltd",
+    "mfl_code": 18005,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi South"
+  },
+  {
+    "name": "South B Police Band Dispensary",
+    "mfl_code": 13144,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi South"
+  },
+  {
+    "name": "Soweto Kayole PHC Health Centre",
+    "mfl_code": 13017,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Lower Savannah"
+  },
+  {
+    "name": "Spacecare Health Centre & Maternity",
+    "mfl_code": 13212,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Riruta"
+  },
+  {
+    "name": "Special Treatment Clinic",
+    "mfl_code": 13193,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Nairobi Central"
+  },
+  {
+    "name": "St Alice (EDARP) Dandora",
+    "mfl_code": 18219,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Njiru"
+  },
+  {
+    "name": "St Barkita Dispensary Utawala",
+    "mfl_code": 17723,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Utawala"
+  },
+  {
+    "name": "St Begson Clinic",
+    "mfl_code": 13198,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole South"
+  },
+  {
+    "name": "St Bridget's Mother & Child",
+    "mfl_code": 13199,
+    "county": "Nairobi",
+    "sub_county": "Starehe",
+    "ward": "Ziwani/Kariokor"
+  },
+  {
+    "name": "St Catherine's Health Centre",
+    "mfl_code": 13200,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kabiro"
+  },
+  {
+    "name": "St Clare Medical Clinic",
+    "mfl_code": 18465,
+    "county": "Nairobi",
+    "sub_county": "Embakasi South",
+    "ward": "Pipeline"
+  },
+  {
+    "name": "St Francis Com Hospital",
+    "mfl_code": 13202,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Clay City"
+  },
+  {
+    "name": "St Francis Community Hospital (Kasarani)",
+    "mfl_code": 17943,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Kasarani"
+  },
+  {
+    "name": "St John Hospital",
+    "mfl_code": 13205,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Githurai"
+  },
+  {
+    "name": "St Joseph Mukasa Dispensary",
+    "mfl_code": 13208,
+    "county": "Nairobi",
+    "sub_county": "Roysambu",
+    "ward": "Kahawa West"
+  },
+  {
+    "name": "St Joseph's Dispensary (Dagoretti)",
+    "mfl_code": 13210,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Ngando"
+  },
+  {
+    "name": "St Joseph W Dispensary (Westlands)",
+    "mfl_code": 13209,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Mountain View"
+  },
+  {
+    "name": "St Mary's Health Centre",
+    "mfl_code": 13217,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Korogocho"
+  },
+  {
+    "name": "St Mary's Mission Hospital",
+    "mfl_code": 13218,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Mugumo-ini"
+  },
+  {
+    "name": "St. Odilia's Dispensary",
+    "mfl_code": 13221,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Karen"
+  },
+  {
+    "name": "St Patrick Health Care Centre",
+    "mfl_code": 13222,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole North"
+  },
+  {
+    "name": "St Paul's Hospital",
+    "mfl_code": 18190,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Kitengela"
+  },
+  {
+    "name": "St Peter Dispensary",
+    "mfl_code": 13223,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Babandogo"
+  },
+  {
+    "name": "St Philips Health Centre",
+    "mfl_code": 13224,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Kariobangi North"
+  },
+  {
+    "name": "St Raphael's Clinic",
+    "mfl_code": 17683,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Mihango"
+  },
+  {
+    "name": "St.Scholastica Uzima Hospital",
+    "mfl_code": 13246,
+    "county": "Nairobi",
+    "sub_county": "Ruaraka",
+    "ward": "Utalii"
+  },
+  {
+    "name": "St Teresa's Parish Dispensary",
+    "mfl_code": 13225,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh North"
+  },
+  {
+    "name": "St Therese Dispensary",
+    "mfl_code": 15667,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Kitengela"
+  },
+  {
+    "name": "St Vincent Catholic Clinic",
+    "mfl_code": 13230,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Airbase"
+  },
+  {
+    "name": "Sucos Hospital",
+    "mfl_code": 14204,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Kaputiei North"
+  },
+  {
+    "name": "Sunbeam Medical Centre",
+    "mfl_code": 18281,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Kangemi"
+  },
+  {
+    "name": "Sunton CFW Clinic",
+    "mfl_code": 18438,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Kasarani"
+  },
+  {
+    "name": "Susamed Medical Clinic",
+    "mfl_code": 17686,
+    "county": "Nairobi",
+    "sub_county": "Embakasi Central",
+    "ward": "Kayole North"
+  },
+  {
+    "name": "Tabitha Medical Clinic",
+    "mfl_code": 13234,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Sarang'ombe"
+  },
+  {
+    "name": "The Karen Hospital",
+    "mfl_code": 13004,
+    "county": "Nairobi",
+    "sub_county": "Langata",
+    "ward": "Karen"
+  },
+  {
+    "name": "Thika Road Health Services Ltd (Kasarani)",
+    "mfl_code": 17950,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Kasarani"
+  },
+  {
+    "name": "Topcare Nursing Home",
+    "mfl_code": 18189,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Oloosirkon/Sholinke"
+  },
+  {
+    "name": "Tropical Medical Clinic",
+    "mfl_code": 17767,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Kuku"
+  },
+  {
+    "name": "Tumaini Clinic",
+    "mfl_code": 15748,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Rombo"
+  },
+  {
+    "name": "Umoja Health Centre",
+    "mfl_code": 13240,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Umoja I"
+  },
+  {
+    "name": "Umoja Hospital",
+    "mfl_code": 13241,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Umoja I"
+  },
+  {
+    "name": "Unity Maternity & Nursing Home",
+    "mfl_code": 18334,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Umoja II"
+  },
+  {
+    "name": "University of Nairobi Dispensary",
+    "mfl_code": 13242,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kilimani"
+  },
+  {
+    "name": "Upendo Dispensary",
+    "mfl_code": 13243,
+    "county": "Nairobi",
+    "sub_county": "Mathare",
+    "ward": "Hospital"
+  },
+  {
+    "name": "Urafiki Medical Clinic",
+    "mfl_code": 18142,
+    "county": "Kajiado",
+    "sub_county": "Kajiado East",
+    "ward": "Kaputiei North"
+  },
+  {
+    "name": "Ushirika Medical Clinic",
+    "mfl_code": 13245,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Sarang'ombe"
+  },
+  {
+    "name": "Utawala Estate Health Centre",
+    "mfl_code": 18464,
+    "county": "Nairobi",
+    "sub_county": "Embakasi East",
+    "ward": "Utawala"
+  },
+  {
+    "name": "Uthiru Muthua Health Centre",
+    "mfl_code": 18628,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Uthiru/Ruthimitu"
+  },
+  {
+    "name": "Uzima Uhai Health Centre",
+    "mfl_code": 22848,
+    "county": "Nairobi",
+    "sub_county": "Kasarani",
+    "ward": "Mwiki"
+  },
+  {
+    "name": "Uzima White Medical Clinic",
+    "mfl_code": 21856,
+    "county": "Nairobi",
+    "sub_county": "Mathare",
+    "ward": "Ngei"
+  },
+  {
+    "name": "Victory Hospital",
+    "mfl_code": 13247,
+    "county": "Nairobi",
+    "sub_county": "Embakasi West",
+    "ward": "Umoja I"
+  },
+  {
+    "name": "Waithaka Health Centre",
+    "mfl_code": 13249,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti South",
+    "ward": "Waithaka"
+  },
+  {
+    "name": "Wakibe Clinic",
+    "mfl_code": 13250,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Airbase"
+  },
+  {
+    "name": "Wama Nursing Home",
+    "mfl_code": 15767,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Ongata Rongai"
+  },
+  {
+    "name": "Wamunga Health Clinic",
+    "mfl_code": 13251,
+    "county": "Nairobi",
+    "sub_county": "Embakasi North",
+    "ward": "Dandora Area I"
+  },
+  {
+    "name": "Wanainchi Jamii Materinty and Nursing Home",
+    "mfl_code": 15770,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Nkaimurunya"
+  },
+  {
+    "name": "Wema Medical Clinic",
+    "mfl_code": 17394,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Sarang'ombe"
+  },
+  {
+    "name": "Wema Nursing Home",
+    "mfl_code": 13256,
+    "county": "Nairobi",
+    "sub_county": "Dagoretti North",
+    "ward": "Kabiro"
+  },
+  {
+    "name": "Westlands Health Centre",
+    "mfl_code": 13258,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Parklands/Highridge"
+  },
+  {
+    "name": "Westlands Medical Centre",
+    "mfl_code": 19494,
+    "county": "Nairobi",
+    "sub_county": "Westlands",
+    "ward": "Parklands/Highridge"
+  },
+  {
+    "name": "Woodley Clinic",
+    "mfl_code": 13259,
+    "county": "Nairobi",
+    "sub_county": "Kibra",
+    "ward": "Woodley/Kenyatta Golf Course"
+  },
+  {
+    "name": "Woodstreet Nursing Home",
+    "mfl_code": 13260,
+    "county": "Nairobi",
+    "sub_county": "Kamukunji",
+    "ward": "Eastleigh North"
+  },
+  {
+    "name": "Zam Zam Medical Services",
+    "mfl_code": 15787,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Ngong"
+  }
+]

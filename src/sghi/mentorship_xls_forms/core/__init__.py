@@ -1,6 +1,7 @@
 from .domain import (
     AnswerType,
     DomainObject,
+    Facility,
     MentorshipChecklist,
     Question,
     QuestionType,
@@ -14,6 +15,7 @@ __all__ = [
     "AnswerType",
     "Deserializer",
     "DomainObject",
+    "Facility",
     "Loader",
     "LoadError",
     "MentorshipChecklist",

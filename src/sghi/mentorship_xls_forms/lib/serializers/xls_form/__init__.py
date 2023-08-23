@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+from collections.abc import Iterable
 from functools import cache
 from typing import TYPE_CHECKING, Final, Self
 
 from attrs import frozen
 
 from sghi.mentorship_xls_forms.core import (
+    Facility,
     MentorshipChecklist,
     Question,
     Section,
@@ -31,6 +33,66 @@ if TYPE_CHECKING:
 _CEE_SCORE_CHOICE_LIST_NAME: Final[str] = "cee_score"
 
 _YES_NO_CHOICE_LIST_NAME: Final[str] = "yes_no"
+
+_COVER_SHEET_RECORDS: Final[Sequence[XLSFormRecord]] = (
+    XLSFormRecord.begin_field_list(
+        label="SITE AND ASSESSORS DETAILS",
+        name="MCL.ASSESSMENT_DETAILS",
+    ),
+    XLSFormRecord(
+        type="text",
+        label="Name:",
+        name="MCL.CS_ASSR_NAME",
+        required="yes",
+    ),
+    XLSFormRecord(
+        type="select_one counties",  # type: ignore
+        appearance="minimal",
+        label="County:",
+        name="MCL.CS_ASMT_COUNTY",
+        required="yes",
+    ),
+    XLSFormRecord(
+        type="select_one sub_counties",  # type: ignore
+        appearance="minimal,autocomplete",
+        choice_filter="county=${MCL.CS_ASMT_COUNTY}",
+        label="Sub County:",
+        name="MCL.CS_ASMT_SUB_COUNTY",
+        required="yes",
+    ),
+    XLSFormRecord(
+        type="select_one facilities",  # type: ignore
+        appearance="minimal,autocomplete",
+        choice_filter="sub_county=${MCL.CS_ASMT_SUB_COUNTY}",
+        label="Facility:",
+        name="MCL.CS_ASMT_FACILITY",
+        required="yes"
+    ),
+    XLSFormRecord.of_note(
+        calculation="${MCL.CS_ASMT_FACILITY}",
+        label="Selected Facility MFL-code:",
+        name="MCL.CS_ASMT_FACILITY_MFL",
+    ),
+    XLSFormRecord(
+        type="date",
+        calculation="today()",
+        label="Assessment Date:",
+        name="MCL.CS_ASMT_DATE",
+        required="yes",
+    ),
+    XLSFormRecord(
+        type="time",
+        calculation="now()",
+        label="Assessment Start Time:",
+        name="MCL.CS_ASMT_START_TIME",
+    ),
+    XLSFormRecord(
+        type="geopoint",
+        label="Location:",
+        name="MCL.CS_ASMT_LOCATION",
+    ),
+    XLSFormRecord.end_group(),
+)
 
 _DEFAULT_CHOICES: Final[Sequence[XLSFormChoice]] = (
     XLSFormChoice(
@@ -65,7 +127,7 @@ _DEFAULT_CHOICES: Final[Sequence[XLSFormChoice]] = (
     ),
 )
 
-_PERC_SUB_QUESTIONS_TYPES: Final[set[str]] = {"DEN", "NUM"}
+_PERC_SUB_QUESTIONS_TYPES: Final[frozenset[str]] = frozenset({"DEN", "NUM"})
 
 # =============================================================================
 # HELPERS
@@ -83,6 +145,11 @@ def escape_markdown(text: str) -> str:
     return text.replace("_", "\\_").replace("*", "\\*").replace("#", "\\#")
 
 
+def org_unit_name_as_list_name(org_unit_name: str) -> str:
+    ensure_not_none(org_unit_name, "'org_unit_name' MUST not be None.")
+    return org_unit_name.replace(" ", "_").lower()
+
+
 # =============================================================================
 # SERIALIZERS
 # =============================================================================
@@ -97,7 +164,7 @@ class ChecklistXLSFormSerializer(Serializer[MentorshipChecklist, XLSForm]):
             f"checklist MUST have sections. {item.id} has no sections."
         )
         choices: list[XLSFormChoice] = [*_DEFAULT_CHOICES]
-        records: list[XLSFormRecord] = []
+        records: list[XLSFormRecord] = [*_COVER_SHEET_RECORDS]
         settings: XLSFormSettings = XLSFormSettings(
             form_id=item.id,
             form_title=escape_markdown(item.name)
@@ -136,6 +203,160 @@ class ChecklistXLSFormSerializer(Serializer[MentorshipChecklist, XLSForm]):
         :return: A new instance of ``ChecklistXLSFormSerializer``.
 
         .. seealso:: :py:meth:`ChecklistXLSFormSerializer.of`
+        """
+        return cls()
+
+
+@frozen
+class FacilitiesXLSFormSerializer(Serializer[Iterable[Facility], XLSFormItem]):
+
+    def serialize(self, item: Iterable[Facility]) -> XLSFormItem:
+        ensure_not_none(
+            item, "'item' MUST be a not None Iterable of Facilities."
+        )
+        choices: list[XLSFormChoice] = []
+        records: list[XLSFormRecord] = []
+
+        counties_cache: set[str] = set()
+        sub_counties_cache: set[tuple[str, str]] = set()
+        wards_cache: set[tuple[str, str, str]] = set()
+        for facility in sorted(item, key=lambda _f: _f.name):
+            f_items = FacilityXLSFormSerializer.of().serialize(facility)
+            choices.extend(f_items.choices)
+            records.extend(f_items.records)
+
+            # Cache org unit hierarchy
+            counties_cache.add(facility.county)
+            sub_counties_cache.add((facility.sub_county, facility.county))
+            wards_cache.add(
+                (facility.ward, facility.sub_county, facility.county)
+            )
+
+        # Create org unit hierarchy by prepending upper level org units to the
+        # beginning of the `choices` collection
+        choices[:0] = self._wards_to_xls_forms(wards_cache)
+        choices[:0] = self._sub_counties_to_xls_choice(sub_counties_cache)
+        choices[:0] = self._counties_to_xls_choice(counties_cache)
+
+        return XLSFormItem(records=records, choices=choices)
+
+    @classmethod
+    @cache
+    def of(cls) -> Self:
+        """Return an instance of :class:`FacilitiesXLSFormSerializer`.
+
+        .. note::
+
+            The returned instance is not guaranteed to be a newly created
+            instance on each invocation. If a new instance is required, prefer
+            :meth:`FacilitiesXLSFormSerializer.of_new`.
+
+        :return: An instance of ``FacilitiesXLSFormSerializer``.
+
+        .. seealso:: :py:meth:`FacilitiesXLSFormSerializer.of_new`
+        """
+        return cls.of_new()
+
+    @classmethod
+    def of_new(cls) -> Self:
+        """
+        Create and return a new instance of
+        :class:`FacilitiesXLSFormSerializer`.
+
+        :return: A new instance of ``FacilitiesXLSFormSerializer``.
+
+        .. seealso:: :py:meth:`FacilitiesXLSFormSerializer.of`
+        """
+        return cls()
+
+    @staticmethod
+    def _counties_to_xls_choice(
+        org_units: Iterable[str]
+    ) -> Iterable[XLSFormChoice]:
+        ensure_not_none(org_units, "'org_units' MUST not be None.")
+        return tuple(
+            XLSFormChoice(
+                label=escape_markdown(county),
+                list_name="counties",
+                name=org_unit_name_as_list_name(county),
+            )
+            for county in sorted(org_units)
+        )
+
+    @staticmethod
+    def _sub_counties_to_xls_choice(
+        org_units: Iterable[tuple[str, str]]
+    ) -> Iterable[XLSFormChoice]:
+        ensure_not_none(org_units, "'org_units' MUST not be None.")
+        return tuple(
+            XLSFormChoice(
+                label=escape_markdown(sub_county),
+                list_name="sub_counties",
+                name=org_unit_name_as_list_name(sub_county),
+                county=org_unit_name_as_list_name(county),
+            )
+            for sub_county, county in sorted(org_units, key=lambda _s: _s[0])
+        )
+
+    @staticmethod
+    def _wards_to_xls_forms(
+        org_units: Iterable[tuple[str, str, str]]
+    ) -> Iterable[XLSFormChoice]:
+        ensure_not_none(org_units, "'org_units' MUST not be None.")
+        return tuple(
+            XLSFormChoice(
+                label=escape_markdown(ward),
+                list_name="wards",
+                name=org_unit_name_as_list_name(ward),
+                county=org_unit_name_as_list_name(county),
+                sub_county=org_unit_name_as_list_name(sub_county),
+            )
+            for ward, sub_county, county in sorted(
+                org_units, key=lambda _s: _s[0]
+            )
+        )
+
+
+@frozen
+class FacilityXLSFormSerializer(Serializer[Facility, XLSFormItem]):
+
+    def serialize(self, item: Facility) -> XLSFormItem:
+        ensure_not_none(item, "'item' MUST be a not None Facility.")
+        facility_as_choice = XLSFormChoice(
+            label=escape_markdown(item.name),
+            list_name="facilities",
+            name=item.mfl_code,
+            county=org_unit_name_as_list_name(item.county),
+            sub_county=org_unit_name_as_list_name(item.sub_county),
+            ward=org_unit_name_as_list_name(item.ward),
+        )
+        return XLSFormItem(records=(), choices=(facility_as_choice,))
+
+    @classmethod
+    @cache
+    def of(cls) -> Self:
+        """Return an instance of :class:`FacilityXLSFormSerializer`.
+
+        .. note::
+
+            The returned instance is not guaranteed to be a newly created
+            instance on each invocation. If a new instance is required, prefer
+            :meth:`FacilityXLSFormSerializer.of_new`.
+
+        :return: An instance of ``FacilityXLSFormSerializer``.
+
+        .. seealso:: :py:meth:`FacilityXLSFormSerializer.of_new`
+        """
+        return cls.of_new()
+
+    @classmethod
+    def of_new(cls) -> Self:
+        """
+        Create and return a new instance of :class:`FacilityXLSFormSerializer`.
+
+        :return: A new instance of ``FacilityXLSFormSerializer``.
+
+        .. seealso:: :py:meth:`FacilityXLSFormSerializer.of`
         """
         return cls()
 
@@ -262,7 +483,8 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             "'PERC' question MUST have exactly 2 sub-questions. "
             f"'{question.id}' has {len(question.sub_questions)} sub-questions."
         )
-        available_sq_types: set[str] = _PERC_SUB_QUESTIONS_TYPES.difference(
+        available_sq_types: frozenset[str]
+        available_sq_types = _PERC_SUB_QUESTIONS_TYPES.difference(
             {_q.question_type for _q in question.sub_questions.values()}
         )
         assert not available_sq_types, (
@@ -460,6 +682,8 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
 
 __all__ = [
     "ChecklistXLSFormSerializer",
+    "FacilitiesXLSFormSerializer",
+    "FacilityXLSFormSerializer",
     "QuestionXLSFormSerializer",
     "SectionXLSFormSerializer",
     "XLSForm",

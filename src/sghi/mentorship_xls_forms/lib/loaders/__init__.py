@@ -7,7 +7,8 @@ from sghi.mentorship_xls_forms.core import (
     MentorshipChecklist,
 )
 
-from .excel_metadata_loader import ExcelChecklistsMetadataLoader
+from .checklist_loader import ChecklistsExcelMetadataLoader
+from .facility_loader import FacilityJSONMetadataLoader
 
 # =============================================================================
 # TYPES
@@ -57,7 +58,7 @@ def load_metadata(
         # FIXME: These two are not the same!!!. Add code to load data for the
         #  `auto` case.
         case "auto" | "excel":
-            loader = ExcelChecklistsMetadataLoader.of_file_path(
+            loader = ChecklistsExcelMetadataLoader.of_file_path(
                 metadata_file_path=metadata_file_path
             )
         case _:
@@ -73,7 +74,8 @@ def load_metadata(
 # =============================================================================
 
 __all__ = [
-    "ExcelChecklistsMetadataLoader",
+    "ChecklistsExcelMetadataLoader",
+    "FacilityJSONMetadataLoader",
     "LoadError",
     "SupportedMetaFormats",
     "load_metadata",
