@@ -29,25 +29,25 @@ class LiteralValue(Expr, Generic[_T]):
         return XPathExpr(f"{self.value!s}")
 
 
-@frozen
-class Boolean(LiteralValue[bool], BoolExpr):
+@frozen(eq=False)
+class Boolean(BoolExpr, LiteralValue[bool]):
 
     def __eval__(self) -> XPathExpr:
         return XPathExpr(f'{"yes" if self.value else "no"}')
 
 
-@frozen
-class Int(LiteralValue[int], IntExpr):
+@frozen(eq=False)
+class Int(IntExpr, LiteralValue[int]):
     ...
 
 
-@frozen
-class Number(LiteralValue[_Number], NumberExpr):
+@frozen(eq=False)
+class Number(NumberExpr, LiteralValue[_Number]):
     ...
 
 
-@frozen
-class String(LiteralValue[str], TextExpr):
+@frozen(eq=False)
+class String(TextExpr, LiteralValue[str]):
 
     def __eval__(self) -> XPathExpr:
         return XPathExpr(f"'{self.value!s}'")

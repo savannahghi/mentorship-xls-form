@@ -34,7 +34,17 @@ from .functions import (
     round_,
     select,
 )
-from .literals import Boolean, Int, LiteralValue, Number, String
+from .literals import (
+    Boolean,
+    Int,
+    LiteralValue,
+    Number,
+    String,
+    bool_,
+    int_,
+    num,
+    str_,
+)
 
 __all__ = [
     "Abs",
@@ -62,18 +72,22 @@ __all__ = [
     "TextExpr",
     "Variable",
     "abs_",
+    "bool_",
     "boolean",
     "coalesce",
     "eval",
     "functions",
     "if_",
+    "int_",
     "intf",
     "literals",
     "not_",
+    "num",
     "number",
     "operators",
     "pow_",
     "round_",
     "select",
+    "str_",
     "var",
 ]

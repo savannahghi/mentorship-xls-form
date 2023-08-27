@@ -39,6 +39,33 @@ BLANK_RESULT: Final[XPathExpr] = XPathExpr("")
 # HELPERS
 # =============================================================================
 
+@overload
+def python_number_to_xls_form_number(number: int | IntExpr) -> IntExpr:
+    ...
+
+
+@overload
+def python_number_to_xls_form_number(number: float | NumberExpr) -> NumberExpr:
+    ...
+
+
+def python_number_to_xls_form_number(
+    number: NumberExpr | float
+) -> IntExpr | NumberExpr:
+    ensure_not_none(number, "'number' MUST not be None.")
+    match number:
+        case int():
+            from .literals import int_
+            return int_(number)
+        case float():
+            from .literals import num
+            return num(number)
+        case IntExpr() | NumberExpr():
+            return number
+        case _:
+            err_message: str = f"Unknown number type: {type(number)}."
+            raise TypeError(err_message)
+
 
 def eval(expression: Expr) -> XPathExpr:  # noqa: A001
     """
@@ -120,7 +147,7 @@ class BoolExpr(Expr, metaclass=ABCMeta):
         return boolean(expr)
 
     @classmethod
-    def of_not(cls, expr: Expr) -> _Self:
+    def of_not(cls, expr: BoolExpr) -> _Self:
         from .functions import not_
         return not_(expr)
 
@@ -137,44 +164,62 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
         from .functions import abs_
         return abs_(self)
 
-    def __add__(self, other: NumberExpr) -> _Self:
+    def __add__(self, other: NumberExpr | float) -> _Self:
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import add
-        return add(self, other)
+        return add(self, python_number_to_xls_form_number(other))
 
-    def __eq__(self, other: NumberExpr) -> BoolExpr:  # type: ignore
+    def __eq__(self, other: NumberExpr | float) -> BoolExpr:  # type: ignore
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import eq
-        return eq(self, other)
+        return eq(self, python_number_to_xls_form_number(other))
 
-    def __ge__(self, other: NumberExpr) -> BoolExpr:
+    def __ge__(self, other: NumberExpr | float) -> BoolExpr:
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import ge
-        return ge(self, other)
+        return ge(self, python_number_to_xls_form_number(other))
 
-    def __gt__(self, other: NumberExpr) -> BoolExpr:
+    def __gt__(self, other: NumberExpr | float) -> BoolExpr:
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import gt
-        return gt(self, other)
+        return gt(self, python_number_to_xls_form_number(other))
 
     def __index__(self) -> int:
         return 0
 
-    def __le__(self, other: NumberExpr) -> BoolExpr:
+    def __le__(self, other: NumberExpr | float) -> BoolExpr:
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import le
-        return le(self, other)
+        return le(self, python_number_to_xls_form_number(other))
 
-    def __lt__(self, other: NumberExpr) -> BoolExpr:
+    def __lt__(self, other: NumberExpr | float) -> BoolExpr:
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import lt
-        return lt(self, other)
+        return lt(self, python_number_to_xls_form_number(other))
 
-    def __ne__(self, other: NumberExpr) -> BoolExpr:  # type: ignore
+    def __ne__(self, other: NumberExpr | float) -> BoolExpr:  # type: ignore
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import ne
-        return ne(self, other)
+        return ne(self, python_number_to_xls_form_number(other))
 
-    def __mul__(self, other: NumberExpr) -> _Self:
+    def __mul__(self, other: NumberExpr | float) -> _Self:
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import mul
-        return mul(self, other)
+        return mul(self, python_number_to_xls_form_number(other))
 
-    def __pow__(self, power: IntExpr) -> _Self:
+    def __pow__(self, power: NumberExpr | float) -> _Self:
+        if not isinstance(power, NumberExpr | int | float):
+            return NotImplemented
         from .functions import pow_
-        return pow_(self, power)
+        return pow_(self, python_number_to_xls_form_number(power))
 
     @overload
     def __round__(self, places: int = 2) -> _Self:
@@ -190,13 +235,17 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
         _places = int_(places) if isinstance(places, int) else places
         return round_(self, _places or TWO)
 
-    def __sub__(self, other: NumberExpr) -> _Self:
+    def __sub__(self, other: NumberExpr | float) -> _Self:
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import sub
-        return sub(self, other)
+        return sub(self, python_number_to_xls_form_number(other))
 
-    def __truediv__(self, other: NumberExpr) -> _Self:
+    def __truediv__(self, other: NumberExpr | float) -> _Self:
+        if not isinstance(other, NumberExpr | int | float):
+            return NotImplemented
         from .operators import div
-        return div(self, other)
+        return div(self, python_number_to_xls_form_number(other))
 
     @classmethod
     def of_expression(cls, expr: Expr) -> _Self:
@@ -236,6 +285,15 @@ class TextExpr(Expr, metaclass=ABCMeta):
     """
 
     __slots__ = ()
+
+    def __eq__(self, other: NumberExpr) -> BoolExpr:  # type: ignore
+        from .operators import eq
+        return eq(self, other)
+
+    def __ne__(self, other: NumberExpr) -> BoolExpr:  # type: ignore
+        from .operators import ne
+        return ne(self, other)
+
 
 # =============================================================================
 # OTHER CORE COMPONENTS

@@ -64,9 +64,10 @@ class If(FunctionExpr):
     else_: Expr = field(validator=validators.instance_of(Expr))
 
     def __eval__(self) -> XPathExpr:
-        return XPathExpr(
-            f"if({eval(self.condition)}, {self.then}, {self.else_})"
-        )
+        condition = eval(self.condition)
+        then = eval(self.then)
+        else_ = eval(self.else_)
+        return XPathExpr(f"if({condition}, {then}, {else_})")
 
 
 if_ = If
@@ -77,8 +78,8 @@ if_ = If
 # =============================================================================
 
 
-@frozen
-class Abs(FunctionExpr, NumberExpr):
+@frozen(eq=False)
+class Abs(NumberExpr, FunctionExpr):
 
     value: NumberExpr = field(validator=validators.instance_of(NumberExpr))
 
@@ -86,8 +87,8 @@ class Abs(FunctionExpr, NumberExpr):
         return XPathExpr(f"abs({eval(self.value)})")
 
 
-@frozen
-class Round(FunctionExpr, NumberExpr):
+@frozen(eq=False)
+class Round(NumberExpr, FunctionExpr):
 
     number: NumberExpr = field(validator=validators.instance_of(NumberExpr))
     places: IntExpr = field(validator=validators.instance_of(IntExpr))
@@ -96,8 +97,8 @@ class Round(FunctionExpr, NumberExpr):
         return XPathExpr(f"round({eval(self.number)}, {eval(self.places)})")
 
 
-@frozen
-class IntF(FunctionExpr, IntExpr):
+@frozen(eq=False)
+class IntF(IntExpr, FunctionExpr):
 
     number: NumberExpr = field(validator=validators.instance_of(NumberExpr))
 
@@ -105,8 +106,8 @@ class IntF(FunctionExpr, IntExpr):
         return XPathExpr(f"int({self.number})")
 
 
-@frozen
-class NumberF(FunctionExpr, NumberExpr):
+@frozen(eq=False)
+class NumberF(NumberExpr, FunctionExpr):
 
     expr: Expr = field(validator=validators.instance_of(Expr))
 
@@ -114,11 +115,11 @@ class NumberF(FunctionExpr, NumberExpr):
         return XPathExpr(f"number({eval(self.expr)})")
 
 
-@frozen
-class Pow(FunctionExpr, NumberExpr):
+@frozen(eq=False)
+class Pow(NumberExpr, FunctionExpr):
 
     value: NumberExpr = field(validator=validators.instance_of(NumberExpr))
-    power: IntExpr = field(validator=validators.instance_of(IntExpr))
+    power: NumberExpr = field(validator=validators.instance_of(NumberExpr))
 
     def __eval__(self) -> XPathExpr:
         return XPathExpr(f"pow({eval(self.value)}, {eval(self.power)})")
@@ -139,8 +140,8 @@ pow_ = Pow
 # UTILITY FUNCTIONS
 # =============================================================================
 
-@frozen
-class BooleanF(FunctionExpr, BoolExpr):
+@frozen(eq=False)
+class BooleanF(BoolExpr, FunctionExpr):
 
     arg: Expr = field(validator=validators.instance_of(Expr))
 
@@ -148,8 +149,8 @@ class BooleanF(FunctionExpr, BoolExpr):
         return XPathExpr(f"boolean({eval(self.arg)})")
 
 
-@frozen
-class Coalesce(FunctionExpr, BoolExpr, IntExpr, NumberExpr, TextExpr):
+@frozen(eq=False)
+class Coalesce(IntExpr, NumberExpr, TextExpr, BoolExpr, FunctionExpr):
 
     arg1: Expr = field(validator=validators.instance_of(Expr))
     arg2: Expr = field(validator=validators.instance_of(Expr))
@@ -158,10 +159,10 @@ class Coalesce(FunctionExpr, BoolExpr, IntExpr, NumberExpr, TextExpr):
         return XPathExpr(f"coalesce({eval(self.arg1)}, {eval(self.arg2)})")
 
 
-@frozen
-class Not(FunctionExpr, BoolExpr):
+@frozen(eq=False)
+class Not(BoolExpr, FunctionExpr):
 
-    arg: Expr = field(validator=validators.instance_of(Expr))
+    arg: BoolExpr = field(validator=validators.instance_of(BoolExpr))
 
     def __eval__(self) -> XPathExpr:
         return XPathExpr(f"not({eval(self.arg)})")
