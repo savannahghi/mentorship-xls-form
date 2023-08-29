@@ -93,6 +93,12 @@ profile = "black"
 [tool.pyright]
 analyzeUnannotatedFunctions = true
 enableTypeIgnoreComments = true
+exclude = [
+    "**/.*",
+    "**/__pycache__",
+    "**/generated",
+    "**/node_modules",
+]
 reportConstantRedefinition = "error"
 reportDeprecated = "warning"
 reportDuplicateImport = "error"
@@ -127,7 +133,7 @@ python_files = ["*test.py", "test_*.py"]
 norecursedirs = "node_modules venv build env bin .cache .tox"
 
 [tool.ruff]
-exclude = [
+extend-exclude = [
     ".eggs",
     ".git",
     ".mypy_cache",
@@ -142,9 +148,11 @@ exclude = [
     "build",
     "dist",
     "docs",
+    "genarated",
     "node_modules",
     "venv",
 ]
+fixable = ["ALL"]
 ignore = [
     "ANN002",
     "ANN003",
