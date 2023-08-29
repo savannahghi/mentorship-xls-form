@@ -286,11 +286,11 @@ class TextExpr(Expr, metaclass=ABCMeta):
 
     __slots__ = ()
 
-    def __eq__(self, other: NumberExpr) -> BoolExpr:  # type: ignore
+    def __eq__(self, other: TextExpr) -> BoolExpr:  # type: ignore
         from .operators import eq
         return eq(self, other)
 
-    def __ne__(self, other: NumberExpr) -> BoolExpr:  # type: ignore
+    def __ne__(self, other: TextExpr) -> BoolExpr:  # type: ignore
         from .operators import ne
         return ne(self, other)
 

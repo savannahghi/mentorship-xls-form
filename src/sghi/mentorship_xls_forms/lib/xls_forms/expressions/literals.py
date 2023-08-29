@@ -70,7 +70,7 @@ ONE: int_ = int_(1)
 
 FALSE: bool_ = bool_(False)
 
-THREE: num = num(3)
+THREE: int_ = int_(3)
 
 TRUE: bool_ = bool_(True)
 

@@ -37,7 +37,18 @@ class FunctionExpr(Expr, metaclass=ABCMeta):
 # =============================================================================
 
 
-class Select(FunctionExpr, TextExpr):
+@frozen
+class CountSelected(FunctionExpr, NumberExpr):
+
+    multi_select_question: Expr = field(validator=validators.instance_of(Expr))
+
+    def __eval__(self) -> XPathExpr:
+        msq = eval(self.multi_select_question)
+        return XPathExpr(f"count-selected({msq})")
+
+
+@frozen
+class Select(FunctionExpr, BoolExpr):
 
     space_delimited_array: Expr = field(validator=validators.instance_of(Expr))
     string: TextExpr = field(validator=validators.instance_of(TextExpr))
@@ -47,6 +58,8 @@ class Select(FunctionExpr, TextExpr):
         string = eval(self.string)
         return XPathExpr(f"selected({sda}, {string})")
 
+
+count_selected = CountSelected
 
 select = Select
 
@@ -137,8 +150,26 @@ pow_ = Pow
 
 
 # =============================================================================
+# STRING FUNCTIONS
+# =============================================================================
+
+
+@frozen(eq=False)
+class StringF(TextExpr, FunctionExpr):
+
+    arg: Expr = field(validator=validators.instance_of(Expr))
+
+    def __eval__(self) -> XPathExpr:
+        return XPathExpr(f"string({eval(self.arg)})")
+
+
+string = StringF
+
+
+# =============================================================================
 # UTILITY FUNCTIONS
 # =============================================================================
+
 
 @frozen(eq=False)
 class BooleanF(BoolExpr, FunctionExpr):
