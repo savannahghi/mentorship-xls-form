@@ -9,7 +9,6 @@ from antlr4 import (
     CommonTokenStream,
     InputStream,
     ParseTreeWalker,
-    Recognizer,
     TerminalNode,
 )
 from antlr4.error.ErrorListener import ErrorListener
@@ -37,6 +36,7 @@ from .generated.SGHI_XLSFormListener import SGHI_XLSFormListener
 from .generated.SGHI_XLSFormParser import SGHI_XLSFormParser
 
 if TYPE_CHECKING:
+    from antlr4.Recognizer import Recognizer
     from collections.abc import Sequence
     from sghi.mentorship_xls_forms.core import Question, Section
 
@@ -79,6 +79,7 @@ META_YES: Final[str_] = str_("yes")
 
 def _get_term_node_txt(terminal_node: TerminalNode | None) -> str:
     assert isinstance(terminal_node, TerminalNodeImpl)
+    assert terminal_node.getText() is not None
     return terminal_node.getText()
 
 
@@ -139,7 +140,7 @@ class XLSFormErrorListener(ErrorListener):
         line: int,
         column: int,
         msg: str,
-        e: Recognizer.RecognitionException
+        e: Exception,
     ) -> None:
         err_msg: str = (
             f"Error parsing expression on question '{self.question_id}': "
