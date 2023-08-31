@@ -128,6 +128,7 @@ class XLSFormRecord:
         cls,
         calculation: str | None = None,
         constraint_message: str | None = "This value must be >= 0",
+        default: int | None = None,
         hint: str | None = None,
         name: str | None = None,
         label: str | None = None,
@@ -138,10 +139,55 @@ class XLSFormRecord:
             calculation=calculation,
             constraint=".>=0",
             constraint_message=constraint_message,
+            default=None if default is None else str(default),
             hint=hint,
             name=name,
             label=label,
             read_only=read_only,
+        )
+
+    @classmethod
+    def of_select_multiple(
+        cls,
+        list_name: str,
+        appearance: str | None = None,
+        hint: str | None = None,
+        label: str | None = None,
+        name: str | None = None,
+        required: XLSFormBoolean | None = None,
+    ) -> Self:
+        required_msg: str = "'list_name' MUST not be None or empty."
+        ensure_not_none_nor_empty(list_name, required_msg)
+        return cls(
+            type=f"select_multiple {list_name}",  # type: ignore
+            appearance=appearance,
+            hint=hint,
+            label=label,
+            name=name,
+            required=required,
+        )
+
+    @classmethod
+    def of_select_one(
+        cls,
+        list_name: str,
+        appearance: str | None = None,
+        choice_filter: str | None = None,
+        hint: str | None = None,
+        label: str | None = None,
+        name: str | None = None,
+        required: XLSFormBoolean | None = None,
+    ) -> Self:
+        required_msg: str = "'list_name' MUST not be None or empty."
+        ensure_not_none_nor_empty(list_name, required_msg)
+        return cls(
+            type=f"select_one {list_name}",  # type: ignore
+            appearance=appearance,
+            choice_filter=choice_filter,
+            hint=hint,
+            label=label,
+            name=name,
+            required=required,
         )
 
     @classmethod
