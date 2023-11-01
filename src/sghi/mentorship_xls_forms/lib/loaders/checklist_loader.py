@@ -21,14 +21,14 @@ from sghi.mentorship_xls_forms.core import (
 from sghi.utils import ensure_not_none
 
 if TYPE_CHECKING:
+    from collections.abc import Generator, Mapping, Sequence
     from collections.abc import Set as AbstractSet
-    from collections.abc import Sequence
-    from collections.abc import Generator, Mapping
-    from pyexcel.internal.generators import (
-        SheetStream as ExcelWorksheet,
-    )
+
     from pyexcel.internal.generators import (
         BookStream as ExcelWorkbook,
+    )
+    from pyexcel.internal.generators import (
+        SheetStream as ExcelWorksheet,
     )
 
 
@@ -36,14 +36,17 @@ if TYPE_CHECKING:
 # TYPES
 # =============================================================================
 
+
 _MetadataBool = Literal["Y", "N"]
 
 _ChecklistMapping = TypedDict(
-    "_ChecklistMapping", {"Checklist ID": str, "Checklist Name": str}
+    "_ChecklistMapping",
+    {"Checklist ID": str, "Checklist Name": str},
 )
 
 _QuestionMapping = TypedDict(
-    "_QuestionMapping", {
+    "_QuestionMapping",
+    {
         "Section ID": str,
         "Question ID": str,
         "Question Label": str,
@@ -52,20 +55,21 @@ _QuestionMapping = TypedDict(
         "Answer Type": AnswerType,
         "Select One Options": str,
         "Scoring Logic": str,
-        "NA Option?": _MetadataBool
-    }
+        "NA Option?": _MetadataBool,
+    },
 )
 
 _SectionMapping = TypedDict(
-    "_SectionMapping", {
+    "_SectionMapping",
+    {
         "Checklist ID": str,
         "Section ID": str,
         "Section Title": str,
         "Standard": str,
         "Instructions": str,
         "NA Option?": _MetadataBool,
-        "Required?": _MetadataBool
-    }
+        "Required?": _MetadataBool,
+    },
 )
 
 _QuestionPredicate = Callable[[Question], bool]
@@ -78,7 +82,14 @@ _SectionPredicate = Callable[[Section], bool]
 # =============================================================================
 
 _PARENT_QUESTION_TYPES: Final[tuple] = (
-    "BOOL", "COUNT", "MULTI", "INT", "PERC", "SELECT", "TEXT"
+    "BOOL",
+    "COUNT",
+    "MULTI",
+    "INT",
+    "PERC",
+    "RATE",
+    "SELECT",
+    "TEXT",
 )
 
 CHECKLISTS_SHEET_NAME: Final[str] = "Mentorship Checklists"
@@ -95,6 +106,7 @@ SECTIONS_SHEET_NAME: Final[str] = "Sections"
 # =============================================================================
 # HELPERS
 # =============================================================================
+
 
 def _ensure_valid_metadata(check: bool, message: str | None = None) -> None:
     """Perform a check to ensure the validity of metadata.
@@ -126,7 +138,7 @@ def _iget_records(sheet: ExcelWorksheet) -> Generator[OrderedDict, None, None]:
         headers: Sequence[str] = next(sheet.payload)
         for row in sheet.payload:
             yield OrderedDict(
-                zip_longest(headers, row, fillvalue=DEFAULT_FILL_VALUE)
+                zip_longest(headers, row, fillvalue=DEFAULT_FILL_VALUE),
             )
     except StopIteration:
         return
@@ -135,6 +147,7 @@ def _iget_records(sheet: ExcelWorksheet) -> Generator[OrderedDict, None, None]:
 # =============================================================================
 # EXCEPTIONS
 # =============================================================================
+
 
 class InvalidMetadataError(LoadError):
     """
@@ -147,23 +160,41 @@ class InvalidMetadataError(LoadError):
 # LOADER
 # =============================================================================
 
+
 @define
 class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
-
     _metadata_source: Final[ExcelWorkbook] = field(
-        eq=False, hash=False, repr=False
+        eq=False,
+        hash=False,
+        repr=False,
     )
     _is_disposed: bool = field(
-        eq=False, default=False, hash=False, init=False, repr=False
+        eq=False,
+        default=False,
+        hash=False,
+        init=False,
+        repr=False,
     )
     _questions: Sequence[Question] = field(
-        eq=False, factory=tuple, hash=False, init=False, repr=False
+        eq=False,
+        factory=tuple,
+        hash=False,
+        init=False,
+        repr=False,
     )
     _sections: Sequence[Section] = field(
-        eq=False, factory=tuple, hash=False, init=False, repr=False
+        eq=False,
+        factory=tuple,
+        hash=False,
+        init=False,
+        repr=False,
     )
     _checklists: Sequence[MentorshipChecklist] = field(
-        eq=False, factory=tuple, hash=False, init=False, repr=False
+        eq=False,
+        factory=tuple,
+        hash=False,
+        init=False,
+        repr=False,
     )
 
     @property
@@ -185,22 +216,22 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
         self._questions = tuple(
             map(
                 self._question_mapping_to_object,
-                _iget_records(questions_meta)  # type: ignore
-            )
+                _iget_records(questions_meta),  # type: ignore
+            ),
         )
         self._link_questions()
         self._sections = tuple(
             map(
                 self._section_mapping_to_object,
                 _iget_records(sections_meta),  # type: ignore
-            )
+            ),
         )
         self._link_sections()
         self._checklists = tuple(
             map(
                 self._checklist_mapping_to_object,
-                _iget_records(checklists_meta)  # type: ignore
-            )
+                _iget_records(checklists_meta),  # type: ignore
+            ),
         )
         self._link_checklists()
         return self._checklists
@@ -213,7 +244,8 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
     @classmethod
     def of_file_path(cls, metadata_file_path: str) -> Self:
         ensure_not_none(
-            metadata_file_path, "'metadata_file_path' MUST bot be None."
+            metadata_file_path,
+            "'metadata_file_path' MUST bot be None.",
         )
         return cls.of(pyexcel.iget_book(file_name=metadata_file_path))
 
@@ -225,15 +257,17 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
             sub_sections: Mapping[str, Section]
             sub_sections = {
                 _sec.id: _sec
+                # fmt: off
                 for _sec in self._select_sections(
                     lambda _s: _s.id.startswith(f"{checklist.id}_"),  # noqa: B023
-                    self._sections
+                    sections=self._sections,
                 )
+                # fmt: on
             }
             _ensure_valid_metadata(
                 len(sub_sections) > 0,
                 "Checklists must have at least one section. Checklist "
-                f"'{checklist.id}' has no sections."
+                f"'{checklist.id}' has no sections.",
             )
             checklist.sections = sub_sections
 
@@ -244,30 +278,37 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
                     sub_questions: Mapping[str, Question]
                     sub_questions = {
                         _sq.id: _sq
+                        # fmt: off
                         for _sq in self._select_questions(
                             lambda _q: _q.id.startswith(f"{question.id}_"),  # noqa: B023
-                            questions=self._questions
+                            questions=self._questions,
                         )
+                        # fmt: on
                     }
+                    num_of_questions: int = len(sub_questions)
                     _ensure_valid_metadata(
-                        len(sub_questions) == 2,
-                        "PERC questions should have 2 sub questions, a "
-                        "numerator(NUM) and denominator(DEN)."
+                        num_of_questions == 2,
+                        "PERC questions MUST have exactly 2 sub-questions, "
+                        "a numerator(NUM) and denominator(DEN). Question "
+                        f"'{question.id}' has {num_of_questions} "
+                        f"sub-questions.",
                     )
                     question.sub_questions = sub_questions
                 case "MULTI":
                     sub_questions: Mapping[str, Question]
                     sub_questions = {
                         _sq.id: _sq
+                        # fmt: off
                         for _sq in self._select_questions(
                             lambda _q: _q.id.startswith(f"{question.id}_"),  # noqa: B023
-                            questions=self._questions
+                            questions=self._questions,
                         )
+                        # fmt: on
                     }
                     _ensure_valid_metadata(
                         len(sub_questions) > 0,
-                        "MULTI questions must have at least one sub question. "
-                        f"Question '{question.id}' has no sub questions."
+                        "MULTI questions MUST have at least one sub-question. "
+                        f"Question '{question.id}' has no sub questions.",
                     )
                     question.sub_questions = sub_questions
 
@@ -281,13 +322,13 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
                         _q.id.startswith(f"{section.id}_")  # noqa: B023
                         and _q.question_type in _PARENT_QUESTION_TYPES
                     ),
-                    questions=self._questions
+                    questions=self._questions,
                 )
             }
             _ensure_valid_metadata(
                 len(sub_questions) > 0,
-                "Sections must have at least one sub questions. Section "
-                f"'{section.id}' has no sub questions."
+                "Sections MUST have at least one sub-questions. Section "
+                f"'{section.id}' has no sub questions.",
             )
             section.questions = sub_questions
 
@@ -297,7 +338,7 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
     @staticmethod
     def _select_questions(
         question_predicate: _QuestionPredicate,
-        questions: Iterable[Question]
+        questions: Iterable[Question],
     ) -> Iterable[Question]:
         ensure_not_none(question_predicate)
         ensure_not_none(questions)
@@ -306,7 +347,7 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
     @staticmethod
     def _select_sections(
         section_predicate: _SectionPredicate,
-        sections: Iterable[Section]
+        sections: Iterable[Section],
     ) -> Iterable[Section]:
         ensure_not_none(section_predicate)
         ensure_not_none(sections)
@@ -331,7 +372,7 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
 
     @staticmethod
     def _select_one_options_as_set(
-        select_one_options: str
+        select_one_options: str,
     ) -> AbstractSet[str] | None:
         ensure_not_none(select_one_options)
         eml = ChecklistsExcelMetadataLoader
@@ -343,7 +384,7 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
     # -------------------------------------------------------------------------
     @staticmethod
     def _checklist_mapping_to_object(
-        checklist_mapping: _ChecklistMapping
+        checklist_mapping: _ChecklistMapping,
     ) -> MentorshipChecklist:
         ensure_not_none(checklist_mapping)
         return MentorshipChecklist(
@@ -353,7 +394,7 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
 
     @staticmethod
     def _question_mapping_to_object(
-        question_mapping: _QuestionMapping
+        question_mapping: _QuestionMapping,
     ) -> Question:
         ensure_not_none(question_mapping)
         eml = ChecklistsExcelMetadataLoader
@@ -363,22 +404,22 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
             question_type=question_mapping["Question Type"],
             answer_type=question_mapping["Answer Type"],
             options_set=eml._select_one_options_as_set(
-                question_mapping["Select One Options"].strip()
+                question_mapping["Select One Options"].strip(),
             ),
             prompt=eml._metadata_na_to_python(
-                question_mapping["Question Prompt"].strip()
+                question_mapping["Question Prompt"].strip(),
             ),
             scoring_logic=eml._metadata_na_to_python(
-                question_mapping["Scoring Logic"].strip()
+                question_mapping["Scoring Logic"].strip(),
             ),
             na_option=eml._metadata_bool_to_python(
-                question_mapping["NA Option?"]
-            )
+                question_mapping["NA Option?"],
+            ),
         )
 
     @staticmethod
     def _section_mapping_to_object(
-        section_mapping: _SectionMapping
+        section_mapping: _SectionMapping,
     ) -> Section:
         ensure_not_none(section_mapping)
         eml = ChecklistsExcelMetadataLoader
@@ -386,15 +427,15 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
             id=section_mapping["Section ID"].strip(),
             title=section_mapping["Section Title"].strip(),
             standard=eml._metadata_na_to_python(
-                section_mapping["Standard"].strip()
+                section_mapping["Standard"].strip(),
             ),
             instructions=eml._metadata_na_to_python(
-                section_mapping["Instructions"].strip()
+                section_mapping["Instructions"].strip(),
             ),
             na_option=eml._metadata_bool_to_python(
-                section_mapping["NA Option?"]
+                section_mapping["NA Option?"],
             ),
             required=eml._metadata_bool_to_python(
-                section_mapping["Required?"]
-            )
+                section_mapping["Required?"],
+            ),
         )

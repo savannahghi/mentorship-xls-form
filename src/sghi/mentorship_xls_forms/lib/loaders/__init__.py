@@ -14,10 +14,7 @@ from .facility_loader import FacilityJSONMetadataLoader
 # TYPES
 # =============================================================================
 
-SupportedMetaFormats = Literal[
-    "auto",
-    "excel"
-]
+SupportedMetaFormats = Literal["auto", "excel"]
 """The supported metadata formats.
 
 `auto` indicates that the metadata format should be determined automatically
@@ -29,8 +26,10 @@ from the file extension of the metadata file given.
 # LOADER
 # =============================================================================
 
+
 def load_metadata(
-    metadata_file_path: str, metadata_format: SupportedMetaFormats
+    metadata_file_path: str,
+    metadata_format: SupportedMetaFormats,
 ) -> Iterable[MentorshipChecklist]:
     """Helper that loads metadata from a file and returns an ``Iterable`` of
     the loaded :class:`checklists<MentorshipChecklist>`.
@@ -59,7 +58,7 @@ def load_metadata(
         #  `auto` case.
         case "auto" | "excel":
             loader = ChecklistsExcelMetadataLoader.of_file_path(
-                metadata_file_path=metadata_file_path
+                metadata_file_path=metadata_file_path,
             )
         case _:
             _err_msg: str = f"Unknown metadata format '{metadata_format}'."

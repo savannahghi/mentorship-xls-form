@@ -53,7 +53,8 @@ class BiOperator(Operator, Generic[_E1, _E2]):
         ensure_not_none(self.operator, "'operator' MUST not be None.")
         ensure_not_none(self.left_operand, "'left_operand' MUST not be None.")
         ensure_not_none(
-            self.right_operand, "'right_operand' MUST not be None."
+            self.right_operand,
+            "'right_operand' MUST not be None.",
         )
 
     def __eval__(self) -> XPathExpr:
@@ -62,13 +63,14 @@ class BiOperator(Operator, Generic[_E1, _E2]):
                 eval(self.left_operand),
                 self.operator,
                 eval(self.right_operand),
-            )
+            ),
         )
 
 
 # =============================================================================
 # ARITHMETIC OPERATORS
 # =============================================================================
+
 
 @frozen
 class Add(BiOperator[NumberExpr, NumberExpr], NumberExpr):
@@ -168,7 +170,7 @@ class Eq(BiOperator[_AlphaNumeric, _AlphaNumeric], BoolExpr):
     def of(
         cls,
         left_operand: _AlphaNumeric,
-        right_operand: _AlphaNumeric
+        right_operand: _AlphaNumeric,
     ) -> Self:
         return cls(left_operand=left_operand, right_operand=right_operand)
 
@@ -227,7 +229,7 @@ class Ne(BiOperator[_AlphaNumeric, _AlphaNumeric], BoolExpr):
     def of(
         cls,
         left_operand: _AlphaNumeric,
-        right_operand: _AlphaNumeric
+        right_operand: _AlphaNumeric,
     ) -> Self:
         return cls(left_operand=left_operand, right_operand=right_operand)
 

@@ -39,6 +39,7 @@ BLANK_RESULT: Final[XPathExpr] = XPathExpr("")
 # HELPERS
 # =============================================================================
 
+
 @overload
 def python_number_to_xls_form_number(number: int | IntExpr) -> IntExpr:
     ...
@@ -50,15 +51,17 @@ def python_number_to_xls_form_number(number: float | NumberExpr) -> NumberExpr:
 
 
 def python_number_to_xls_form_number(
-    number: NumberExpr | float
+    number: NumberExpr | float,
 ) -> IntExpr | NumberExpr:
     ensure_not_none(number, "'number' MUST not be None.")
     match number:
         case int():
             from .literals import int_
+
             return int_(number)
         case float():
             from .literals import num
+
             return num(number)
         case IntExpr() | NumberExpr():
             return number
@@ -107,6 +110,7 @@ class Expr(metaclass=ABCMeta):
         :return:
         """
         from .functions import coalesce
+
         return coalesce(self, other)
 
     @abstractmethod
@@ -131,24 +135,29 @@ class BoolExpr(Expr, metaclass=ABCMeta):
 
     def __and__(self, other: BoolExpr) -> _Self:
         from .operators import and_
+
         return and_(self, other)
 
     def __invert__(self) -> _Self:
         from .functions import not_
+
         return not_(self)
 
     def __or__(self, other: BoolExpr) -> _Self:
         from .operators import or_
+
         return or_(self, other)
 
     @classmethod
     def of_expression(cls, expr: Expr) -> _Self:
         from .functions import boolean
+
         return boolean(expr)
 
     @classmethod
     def of_not(cls, expr: BoolExpr) -> _Self:
         from .functions import not_
+
         return not_(expr)
 
 
@@ -162,30 +171,35 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
 
     def __abs__(self) -> _Self:
         from .functions import abs_
+
         return abs_(self)
 
     def __add__(self, other: NumberExpr | float) -> _Self:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import add
+
         return add(self, python_number_to_xls_form_number(other))
 
     def __eq__(self, other: NumberExpr | float) -> BoolExpr:  # type: ignore
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import eq
+
         return eq(self, python_number_to_xls_form_number(other))
 
     def __ge__(self, other: NumberExpr | float) -> BoolExpr:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import ge
+
         return ge(self, python_number_to_xls_form_number(other))
 
     def __gt__(self, other: NumberExpr | float) -> BoolExpr:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import gt
+
         return gt(self, python_number_to_xls_form_number(other))
 
     def __index__(self) -> int:
@@ -195,30 +209,35 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import le
+
         return le(self, python_number_to_xls_form_number(other))
 
     def __lt__(self, other: NumberExpr | float) -> BoolExpr:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import lt
+
         return lt(self, python_number_to_xls_form_number(other))
 
     def __ne__(self, other: NumberExpr | float) -> BoolExpr:  # type: ignore
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import ne
+
         return ne(self, python_number_to_xls_form_number(other))
 
     def __mul__(self, other: NumberExpr | float) -> _Self:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import mul
+
         return mul(self, python_number_to_xls_form_number(other))
 
     def __pow__(self, power: NumberExpr | float) -> _Self:
         if not isinstance(power, NumberExpr | int | float):
             return NotImplemented
         from .functions import pow_
+
         return pow_(self, python_number_to_xls_form_number(power))
 
     @overload
@@ -232,6 +251,7 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
     def __round__(self, places: int | IntExpr | None = None) -> _Self:
         from .functions import round_
         from .literals import TWO, int_
+
         _places = int_(places) if isinstance(places, int) else places
         return round_(self, _places or TWO)
 
@@ -239,17 +259,20 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import sub
+
         return sub(self, python_number_to_xls_form_number(other))
 
     def __truediv__(self, other: NumberExpr | float) -> _Self:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import div
+
         return div(self, python_number_to_xls_form_number(other))
 
     @classmethod
     def of_expression(cls, expr: Expr) -> _Self:
         from .functions import number
+
         return number(expr)
 
 
@@ -268,6 +291,7 @@ class IntExpr(NumberExpr, metaclass=ABCMeta):
     @classmethod
     def of_number(cls, arg: NumberExpr) -> _Self:
         from .functions import intf
+
         return intf(arg)
 
 
@@ -288,10 +312,12 @@ class TextExpr(Expr, metaclass=ABCMeta):
 
     def __eq__(self, other: TextExpr) -> BoolExpr:  # type: ignore
         from .operators import eq
+
         return eq(self, other)
 
     def __ne__(self, other: TextExpr) -> BoolExpr:  # type: ignore
         from .operators import ne
+
         return ne(self, other)
 
 
@@ -302,7 +328,6 @@ class TextExpr(Expr, metaclass=ABCMeta):
 
 @frozen
 class Brackets(NumberExpr):
-
     expr: Expr = field(validator=validators.instance_of(Expr))
 
     def __attrs_post_init__(self) -> None:
@@ -356,7 +381,8 @@ class Variable(Expr):
 
     def __attrs_post_init__(self) -> None:
         ensure_not_none_nor_empty(
-            self.question_name, "'question_name' MUST not be non or empty"
+            self.question_name,
+            "'question_name' MUST not be non or empty",
         )
 
     def __eval__(self) -> XPathExpr:

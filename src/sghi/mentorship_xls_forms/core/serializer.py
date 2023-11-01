@@ -13,8 +13,8 @@ _R = TypeVar("_R")
 # INTERFACES
 # =============================================================================
 
-class Deserializer(Generic[_R, _P], metaclass=ABCMeta):
 
+class Deserializer(Generic[_R, _P], metaclass=ABCMeta):
     __slots__ = ()
 
     @abstractmethod
@@ -23,7 +23,6 @@ class Deserializer(Generic[_R, _P], metaclass=ABCMeta):
 
 
 class Serializer(Generic[_P, _R], metaclass=ABCMeta):
-
     __slots__ = ()
 
     @abstractmethod

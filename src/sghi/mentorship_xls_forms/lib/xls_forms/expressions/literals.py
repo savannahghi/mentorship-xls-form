@@ -20,9 +20,9 @@ _T = TypeVar("_T")
 # LITERALS
 # =============================================================================
 
+
 @frozen
 class LiteralValue(Expr, Generic[_T]):
-
     value: _T = field()
 
     def __eval__(self) -> XPathExpr:
@@ -31,7 +31,6 @@ class LiteralValue(Expr, Generic[_T]):
 
 @frozen(eq=False)
 class Boolean(BoolExpr, LiteralValue[bool]):
-
     def __eval__(self) -> XPathExpr:
         return XPathExpr(f'{"yes" if self.value else "no"}')
 
@@ -48,7 +47,6 @@ class Number(NumberExpr, LiteralValue[_Number]):
 
 @frozen(eq=False)
 class String(TextExpr, LiteralValue[str]):
-
     def __eval__(self) -> XPathExpr:
         return XPathExpr(f"'{self.value!s}'")
 

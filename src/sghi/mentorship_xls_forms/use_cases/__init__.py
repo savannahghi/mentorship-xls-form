@@ -14,22 +14,28 @@ from sghi.mentorship_xls_forms.lib.serializers.xls_form import (
 )
 from sghi.mentorship_xls_forms.lib.writers import XLSFormWriter
 from sghi.mentorship_xls_forms.lib.xls_forms import XLSForm, XLSFormItem
-from sghi.tasks import Pipe, Task
+from sghi.task import Pipe, Task
 from sghi.utils import ensure_not_none, ensure_not_none_nor_empty
 
 # =============================================================================
 # TYPES
 # =============================================================================
 
+
 _CLF = Callable[[str], Loader[Iterable[Checklist]]]
+"""Checklist Loader Factory."""
 
 _CSF = Callable[[], Serializer[Checklist, XLSForm]]
+"""Checklist Serializer Factory."""
 
 _CWF = Callable[[str], Writer[XLSForm]]
+"""Checklist Writer Factory."""
 
 _FLF = Callable[[str], Loader[Iterable[Facility]]]
+"""Facility Loader Factory."""
 
 _FSF = Callable[[], Serializer[Iterable[Facility], XLSFormItem]]
+"""Facility Serializer Factory."""
 
 
 # =============================================================================
@@ -39,21 +45,22 @@ _FSF = Callable[[], Serializer[Iterable[Facility], XLSFormItem]]
 
 @frozen
 class LoadMetadata(
-    Task[tuple[str, str], tuple[Iterable[Checklist], Iterable[Facility]]]
+    Task[tuple[str, str], tuple[Iterable[Checklist], Iterable[Facility]]],
 ):
-
     checklist_loader_factory: _CLF = field(
-        default=ChecklistsExcelMetadataLoader.of_file_path
+        default=ChecklistsExcelMetadataLoader.of_file_path,
     )
     facility_loader_factory: _FLF = field(
-        default=FacilityJSONMetadataLoader.of_file_path
+        default=FacilityJSONMetadataLoader.of_file_path,
     )
 
     def execute(
-        self, an_input: tuple[str, str]
+        self,
+        an_input: tuple[str, str],
     ) -> tuple[Iterable[Checklist], Iterable[Facility]]:
         ensure_not_none_nor_empty(
-            an_input, "'an_input' MUST not be None or empty."
+            an_input,
+            "'an_input' MUST not be None or empty.",
         )
         checklist_loader = self.checklist_loader_factory(an_input[0])
         facility_loader = self.facility_loader_factory(an_input[1])
@@ -65,25 +72,23 @@ class LoadMetadata(
 class ProcessChecklist(
     Task[
         tuple[Iterable[Checklist], Iterable[Facility]],
-        Iterable[tuple[Checklist, XLSForm]]
-    ]
+        Iterable[tuple[Checklist, XLSForm]],
+    ],
 ):
-
     checklist_serializer_factory: _CSF = field(
-        default=ChecklistXLSFormSerializer.of
+        default=ChecklistXLSFormSerializer.of,
     )
     facilities_serializer_factory: _FSF = field(
-        default=FacilitiesXLSFormSerializer.of
+        default=FacilitiesXLSFormSerializer.of,
     )
 
     def execute(
-        self, an_input: tuple[Iterable[Checklist], Iterable[Facility]]
+        self,
+        an_input: tuple[Iterable[Checklist], Iterable[Facility]],
     ) -> Iterable[tuple[Checklist, XLSForm]]:
         ensure_not_none(an_input, "'an_input' MUST not be None.")
         org_units: XLSFormItem
-        org_units = self.facilities_serializer_factory().serialize(
-            an_input[1]
-        )
+        org_units = self.facilities_serializer_factory().serialize(an_input[1])
         return tuple(
             self._checklist_to_form(checklist, org_units)
             for checklist in an_input[0]
@@ -92,7 +97,7 @@ class ProcessChecklist(
     def _checklist_to_form(
         self,
         checklist: Checklist,
-        org_units: XLSFormItem
+        org_units: XLSFormItem,
     ) -> tuple[Checklist, XLSForm]:
         ensure_not_none(checklist, "'checklist' MUST not be None.")
         serializer = self.checklist_serializer_factory()
@@ -103,15 +108,16 @@ class ProcessChecklist(
 
 @frozen
 class WriteResult(Task[Iterable[tuple[Checklist, XLSForm]], None]):
-
     checklist_writer_factor: _CWF = field(default=XLSFormWriter.of_file_path)
 
     def execute(self, an_input: Iterable[tuple[Checklist, XLSForm]]) -> None:
         ensure_not_none(an_input, "'an_input' MUST not be None.")
         for checklist in an_input:
-            out_path: str = f"out/{checklist[0].name}.xlsx"
+            file_name: str = checklist[0].name.replace("/", "_")
+            out_path: str = f"out/{file_name}.xlsx"
             with self.checklist_writer_factor(out_path) as writer:
                 writer.write(checklist[1])
+
 
 # =============================================================================
 # MAIN PIPELINE TASKS
@@ -130,6 +136,5 @@ def main_pipeline_factory() -> Pipe[tuple[str, str], None]:
 # MODULE EXPORTS
 # =============================================================================
 
-__all__ = (
-    "main_pipeline_factory",
-)
+
+__all__ = ("main_pipeline_factory",)

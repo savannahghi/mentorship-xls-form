@@ -26,6 +26,7 @@ class WriteError(SGHIError):
 # WRITER INTERFACE
 # =============================================================================
 
+
 class Writer(Disposable, Generic[_D], metaclass=ABCMeta):
     """
     Interface representing objects that persist processed data to a final

@@ -6,7 +6,8 @@ from typing import TYPE_CHECKING, Literal
 from attrs import define, field
 
 if TYPE_CHECKING:
-    from collections.abc import Mapping, Set as AbstractSet
+    from collections.abc import Mapping
+    from collections.abc import Set as AbstractSet
 
 # =============================================================================
 # TYPES
@@ -28,8 +29,9 @@ QuestionType = Literal[
     "MULTI",
     "NUM",
     "PERC",
+    "RATE",
     "SELECT",
-    "TEXT"
+    "TEXT",
 ]
 
 
@@ -51,6 +53,7 @@ class DomainObject(metaclass=ABCMeta):
 # DOMAIN MODELS
 # =============================================================================
 
+
 @define
 class Facility(DomainObject):
     name: str = field()
@@ -69,19 +72,34 @@ class Question(DomainObject):
     question_type: QuestionType = field()
     answer_type: AnswerType = field(repr=False)
     options_set: AbstractSet[str] | None = field(
-        default=None, hash=False, kw_only=True, repr=False
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
     prompt: str | None = field(
-        default=None, hash=False, kw_only=True, repr=False
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
     scoring_logic: str | None = field(
-        default=None, hash=False, kw_only=True, repr=False
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
     sub_questions: Mapping[str, Question] | None = field(
-        default=None, hash=False, kw_only=True, repr=False
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
     na_option: bool = field(
-        default=False, hash=False, kw_only=True, repr=False
+        default=False,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
 
     @property
@@ -96,19 +114,29 @@ class Section(DomainObject):
     id: str = field()  # noqa: A003
     title: str = field(hash=False)
     standard: str | None = field(
-        default=None, hash=False, kw_only=True, repr=False
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
     instructions: str | None = field(
-        default=None, hash=False, kw_only=True, repr=False
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
     na_option: bool = field(
-        default=False, hash=False, kw_only=True, repr=False
+        default=False,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
-    required: bool = field(
-        default=True, hash=False, kw_only=True, repr=False
-    )
+    required: bool = field(default=True, hash=False, kw_only=True, repr=False)
     questions: Mapping[str, Question] | None = field(
-        default=None, hash=False, kw_only=True, repr=False
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
 
     @property
@@ -123,7 +151,10 @@ class MentorshipChecklist(DomainObject):
     id: str = field()  # noqa: A003
     name: str = field(hash=False)
     sections: Mapping[str, Section] | None = field(
-        default=None, hash=False, kw_only=True, repr=False
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
     )
 
     @property

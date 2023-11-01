@@ -28,6 +28,7 @@ class _FacilityMapping(TypedDict):
 # CONSTANTS
 # =============================================================================
 
+
 _CONVERTER: Final[cattrs.Converter] = cattrs.Converter()
 
 
@@ -51,12 +52,12 @@ class FacilityJSONMetadataLoader(Loader[Iterable[Facility]]):
     def load(self) -> Iterable[Facility]:
         try:
             raw_metadata: Sequence[_FacilityMapping] = json.load(
-                fp=self._metadata_source
+                fp=self._metadata_source,
             )
         except json.JSONDecodeError as exc:
-            _err_msg: str = (
-                f"Error loading facilities from JSON metadata: '{exc!s}'"
-            )
+            _err_msg: (
+                str
+            ) = f"Error loading facilities from JSON metadata: '{exc!s}'"
             raise LoadError(message=_err_msg) from exc
         return _CONVERTER.structure(raw_metadata, Sequence[Facility])
 
@@ -68,12 +69,15 @@ class FacilityJSONMetadataLoader(Loader[Iterable[Facility]]):
     @classmethod
     def of_file_path(cls, metadata_file_path: str) -> Self:
         ensure_not_none(
-            metadata_file_path, "'metadata_file_path' MUST bot be None."
+            metadata_file_path,
+            "'metadata_file_path' MUST bot be None.",
         )
         try:
-            return cls.of(metadata_source=open(metadata_file_path))  # noqa: SIM115, E501
-        except OSError as exc:
-            _err_msg: str = (
-                f"Error while opening metadata source file: '{exc!s}'"
+            return cls.of(
+                metadata_source=open(metadata_file_path),
             )
+        except OSError as exc:
+            _err_msg: (
+                str
+            ) = f"Error while opening metadata source file: '{exc!s}'"
             raise LoadError(message=_err_msg) from exc

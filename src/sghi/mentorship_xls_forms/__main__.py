@@ -13,7 +13,9 @@ if TYPE_CHECKING:
 # TYPES
 # =============================================================================
 
+
 MetadataFormats = Literal["auto", "excel"]
+
 
 # =============================================================================
 # MAIN
@@ -38,7 +40,7 @@ MetadataFormats = Literal["auto", "excel"]
         file_okay=False,
         resolve_path=True,
         writable=True,
-    )
+    ),
 )
 @click.option(
     "--metadata-format",
@@ -54,7 +56,7 @@ MetadataFormats = Literal["auto", "excel"]
 )
 @click.version_option(
     package_name="mentorship-xls-forms",
-    message="%(version)s"
+    message="%(version)s",
 )
 @click.argument(
     "checklist_metadata",
@@ -65,7 +67,7 @@ MetadataFormats = Literal["auto", "excel"]
         file_okay=True,
         readable=True,
         resolve_path=True,
-    )
+    ),
 )
 @click.argument(
     "facility_metadata",
@@ -76,7 +78,7 @@ MetadataFormats = Literal["auto", "excel"]
         file_okay=True,
         readable=True,
         resolve_path=True,
-    )
+    ),
 )
 def main(
     checklist_metadata: str,

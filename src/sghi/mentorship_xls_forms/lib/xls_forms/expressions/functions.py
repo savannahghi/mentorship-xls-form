@@ -39,7 +39,6 @@ class FunctionExpr(Expr, metaclass=ABCMeta):
 
 @frozen
 class CountSelected(FunctionExpr, NumberExpr):
-
     multi_select_question: Expr = field(validator=validators.instance_of(Expr))
 
     def __eval__(self) -> XPathExpr:
@@ -49,7 +48,6 @@ class CountSelected(FunctionExpr, NumberExpr):
 
 @frozen
 class Select(FunctionExpr, BoolExpr):
-
     space_delimited_array: Expr = field(validator=validators.instance_of(Expr))
     string: TextExpr = field(validator=validators.instance_of(TextExpr))
 
@@ -71,7 +69,6 @@ select = Select
 
 @frozen
 class If(FunctionExpr):
-
     condition: BoolExpr = field(validator=validators.instance_of(BoolExpr))
     then: Expr = field(validator=validators.instance_of(Expr))
     else_: Expr = field(validator=validators.instance_of(Expr))
@@ -93,7 +90,6 @@ if_ = If
 
 @frozen(eq=False)
 class Abs(NumberExpr, FunctionExpr):
-
     value: NumberExpr = field(validator=validators.instance_of(NumberExpr))
 
     def __eval__(self) -> XPathExpr:
@@ -102,7 +98,6 @@ class Abs(NumberExpr, FunctionExpr):
 
 @frozen(eq=False)
 class Round(NumberExpr, FunctionExpr):
-
     number: NumberExpr = field(validator=validators.instance_of(NumberExpr))
     places: IntExpr = field(validator=validators.instance_of(IntExpr))
 
@@ -112,7 +107,6 @@ class Round(NumberExpr, FunctionExpr):
 
 @frozen(eq=False)
 class IntF(IntExpr, FunctionExpr):
-
     number: NumberExpr = field(validator=validators.instance_of(NumberExpr))
 
     def __eval__(self) -> XPathExpr:
@@ -121,7 +115,6 @@ class IntF(IntExpr, FunctionExpr):
 
 @frozen(eq=False)
 class NumberF(NumberExpr, FunctionExpr):
-
     expr: Expr = field(validator=validators.instance_of(Expr))
 
     def __eval__(self) -> XPathExpr:
@@ -130,7 +123,6 @@ class NumberF(NumberExpr, FunctionExpr):
 
 @frozen(eq=False)
 class Pow(NumberExpr, FunctionExpr):
-
     value: NumberExpr = field(validator=validators.instance_of(NumberExpr))
     power: NumberExpr = field(validator=validators.instance_of(NumberExpr))
 
@@ -156,7 +148,6 @@ pow_ = Pow
 
 @frozen(eq=False)
 class StringF(TextExpr, FunctionExpr):
-
     arg: Expr = field(validator=validators.instance_of(Expr))
 
     def __eval__(self) -> XPathExpr:
@@ -173,7 +164,6 @@ string = StringF
 
 @frozen(eq=False)
 class BooleanF(BoolExpr, FunctionExpr):
-
     arg: Expr = field(validator=validators.instance_of(Expr))
 
     def __eval__(self) -> XPathExpr:
@@ -182,7 +172,6 @@ class BooleanF(BoolExpr, FunctionExpr):
 
 @frozen(eq=False)
 class Coalesce(IntExpr, NumberExpr, TextExpr, BoolExpr, FunctionExpr):
-
     arg1: Expr = field(validator=validators.instance_of(Expr))
     arg2: Expr = field(validator=validators.instance_of(Expr))
 
@@ -192,7 +181,6 @@ class Coalesce(IntExpr, NumberExpr, TextExpr, BoolExpr, FunctionExpr):
 
 @frozen(eq=False)
 class Not(BoolExpr, FunctionExpr):
-
     arg: BoolExpr = field(validator=validators.instance_of(BoolExpr))
 
     def __eval__(self) -> XPathExpr:

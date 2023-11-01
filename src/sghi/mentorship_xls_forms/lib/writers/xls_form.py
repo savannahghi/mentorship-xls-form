@@ -4,6 +4,7 @@ from typing import Any, BinaryIO, Final, Self, TypeVar, cast
 import cattrs
 import pyexcel
 from attrs import AttrsInstance, define, field, fields
+from typing_extensions import override
 
 from sghi.disposable import not_disposed
 from sghi.mentorship_xls_forms.core import Writer
@@ -19,11 +20,14 @@ from sghi.utils import ensure_not_none
 # TYPES
 # =============================================================================
 
+
 _AT = TypeVar("_AT", bound=AttrsInstance)
+
 
 # =============================================================================
 # CONSTANT
 # =============================================================================
+
 
 _CHOICES_SHEET_NAME: Final[str] = "choices"
 
@@ -40,12 +44,14 @@ _SURVEY_SHEET_NAME: Final[str] = "survey"
 # HELPERS
 # =============================================================================
 
+
 def _setup_converter() -> None:
     # Convert all `None` values to an empty string.
     _CONVERTER.register_unstructure_hook(type(None), lambda _: "")
 
 
 _setup_converter()
+
 
 # =============================================================================
 # WRITER
@@ -54,13 +60,13 @@ _setup_converter()
 
 @define
 class XLSFormWriter(Writer[XLSForm]):
-
     _target_file: BinaryIO = field(eq=False, hash=False, repr=False)
 
     @property
     def is_disposed(self) -> bool:
         return self._target_file.closed
 
+    @override
     def dispose(self) -> None:
         self._target_file.close()
 
@@ -69,21 +75,21 @@ class XLSFormWriter(Writer[XLSForm]):
         ensure_not_none(data, "'data' MUST not be None.")
         workbook = {
             _SURVEY_SHEET_NAME: self._objects_to_xls(
-                XLSFormRecord, data.survey
+                XLSFormRecord,
+                data.survey,
             ),
             _CHOICES_SHEET_NAME: self._objects_to_xls(
-                XLSFormChoice, data.choices
+                XLSFormChoice,
+                data.choices,
             ),
             _SETTINGS_SHEET_NAME: self._objects_to_xls(
-                XLSFormSettings, (data.settings,)
+                XLSFormSettings,
+                (data.settings,),
             ),
         }
         stream: BinaryIO = cast(
             BinaryIO,
-            pyexcel.save_book_as(
-                bookdict=workbook,
-                dest_file_type="xlsx",
-            )
+            pyexcel.save_book_as(bookdict=workbook, dest_file_type="xlsx"),
         )
         self._target_file.write(stream.read())
 
@@ -95,11 +101,14 @@ class XLSFormWriter(Writer[XLSForm]):
     @classmethod
     def of_file_path(cls, write_file_path: str) -> Self:
         ensure_not_none(write_file_path, "'write_file_path' MUST not be None.")
-        return cls.of(target_file=open(file=write_file_path, mode="wb"))  # noqa: SIM115, E501
+        return cls.of(
+            target_file=open(file=write_file_path, mode="wb"),  # noqa: SIM115
+        )
 
     @staticmethod
     def _objects_to_xls(
-        object_klass: type[_AT], objects: Iterable[_AT]
+        object_klass: type[_AT],
+        objects: Iterable[_AT],
     ) -> Sequence[Sequence[Any]]:
         ensure_not_none(object_klass, "'object_klass' MUST not be None.")
         ensure_not_none(objects, "'objects' MUST not be None.")
