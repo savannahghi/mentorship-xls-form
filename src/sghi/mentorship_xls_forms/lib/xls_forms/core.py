@@ -14,8 +14,8 @@ XLSFormBoolean = Literal["yes", "no"]
 XLSFormElementType = Literal[
     "acknowledge",  # Acknowledge prompt that sets value to "OK" if selected.
     "audio",  # Take an audio recording or upload an audio file.
-    "background-audio",  # Audio is recorded in the background while filling the form.
-    "barcode",  # Scan a barcode, requires the barcode scanner app to be installed.
+    "background-audio",  # Audio is recorded in the background while filling the form.  # noqa: E501
+    "barcode",  # Scan a barcode, requires the barcode scanner app to be installed.  # noqa: E501
     "begin_group",  # Start a new group.
     "calculate",  # Perform a calculation; see the Calculation section below.
     "date",  # Date input.
@@ -26,16 +26,16 @@ XLSFormElementType = Literal[
     "geopoint",  # Collect a single GPS coordinate.
     "geoshape",  # Record a polygon of multiple GPS coordinates; the last point is the same as the first point.  # noqa: E501
     "geotrace",  # Record a line of two or more GPS coordinates.
-    "hidden",  # A field with no associated UI element which can be used to store a constant
+    "hidden",  # A field with no associated UI element which can be used to store a constant.  # noqa: E501
     "image",  # Take a picture or upload an image file.
     "integer",  # Integer (i.e., whole number) input.
     "note",  # Display a note on the screen, takes no input. Shorthand for type=text with readonly=true.  # noqa: E501
     "range",  # Range input (including rating)
     "rank [options]",  # Rank question; order a list.
-    "select_one [options]",  # Multiple choice question; only one answer can be selected.
-    "select_multiple [options]",  # Multiple choice question; multiple answers can be selected.
-    "select_one_from_file [file]",  # Multiple choice from file; only one answer can be selected.
-    "select_multiple_from_file [file]",  # Multiple choice from file; multiple answers can be selected.
+    "select_one [options]",  # Multiple choice question; only one answer can be selected.  # noqa: E501
+    "select_multiple [options]",  # Multiple choice question; multiple answers can be selected.  # noqa: E501
+    "select_one_from_file [file]",  # Multiple choice from file; only one answer can be selected.  # noqa: E501
+    "select_multiple_from_file [file]",  # Multiple choice from file; multiple answers can be selected.  # noqa: E501
     "text",  # Free text response.
     "time",  # Time input.
     "trigger",  # Ok?

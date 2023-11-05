@@ -38,7 +38,7 @@ from sghi.mentorship_xls_forms.lib.xls_forms.expressions import (
     var,
 )
 from sghi.mentorship_xls_forms.lib.xls_forms.expressions import brkt as _
-from sghi.utils import ensure_not_none
+from sghi.utils import ensure_not_none, ensure_predicate
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -231,9 +231,10 @@ def org_unit_name_as_list_name(org_unit_name: str) -> str:
 class ChecklistXLSFormSerializer(Serializer[MentorshipChecklist, XLSForm]):
     def serialize(self, item: MentorshipChecklist) -> XLSForm:
         ensure_not_none(item, "'item' MUST be a not None MentorshipChecklist.")
-        assert (
-            item.sections
-        ), f"checklist MUST have sections. {item.id} has no sections."
+        ensure_predicate(
+            bool(item.sections),
+            f"checklist MUST have sections. {item.id} has no sections.",
+        )
         choices: list[XLSFormChoice] = [*_DEFAULT_CHOICES]
         records: list[XLSFormRecord] = [*_COVER_SHEET_RECORDS]
         settings: XLSFormSettings = XLSFormSettings(
@@ -241,6 +242,7 @@ class ChecklistXLSFormSerializer(Serializer[MentorshipChecklist, XLSForm]):
             form_title=escape_markdown(item.name),
         )
 
+        assert item.sections  # Make Pyright happy!
         for section in item.sections.values():
             section_items: XLSFormItem
             section_items = SectionXLSFormSerializer.of().serialize(section)
@@ -269,7 +271,8 @@ class ChecklistXLSFormSerializer(Serializer[MentorshipChecklist, XLSForm]):
     @classmethod
     def of_new(cls) -> Self:
         """
-        Create and return a new instance of :class:`ChecklistXLSFormSerializer`.
+        Create and return a new instance of
+        :class:`ChecklistXLSFormSerializer`.
 
         :return: A new instance of ``ChecklistXLSFormSerializer``.
 
@@ -586,10 +589,13 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     @staticmethod
     def _serialize_multi_question(question: Question) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
-        assert question.sub_questions, (  # Sanity check
+        # Sanity Checks
+        ensure_not_none(
+            bool(question.sub_questions),
             f"'MULTI' question MUST have sub-questions. '{question.id}' has "
-            "no sub-question."
+            "no sub-question.",
         )
+        assert question.sub_questions
         choices: tuple[XLSFormChoice, ...] = tuple(
             XLSFormChoice(
                 label=escape_markdown(sub_question.label),
@@ -618,23 +624,28 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     def _serialize_perc_question(question: Question) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
         # Sanity Checks
-        assert question.sub_questions, (
-            f"'PERC' question MUST have sub-questions. '{question.id}' has "
-            "no sub-questions."
+        ensure_predicate(
+            bool(question.sub_questions),
+            f"'PERC' question MUST have sub-questions. '{question.id}' has no "
+            "sub-questions.",
         )
-        assert len(question.sub_questions) == 2, (
+        assert question.sub_questions  # Make pyright happy.
+        ensure_predicate(
+            len(question.sub_questions) == 2,
             "'PERC' question MUST have exactly 2 sub-questions. "
-            f"'{question.id}' has {len(question.sub_questions)} sub-questions."
+            f"'{question.id}' has {len(question.sub_questions)} "
+            "sub-questions.",
         )
         available_sq_types: frozenset[str]
         available_sq_types = _PERC_SUB_QUESTIONS_TYPES.difference(
             {_q.question_type for _q in question.sub_questions.values()},
         )
-        assert not available_sq_types, (
+        ensure_predicate(
+            not available_sq_types,
             "'PERC' question MUST have one sub-question of type 'DEN', and "
             "sub-question of type 'NUM'. The following sub-question types "
             f"'{','.join(available_sq_types)}' are missing for question "
-            f"'{question.id}'."
+            f"'{question.id}'.",
         )
 
         qs = QuestionXLSFormSerializer
@@ -707,10 +718,13 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     @staticmethod
     def _serialize_select_question(question: Question) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
-        assert question.options_set, (  # Sanity Check
+        # Sanity Checks
+        ensure_predicate(
+            bool(question.options_set),
             f"'SELECT' question MUST have options. '{question.id}' has no "
-            "options."
+            "options.",
         )
+        assert question.options_set  # Make Pyright happy
         choices: tuple[XLSFormChoice, ...] = tuple(
             XLSFormChoice(
                 label=escape_markdown(choice),
@@ -874,7 +888,7 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
         _qisr = _get_question_int_score_record_id
         return reduce(
             lambda _acc, _qst: _acc + number(var(_qisr(_qst))),
-            section.questions.values(),
+            section.questions.values() if section.questions else (),
             ZERO,
         )
 

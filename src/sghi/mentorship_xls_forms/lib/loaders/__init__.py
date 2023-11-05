@@ -37,8 +37,9 @@ def load_metadata(
     :param metadata_file_path: A path to the metadata containing file that is
         to be loaded. The file should be of the format specified on the
         ``metadata_format`` parameter. If ``auto`` is given, then the file
-        should be of one of the formats specified by :attr:`SupportedMetaFormats`
-        and have a file extension corresponding to the given format.
+        should be of one of the formats specified by
+        :attr:`SupportedMetaFormats` and have a file extension corresponding
+        to the given format.
     :param metadata_format: The format of the given metadata file or `auto`.
         The format should be one of the formats specified by
         the :attr:`SupportedMetaFormats`. ``auto`` indicates that the format

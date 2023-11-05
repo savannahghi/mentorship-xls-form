@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
 from functools import reduce
-from typing import TYPE_CHECKING, Any, Final, Literal, Protocol
+from typing import TYPE_CHECKING, Any, Final, Literal, Protocol, Self
 
 from antlr4 import (
     CommonTokenStream,
@@ -81,7 +81,7 @@ META_YES: Final[str_] = str_("yes")
 def _get_term_node_txt(terminal_node: TerminalNode | None) -> str:
     assert isinstance(terminal_node, TerminalNodeImpl)
     assert terminal_node.getText() is not None
-    return terminal_node.getText()
+    return terminal_node.getText()  # type: ignore
 
 
 def _meta_cee_score_to_xls_form(meta_cee_score: MetaCeeScore | str) -> str_:
@@ -119,7 +119,7 @@ def _scoring_logic_txt_to_expr(
     lexer = SGHI_XLSFormLexer(input=InputStream(data=scoring_logic_text))
     parser = SGHI_XLSFormParser(input=CommonTokenStream(lexer=lexer))
     parser.addErrorListener(XLSFormErrorListener(question_id=question_id))
-    scoring_logic_parser = ScoringLogicListener(question_id=question_id)
+    scoring_logic_parser = ScoringLogicListener.of(question_id=question_id)
     walker = ParseTreeWalker()
     walker.walk(scoring_logic_parser, parser.scoring_logic())
 
@@ -304,7 +304,7 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         )
         count: NumberExpr = num(meta_count)
 
-        self._conditional_expr = (
+        self._conditional_expr = (  # type: ignore
             count_selected(var(self._question_id)) == count
         )
         self._then_expr = cee_score
@@ -331,8 +331,12 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         self,
         ctx: SGHI_XLSFormParser.Range_expressionContext,
     ) -> None:
-        meta_lower_bound: float = float(_get_term_node_txt(ctx.DIGITS(0)))
-        meta_upper_bound: float = float(_get_term_node_txt(ctx.DIGITS(1)))
+        meta_lower_bound: float = float(
+            _get_term_node_txt(terminal_node=ctx.DIGITS(0)),  # type: ignore
+        )
+        meta_upper_bound: float = float(
+            _get_term_node_txt(terminal_node=ctx.DIGITS(1)),  # type: ignore
+        )
 
         lower_bound: NumberExpr = num(meta_lower_bound)
         upper_bound: NumberExpr = num(meta_upper_bound)
@@ -382,6 +386,10 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
             meta_cee_score=_get_term_node_txt(ctx.CEE_SCORE()),
         )
         self._then_expr = cee_score
+
+    @classmethod
+    def of(cls, question_id: str) -> Self:
+        return cls(question_id=question_id)  # type: ignore
 
 
 # =============================================================================
@@ -441,7 +449,7 @@ def parse_section_scoring_logic(section: Section) -> Expr | None:
     # so only top level questions are parsed for scoring logic rules.
     return reduce(
         lambda _acc, _qtn: parse_question_scoring_logic(_qtn, _acc) or _acc,
-        reversed(section.questions.values()),
+        reversed(section.questions.values()) if section.questions else (),
         None,
     )
 
