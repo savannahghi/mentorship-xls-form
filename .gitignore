@@ -304,5 +304,7 @@ dist/*
 .envs/*
 !.envs/.local/
 local.sh
+out/*
+!out/.gitkeep
 secrets/*
 cloud_sql_proxy
