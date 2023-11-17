@@ -38,7 +38,7 @@ class FunctionExpr(Expr, metaclass=ABCMeta):
 
 
 @frozen
-class CountSelected(FunctionExpr, NumberExpr):
+class CountSelected(NumberExpr, FunctionExpr):
     multi_select_question: Expr = field(validator=validators.instance_of(Expr))
 
     def __eval__(self) -> XPathExpr:
@@ -47,7 +47,7 @@ class CountSelected(FunctionExpr, NumberExpr):
 
 
 @frozen
-class Select(FunctionExpr, BoolExpr):
+class Select(BoolExpr, FunctionExpr):
     space_delimited_array: Expr = field(validator=validators.instance_of(Expr))
     string: TextExpr = field(validator=validators.instance_of(TextExpr))
 
@@ -177,6 +177,11 @@ class Coalesce(IntExpr, NumberExpr, TextExpr, BoolExpr, FunctionExpr):
 
     def __eval__(self) -> XPathExpr:
         return XPathExpr(f"coalesce({eval(self.arg1)}, {eval(self.arg2)})")
+
+    @classmethod
+    def of_expression(cls, expr: Expr) -> BoolExpr | NumberExpr:  # type: ignore
+        _err_msg: str = "This method is not supported for this class."
+        raise NotImplementedError(_err_msg)
 
 
 @frozen(eq=False)

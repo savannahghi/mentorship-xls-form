@@ -10,6 +10,7 @@ from sghi.mentorship_xls_forms.core import (
     Facility,
     MentorshipChecklist,
     Question,
+    QuestionType,
     Section,
     Serializer,
 )
@@ -147,7 +148,9 @@ _DEFAULT_CHOICES: Final[Sequence[XLSFormChoice]] = (
 
 _MAX_QUESTION_SCORE: Final[int] = 3
 
-_PERC_SUB_QUESTIONS_TYPES: Final[frozenset[str]] = frozenset({"DEN", "NUM"})
+_PERC_SUB_QUESTIONS_TYPES: Final[frozenset[QuestionType]] = frozenset({
+    QuestionType.DEN, QuestionType.NUM,
+})
 
 _GRAY_CEE_SCORE_EXPR: Final[str_] = str_("gray")
 
@@ -441,24 +444,24 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         ensure_not_none(item, "'item' MUST be a not None Question.")
 
         match item.question_type:
-            case "BOOL":
+            case QuestionType.BOOL:
                 return self._serialize_bool_question(question=item)
-            case "COUNT":
+            case QuestionType.COUNT:
                 return self._serialize_count_question(question=item)
-            case "MULTI":
+            case QuestionType.MULTI:
                 return self._serialize_multi_question(question=item)
-            case "PERC":
+            case QuestionType.PERC:
                 return self._serialize_perc_question(question=item)
-            case "RATE":
+            case QuestionType.RATE:
                 return self._serialize_rate_question(question=item)
-            case "SELECT":
+            case QuestionType.SELECT:
                 return self._serialize_select_question(question=item)
             # OTHER/GENERIC QUESTION TYPES
             # 1. Generic question type with sub-questions.
             case _ if item.sub_questions:
                 return self._serialize_generic_compound_question(question=item)
 
-            # 2. Generic question type with no sub-question
+            # 2. Generic question type with no sub-question.
         return self._serialize_generic_simple_question(question=item)
 
     @classmethod
@@ -651,13 +654,13 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         qs = QuestionXLSFormSerializer
         denominator: Question = next(
             filter(
-                lambda _q: _q.question_type == "DEN",
+                lambda _q: _q.question_type == QuestionType.DEN,
                 question.sub_questions.values(),
             ),
         )
         numerator: Question = next(
             filter(
-                lambda _q: _q.question_type == "NUM",
+                lambda _q: _q.question_type == QuestionType.NUM,
                 question.sub_questions.values(),
             ),
         )

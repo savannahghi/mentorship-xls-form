@@ -17,7 +17,9 @@ from attrs import define, field, frozen
 from attrs import validators as vlds
 
 from sghi.exceptions import SGHIError
+from sghi.mentorship_xls_forms.core import Question, QuestionType
 from sghi.mentorship_xls_forms.lib.xls_forms.expressions import (
+    ZERO,
     BoolExpr,
     Expr,
     NumberExpr,
@@ -29,18 +31,22 @@ from sghi.mentorship_xls_forms.lib.xls_forms.expressions import (
     str_,
     var,
 )
-from sghi.utils import ensure_not_none, ensure_not_none_nor_empty
+from sghi.utils import (
+    ensure_not_none,
+    ensure_not_none_nor_empty,
+    ensure_predicate,
+)
 
 from .generated.SGHI_XLSFormLexer import SGHI_XLSFormLexer
 from .generated.SGHI_XLSFormListener import SGHI_XLSFormListener
 from .generated.SGHI_XLSFormParser import SGHI_XLSFormParser
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
 
     from antlr4.Recognizer import Recognizer
 
-    from sghi.mentorship_xls_forms.core import Question, Section
+    from sghi.mentorship_xls_forms.core import Section
 
 # =============================================================================
 # TYPES
@@ -104,13 +110,10 @@ def _meta_cee_score_to_xls_form(meta_cee_score: MetaCeeScore | str) -> str_:
 
 
 def _scoring_logic_txt_to_expr(
-    question_id: str,
+    question: Question,
     scoring_logic_text: str,
 ) -> ListenerWalkResults:
-    ensure_not_none_nor_empty(
-        question_id,
-        "'question_id' MUST not be None or empty.",
-    )
+    ensure_not_none(question, "'question' MUST not be None or empty.")
     ensure_not_none_nor_empty(
         scoring_logic_text,
         "'scoring_logic_text' MUST not be None or empty.",
@@ -118,8 +121,8 @@ def _scoring_logic_txt_to_expr(
 
     lexer = SGHI_XLSFormLexer(input=InputStream(data=scoring_logic_text))
     parser = SGHI_XLSFormParser(input=CommonTokenStream(lexer=lexer))
-    parser.addErrorListener(XLSFormErrorListener(question_id=question_id))
-    scoring_logic_parser = ScoringLogicListener.of(question_id=question_id)
+    parser.addErrorListener(XLSFormErrorListener(question_id=question.id))
+    scoring_logic_parser = ScoringLogicListener.of(question=question)
     walker = ParseTreeWalker()
     walker.walk(scoring_logic_parser, parser.scoring_logic())
 
@@ -161,6 +164,10 @@ class ParseError(SGHIError):
     """Error while parsing expressions on XLSForm metadata."""
 
 
+class MetadataExpressionSyntaxError(ParseError):
+    """Error indicating a syntax error while parsing a metadata expression."""
+
+
 # =============================================================================
 # LISTENERS
 # =============================================================================
@@ -175,7 +182,7 @@ class Listener(metaclass=ABCMeta):
 
 @define
 class ScoringLogicListener(SGHI_XLSFormListener, Listener):
-    _question_id: str = field(validator=vlds.instance_of(str))
+    _question: Question = field(validator=vlds.instance_of(Question))
     _conditional_expr: BoolExpr | None = field(default=None, init=False)
     _then_expr: Expr | None = field(default=None, init=False)
     _expr_cache: list[BoolExpr] = field(factory=list, init=False)
@@ -219,7 +226,7 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         meta_cee_score: str_ = _meta_cee_score_to_xls_form(
             meta_cee_score=_get_term_node_txt(ctx.CEE_SCORE()),
         )
-        self._conditional_expr = ~select(var(self._question_id), meta_bool)
+        self._conditional_expr = ~select(var(self._question.id), meta_bool)
         self._then_expr = meta_cee_score
 
     def exitComparison_expression(
@@ -245,7 +252,7 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
                 case _:
                     err_msg: str = (
                         f"Unexpected operator '{meta_compound_operator}' "
-                        f"while parsing question '{self._question_id}'. "
+                        f"while parsing question '{self._question.id}'. "
                         "Expected one of 'and', 'or' operators."
                     )
                     raise ParseError(message=err_msg)
@@ -254,9 +261,9 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         else:
             digits: float = float(_get_term_node_txt(ctx.DIGITS()))
             left_operand: NumberExpr = (
-                number(var(self._question_id))
+                number(var(self._question.id))
                 if ctx.PERCENT() is not None
-                else count_selected(var(self._question_id))
+                else count_selected(var(self._question.id))
             )
             right_operand: NumberExpr = num(digits)
 
@@ -289,7 +296,7 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
                 case _:
                     err_msg: str = (
                         f"Unexpected operator '{meta_comparison_operator}' "
-                        f"while parsing question '{self._question_id}'. "
+                        f"while parsing question '{self._question.id}'. "
                         "Expected one of '<', '=<', '>' or '>=' operators."
                     )
                     raise ParseError(message=err_msg)
@@ -298,15 +305,24 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         self,
         ctx: SGHI_XLSFormParser.If_count_equals_scoreContext,
     ) -> None:
+        qt = QuestionType
+        self._ensure_question_is_of_type(qt.MULTI, qt.COUNT)
         meta_count: float = float(_get_term_node_txt(ctx.DIGITS()))
         cee_score: str_ = _meta_cee_score_to_xls_form(
             meta_cee_score=_get_term_node_txt(ctx.CEE_SCORE()),
         )
         count: NumberExpr = num(meta_count)
 
-        self._conditional_expr = (  # type: ignore
-            count_selected(var(self._question_id)) == count
-        )
+        match self._question.question_type:
+            case qt.MULTI:
+                self._conditional_expr = (  # pyright: ignore
+                    count_selected(var(self._question.id)) == count
+                )
+            case qt.COUNT:
+                self._conditional_expr = (
+                    number(var(self._question.id) ^ ZERO) == count
+                )
+
         self._then_expr = cee_score
 
     def exitIf_comparison_equals_score(
@@ -340,7 +356,7 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
 
         lower_bound: NumberExpr = num(meta_lower_bound)
         upper_bound: NumberExpr = num(meta_upper_bound)
-        question: NumberExpr = count_selected(var(self._question_id))
+        question: NumberExpr = count_selected(var(self._question.id))
 
         # Evaluate to something similar to:
         #   -> lower_bound <= question <= upper_bound
@@ -365,7 +381,7 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
             meta_option_index: int = int(_get_term_node_txt(ctx.DIGITS()))
             option_name: str_ = str_(
                 build_select_option_name(
-                    question_id=self._question_id,
+                    question_id=self._question.id,
                     option_index=meta_option_index,
                 ),
             )
@@ -373,9 +389,28 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
             if self._conditional_expr is not None:
                 self._expr_cache.append(self._conditional_expr)
             self._conditional_expr = select(
-                var(self._question_id),
+                var(self._question.id),
                 option_name,
             )
+
+    def _ensure_question_is_of_type(
+        self,
+        q_type: QuestionType,
+        *q_types: QuestionType,
+        message: str | None = None,
+        exc_factory: Callable[[str], ParseError] = ParseError,
+    ) -> None:
+        all_q_types: set[QuestionType] = {q_type, *q_types}
+        msg: str = (
+            message
+            or "Unexpected question types. Expected one "
+            f"of: '{', '.join(all_q_types)}'."
+        )
+        ensure_predicate(
+            test=self._question.question_type in all_q_types,
+            message=msg,
+            exc_factory=exc_factory,
+        )
 
     def _finalize_complex_expression(self, ctx: _HasCeeScore) -> None:
         assert self._conditional_expr, (
@@ -388,8 +423,8 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         self._then_expr = cee_score
 
     @classmethod
-    def of(cls, question_id: str) -> Self:
-        return cls(question_id=question_id)  # type: ignore
+    def of(cls, question: Question) -> Self:
+        return cls(question=question)  # type: ignore
 
 
 # =============================================================================
@@ -407,7 +442,7 @@ def parse_question_scoring_logic(
 
     scoring_rules: Sequence[str] = question.scoring_logic.split(sep=";")
     scoring_expressions: Sequence[ListenerWalkResults] = tuple(
-        _scoring_logic_txt_to_expr(question.id, rule) for rule in scoring_rules
+        _scoring_logic_txt_to_expr(question, rule) for rule in scoring_rules
     )
 
     # An assumption is made here that for every last question within a Section,

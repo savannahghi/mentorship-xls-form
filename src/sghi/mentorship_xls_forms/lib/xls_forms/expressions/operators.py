@@ -130,7 +130,7 @@ sub = Subtract.of
 
 
 @frozen
-class And(BiOperator[BoolExpr, BoolExpr], BoolExpr):
+class And(BoolExpr, BiOperator[BoolExpr, BoolExpr]):
     """`and` XLSForm operator."""
 
     operator: str = " and "
