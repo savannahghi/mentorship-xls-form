@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from abc import ABCMeta
+from enum import StrEnum
 from typing import TYPE_CHECKING, Literal
 
 from attrs import define, field
@@ -13,7 +14,8 @@ if TYPE_CHECKING:
 # TYPES
 # =============================================================================
 
-AnswerType = Literal[
+
+_AnswerType = Literal[
     "BOOLEAN",
     "FLOAT",
     "INTEGER_ZERO_OR_POSITIVE",
@@ -21,9 +23,9 @@ AnswerType = Literal[
 ]
 
 
-QuestionType = Literal[
+_QuestionType = Literal[
     "BOOL",
-    "CN",  # C1, C2, ..., CN
+    "CHOICE",
     "COUNT",
     "DEN",
     "MULTI",
@@ -33,6 +35,31 @@ QuestionType = Literal[
     "SELECT",
     "TEXT",
 ]
+
+
+# =============================================================================
+# CONSTANTS
+# =============================================================================
+
+
+class AnswerType(StrEnum):
+    BOOLEAN = "BOOLEAN"
+    FLOAT = "FLOAT"
+    INTEGER_ZERO_OR_POSITIVE = "INTEGER_ZERO_OR_POSITIVE"
+    STRING = "STRING"
+
+
+class QuestionType(StrEnum):
+    BOOL = "BOOL"
+    CHOICE = "CHOICE"
+    COUNT = "COUNT"
+    DEN = "DEN"
+    MULTI = "MULTI"
+    NUM = "NUM"
+    PERC = "PERC"
+    RATE = "RATE"
+    SELECT = "SELECT"
+    TEXT = "TEXT"
 
 
 # =============================================================================

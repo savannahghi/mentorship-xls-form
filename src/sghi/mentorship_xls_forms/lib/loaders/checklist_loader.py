@@ -81,15 +81,14 @@ _SectionPredicate = Callable[[Section], bool]
 # CONSTANTS
 # =============================================================================
 
-_PARENT_QUESTION_TYPES: Final[tuple] = (
-    "BOOL",
-    "COUNT",
-    "MULTI",
-    "INT",
-    "PERC",
-    "RATE",
-    "SELECT",
-    "TEXT",
+_PARENT_QUESTION_TYPES: Final[tuple[QuestionType, ...]] = (
+    QuestionType.BOOL,
+    QuestionType.COUNT,
+    QuestionType.MULTI,
+    QuestionType.PERC,
+    QuestionType.RATE,
+    QuestionType.SELECT,
+    QuestionType.TEXT,
 )
 
 CHECKLISTS_SHEET_NAME: Final[str] = "Mentorship Checklists"
@@ -274,7 +273,7 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
     def _link_questions(self) -> None:
         for question in self._questions:
             match question.question_type:
-                case "PERC":
+                case QuestionType.PERC:
                     sub_questions: Mapping[str, Question]
                     sub_questions = {
                         _sq.id: _sq
@@ -294,7 +293,7 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
                         f"sub-questions.",
                     )
                     question.sub_questions = sub_questions
-                case "MULTI":
+                case QuestionType.MULTI:
                     sub_questions: Mapping[str, Question]
                     sub_questions = {
                         _sq.id: _sq

@@ -133,29 +133,29 @@ class BoolExpr(Expr, metaclass=ABCMeta):
 
     __slots__ = ()
 
-    def __and__(self, other: BoolExpr) -> _Self:
+    def __and__(self, other: BoolExpr) -> BoolExpr:
         from .operators import and_
 
         return and_(self, other)
 
-    def __invert__(self) -> _Self:
+    def __invert__(self) -> BoolExpr:
         from .functions import not_
 
         return not_(self)
 
-    def __or__(self, other: BoolExpr) -> _Self:
+    def __or__(self, other: BoolExpr) -> BoolExpr:
         from .operators import or_
 
         return or_(self, other)
 
     @classmethod
-    def of_expression(cls, expr: Expr) -> _Self:
+    def of_expression(cls, expr: Expr) -> BoolExpr:
         from .functions import boolean
 
         return boolean(expr)
 
     @classmethod
-    def of_not(cls, expr: BoolExpr) -> _Self:
+    def of_not(cls, expr: BoolExpr) -> BoolExpr:
         from .functions import not_
 
         return not_(expr)
@@ -169,12 +169,12 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
 
     __slots__ = ()
 
-    def __abs__(self) -> _Self:
+    def __abs__(self) -> NumberExpr:
         from .functions import abs_
 
         return abs_(self)
 
-    def __add__(self, other: NumberExpr | float) -> _Self:
+    def __add__(self, other: NumberExpr | float) -> NumberExpr:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import add
@@ -226,14 +226,14 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
 
         return ne(self, python_number_to_xls_form_number(other))
 
-    def __mul__(self, other: NumberExpr | float) -> _Self:
+    def __mul__(self, other: NumberExpr | float) -> NumberExpr:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import mul
 
         return mul(self, python_number_to_xls_form_number(other))
 
-    def __pow__(self, power: NumberExpr | float) -> _Self:
+    def __pow__(self, power: NumberExpr | float) -> NumberExpr:
         if not isinstance(power, NumberExpr | int | float):
             return NotImplemented
         from .functions import pow_
@@ -241,28 +241,28 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
         return pow_(self, python_number_to_xls_form_number(power))
 
     @overload
-    def __round__(self, places: int = 2) -> _Self:
+    def __round__(self, places: int = 2) -> NumberExpr:
         ...
 
     @overload
-    def __round__(self, places: IntExpr | None = None) -> _Self:
+    def __round__(self, places: IntExpr | None = None) -> NumberExpr:
         ...
 
-    def __round__(self, places: int | IntExpr | None = None) -> _Self:
+    def __round__(self, places: int | IntExpr | None = None) -> NumberExpr:
         from .functions import round_
         from .literals import TWO, int_
 
         _places = int_(places) if isinstance(places, int) else places
         return round_(self, _places or TWO)
 
-    def __sub__(self, other: NumberExpr | float) -> _Self:
+    def __sub__(self, other: NumberExpr | float) -> NumberExpr:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import sub
 
         return sub(self, python_number_to_xls_form_number(other))
 
-    def __truediv__(self, other: NumberExpr | float) -> _Self:
+    def __truediv__(self, other: NumberExpr | float) -> NumberExpr:
         if not isinstance(other, NumberExpr | int | float):
             return NotImplemented
         from .operators import div
@@ -270,7 +270,7 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
         return div(self, python_number_to_xls_form_number(other))
 
     @classmethod
-    def of_expression(cls, expr: Expr) -> _Self:
+    def of_expression(cls, expr: Expr) -> NumberExpr:
         from .functions import number
 
         return number(expr)
@@ -289,7 +289,7 @@ class IntExpr(NumberExpr, metaclass=ABCMeta):
     """
 
     @classmethod
-    def of_number(cls, arg: NumberExpr) -> _Self:
+    def of_number(cls, arg: NumberExpr) -> IntExpr:
         from .functions import intf
 
         return intf(arg)
