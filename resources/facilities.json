@@ -2203,5 +2203,54 @@
     "county": "Kajiado",
     "sub_county": "Kajiado North",
     "ward": "Ngong"
+  },
+  {
+    "name": "Iltilal Health Centre",
+    "mfl_code": 14569,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Kuku"
+  },
+  {
+    "name": "Langata Enkima Dispensary",
+    "mfl_code": 15012,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Kuku"
+  },
+  {
+    "name": "Njukini Dispensary",
+    "mfl_code": 15359,
+    "county": "Kajiado",
+    "sub_county": "Loitokitok",
+    "ward": "Rombo"
+  },
+  {
+    "name": "Meto Dispensary",
+    "mfl_code": 15182,
+    "county": "Kajiado",
+    "sub_county": "Kajiado Central",
+    "ward": "Matapato South"
+  },
+  {
+    "name": "St. Crispin Afya Hospital",
+    "mfl_code": 28630,
+    "county": "Kajiado",
+    "sub_county": "Kajiado Central",
+    "ward": "Ildamat"
+  },
+  {
+    "name": "Mosiro Dispensary",
+    "mfl_code": 15226,
+    "county": "Kajiado",
+    "sub_county": "Kajiado West",
+    "ward": "Mosiro"
+  },
+  {
+    "name": "Matasia Health Centre",
+    "mfl_code": 22612,
+    "county": "Kajiado",
+    "sub_county": "Kajiado North",
+    "ward": "Olkeri"
   }
 ]
