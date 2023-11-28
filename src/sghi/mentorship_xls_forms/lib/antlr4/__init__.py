@@ -284,6 +284,19 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
             meta_comparison_operator: str = _get_term_node_txt(
                 next(filter(lambda _o: _o is not None, cmp_operators)),
             )
+
+            # ensure the expression is valid for PERC question type.
+            if self._question.question_type == QuestionType.PERC:
+                ensure_predicate(
+                    test=ctx.PERCENT() is not None,
+                    message=(
+                        "Syntax Error for scoring rules on question "
+                        f"'{self._question.id}'. Percentage literal missing. "
+                        f"Did you mean {meta_comparison_operator}{digits}%?."
+                    ),
+                    exc_factory=MetadataExpressionSyntaxError,
+                )
+
             match meta_comparison_operator:
                 case ">=" | "≥":
                     self._conditional_expr = left_operand >= right_operand
