@@ -148,9 +148,12 @@ _DEFAULT_CHOICES: Final[Sequence[XLSFormChoice]] = (
 
 _MAX_QUESTION_SCORE: Final[int] = 3
 
-_PERC_SUB_QUESTIONS_TYPES: Final[frozenset[QuestionType]] = frozenset({
-    QuestionType.DEN, QuestionType.NUM,
-})
+_PERC_SUB_QUESTIONS_TYPES: Final[frozenset[QuestionType]] = frozenset(
+    {
+        QuestionType.DEN,
+        QuestionType.NUM,
+    },
+)
 
 _GRAY_CEE_SCORE_EXPR: Final[str_] = str_("gray")
 
@@ -764,6 +767,12 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
                 label=escape_markdown(f"SEC #: {item.id} {item.title}"),
             ),
         ]
+
+        int_scr_rec_id: str = f"{item.id}_INT_SCORE"
+        max_scr_rec_id: str = f"{item.id}_MAX_SCORE"
+        na_optn_rec_id: str = f"{item.id}_NA"
+        per_scr_rec_id: str = f"{item.id}_PERCENTAGE_SCORE"
+
         if item.standard:
             records.append(
                 XLSFormRecord.of_note(
@@ -780,7 +789,7 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
                 ),
             )
         if item.na_option:
-            records.append(XLSFormRecord.of_trigger(name=f"{item.id}_NA"))
+            records.append(XLSFormRecord.of_trigger(name=na_optn_rec_id))
 
         # Serialize the section's top level questions.
         if item.questions:
@@ -789,9 +798,6 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
                 choices.extend(q_items.choices)
                 records.extend(q_items.records)
 
-        int_scr_rec_id: str = f"{item.id}_INT_SCORE"
-        max_scr_rec_id: str = f"{item.id}_MAX_SCORE"
-        per_scr_rec_id: str = f"{item.id}_PERCENTAGE_SCORE"
         per_scr_calc: NumberExpr = round(
             _(number(var(int_scr_rec_id)) / number(var(max_scr_rec_id))) * 100,
             2,
@@ -805,6 +811,14 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
                 else_=_GREEN_CEE_SCORE_EXPR,
             ),
         )
+        # Add an expression to handle not applicable sections.
+        # When ticked, the section should score Gray.
+        if item.na_option:
+            sec_scr_calc: Expr = if_(
+                string(var(na_optn_rec_id)) == str_("OK"),
+                then=_GRAY_CEE_SCORE_EXPR,
+                else_=sec_scr_calc,
+            )
 
         records.extend(
             (
