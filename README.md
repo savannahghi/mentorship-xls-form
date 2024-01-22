@@ -22,3 +22,6 @@ mentorship-xls-forms "resources/Mentorship Checklist Metadata v1.0.0.xlsx" resou
 ```
 
 The generated XLSForms can be found on the `out` directory.
+
+### Resources
+- [Mentorship checklist xls form](https://docs.google.com/spreadsheets/d/1XO5I3luBXpFBDxsXDJCsVVnN3ak9jyAXfswTeE1PSD0/edit#gid=0)
