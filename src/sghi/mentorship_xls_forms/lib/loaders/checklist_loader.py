@@ -315,13 +315,16 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
         for section in self._sections:
             sub_questions: Mapping[str, Question]
             sub_questions = {
-                _sq.id: _sq
-                for _sq in self._select_questions(
-                    lambda _q: (
-                        _q.id.startswith(f"{section.id}_")  # noqa: B023
-                        and _q.question_type in _PARENT_QUESTION_TYPES
+                _sq.id: self._add_question_numbering(_sq, number)
+                for number, _sq in enumerate(
+                    iterable=self._select_questions(
+                        lambda _q: (
+                            _q.id.startswith(f"{section.id}_")  # noqa: B023
+                            and _q.question_type in _PARENT_QUESTION_TYPES
+                        ),
+                        questions=self._questions,
                     ),
-                    questions=self._questions,
+                    start=1,
                 )
             }
             _ensure_valid_metadata(
@@ -438,3 +441,13 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
                 section_mapping["Required?"],
             ),
         )
+
+    # -------------------------------------------------------------------------
+    # OTHER HELPERS
+    # -------------------------------------------------------------------------
+    @staticmethod
+    def _add_question_numbering(question: Question, number: int) -> Question:
+        ensure_not_none(question)
+        ensure_not_none(number)
+        question.display_numbering = number
+        return question
