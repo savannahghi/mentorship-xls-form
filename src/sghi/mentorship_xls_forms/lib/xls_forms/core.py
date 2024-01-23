@@ -130,12 +130,14 @@ class XLSFormRecord:
         label: str | None,
         name: str | None = None,
         calculation: str | None = None,
+        hint: str | None = None,
     ) -> Self:
         return cls(
             type="note",
             label=label,
             name=name,
             calculation=calculation,
+            hint=hint,
         )
 
     @classmethod
@@ -258,7 +260,7 @@ class XLSFormSettings:
     )
     instance_name: str | None = field(default=None, kw_only=True, repr=False)
     style: str | None = field(default="pages", kw_only=True, repr=False)
-    version: str | None = field(default="1.1.0", kw_only=True)
+    version: str | None = field(default="1.4.0", kw_only=True)
 
 
 @define

@@ -695,6 +695,11 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                 ),
                 name=question.id,
             ),
+            XLSFormRecord.of_note(
+                label=None,
+                hint=f"_**Result:** {eval(var(question.id))}%_",
+                name=f"{question.id}_PERC_CALC_DISPLAY",
+            ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
             XLSFormRecord.end_group(),
