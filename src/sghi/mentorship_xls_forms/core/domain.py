@@ -128,6 +128,12 @@ class Question(DomainObject):
         kw_only=True,
         repr=False,
     )
+    display_numbering: int | None = field(
+        default=None,
+        hash=False,
+        kw_only=True,
+        repr=False,
+    )
 
     @property
     def has_sub_questions(self) -> bool:

@@ -496,6 +496,15 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         return cls()
 
     @staticmethod
+    def _create_question_label(question: Question) -> str:
+        ensure_not_none(question)
+        question_label: str = escape_markdown(question.label)
+        # Add display numbering when present.
+        if question.display_numbering is not None:
+            question_label = f"{question.display_numbering}. {question_label}"
+        return question_label
+
+    @staticmethod
     def _get_perc_question_calculation(num_id: str, den_id: str) -> XPathExpr:
         ensure_not_none(num_id, "'num_id' MUST not be None.")
         ensure_not_none(den_id, "'den_id' MUST not be None.")
@@ -509,6 +518,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     @staticmethod
     def _serialize_bool_question(question: Question) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
+        self = QuestionXLSFormSerializer
         records: tuple[XLSFormRecord, ...] = (
             XLSFormRecord.of_select_one(
                 list_name=_YES_NO_CHOICE_LIST_NAME,
@@ -517,7 +527,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                     if question.prompt
                     else None
                 ),
-                label=escape_markdown(question.label),
+                label=self._create_question_label(question),
                 name=question.id,
             ),
             _create_question_score_record(question),
@@ -529,6 +539,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     @staticmethod
     def _serialize_count_question(question: Question) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
+        self = QuestionXLSFormSerializer
         records: tuple[XLSFormRecord, ...] = (
             XLSFormRecord.of_positive_integer(
                 hint=(
@@ -536,7 +547,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                     if question.prompt
                     else None
                 ),
-                label=escape_markdown(question.label),
+                label=self._create_question_label(question),
                 name=question.id,
             ),
             _create_question_score_record(question),
@@ -550,6 +561,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         question: Question,
     ) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
+        self = QuestionXLSFormSerializer
         choices: list[XLSFormChoice] = []
         records: list[XLSFormRecord] = []
 
@@ -557,7 +569,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         # sub-questions to the group.
         records.append(
             XLSFormRecord.begin_group(
-                label=escape_markdown(question.label),
+                label=self._create_question_label(question),
                 name=question.id,
             ),
         )
@@ -575,6 +587,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     @staticmethod
     def _serialize_generic_simple_question(question: Question) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
+        self = QuestionXLSFormSerializer
         records: tuple[XLSFormRecord, ...] = (
             XLSFormRecord(
                 type="text",
@@ -583,7 +596,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                     if question.prompt
                     else None
                 ),
-                label=question.label,
+                label=self._create_question_label(question),
                 name=question.id,
             ),
             _create_question_score_record(question),
@@ -602,6 +615,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             "no sub-question.",
         )
         assert question.sub_questions
+        self = QuestionXLSFormSerializer
         choices: tuple[XLSFormChoice, ...] = tuple(
             XLSFormChoice(
                 label=escape_markdown(sub_question.label),
@@ -618,7 +632,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                     if question.prompt
                     else None
                 ),
-                label=escape_markdown(question.label),
+                label=self._create_question_label(question),
                 name=question.id,
             ),
             _create_question_score_record(question),
@@ -642,6 +656,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             f"'{question.id}' has {len(question.sub_questions)} "
             "sub-questions.",
         )
+        self = QuestionXLSFormSerializer
         available_sq_types: frozenset[str]
         available_sq_types = _PERC_SUB_QUESTIONS_TYPES.difference(
             {_q.question_type for _q in question.sub_questions.values()},
@@ -654,7 +669,6 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             f"'{question.id}'.",
         )
 
-        qs = QuestionXLSFormSerializer
         denominator: Question = next(
             filter(
                 lambda _q: _q.question_type == QuestionType.DEN,
@@ -676,7 +690,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                     if question.prompt
                     else None
                 ),
-                label=escape_markdown(question.label),
+                label=self._create_question_label(question),
                 name=f"{question.id}_PERC_GRP",
             ),
             XLSFormRecord.of_positive_integer(
@@ -689,7 +703,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             ),
             XLSFormRecord(
                 type="calculate",
-                calculation=qs._get_perc_question_calculation(
+                calculation=self._get_perc_question_calculation(
                     num_id=numerator.id,
                     den_id=denominator.id,
                 ),
@@ -709,6 +723,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     @staticmethod
     def _serialize_rate_question(question: Question) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
+        self = QuestionXLSFormSerializer
         records: tuple[XLSFormRecord, ...] = (
             XLSFormRecord(
                 type="decimal",
@@ -717,7 +732,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                     if question.prompt
                     else None
                 ),
-                label=question.label,
+                label=self._create_question_label(question),
                 name=question.id,
             ),
             _create_question_score_record(question),
@@ -736,6 +751,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             "options.",
         )
         assert question.options_set  # Make Pyright happy
+        self = QuestionXLSFormSerializer
         choices: tuple[XLSFormChoice, ...] = tuple(
             XLSFormChoice(
                 label=escape_markdown(choice),
@@ -752,7 +768,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                     if question.prompt
                     else None
                 ),
-                label=escape_markdown(question.label),
+                label=self._create_question_label(question),
                 name=question.id,
             ),
             _create_question_score_record(question),
