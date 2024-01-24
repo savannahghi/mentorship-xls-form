@@ -22,9 +22,12 @@ from sghi.mentorship_xls_forms.lib.xls_forms.expressions import (
     ZERO,
     BoolExpr,
     Expr,
+    IntExpr,
     NumberExpr,
     count_selected,
     if_,
+    int_,
+    intf,
     num,
     number,
     select,
@@ -77,6 +80,8 @@ CEE_SCORE_YELLOW: Final[str_] = str_("yellow")
 META_NO: Final[str_] = str_("no")
 
 META_YES: Final[str_] = str_("yes")
+
+QT = QuestionType
 
 
 # =============================================================================
@@ -202,6 +207,61 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
             then_expr=self._then_expr,
         )
 
+    def enterIf_bool_literal_equals_score(
+        self,
+        ctx: SGHI_XLSFormParser.If_bool_literal_equals_scoreContext,
+    ) -> None:
+        self._ensure_question_is_of_type(QT.BOOL)
+
+    def enterComparison_expression(
+        self,
+        ctx: SGHI_XLSFormParser.Comparison_expressionContext,
+    ) -> None:
+        if self._conditional_expr is not None and self._expr_cache:
+            # If True, the parser is currently visiting a comparison operator.
+            # As such, there's nothing to do here, continue the visit to the
+            # next element.
+            return
+
+        if ctx.PERCENT() is not None:
+            self._ensure_question_is_of_type(
+                QT.PERC,
+                message=f"The '%' sign is only applicable to '{QT.PERC}' "
+                f"questions. Question '{self._question.id}' is of type "
+                f"'{self._question.question_type}'.",
+                exc_factory=MetadataExpressionSyntaxError,
+            )
+
+    def enterIf_count_equals_score(
+        self,
+        ctx: SGHI_XLSFormParser.If_count_equals_scoreContext,
+    ) -> None:
+        self._ensure_question_is_of_type(QT.MULTI, QT.COUNT)
+
+    def enterIf_range_equals_score(
+        self,
+        ctx: SGHI_XLSFormParser.If_range_equals_scoreContext,
+    ) -> None:
+        self._ensure_question_is_of_type(QT.MULTI)
+
+    def enterIf_selection_equals_score(
+        self,
+        ctx: SGHI_XLSFormParser.If_selection_equals_scoreContext,
+    ) -> None:
+        self._ensure_question_is_of_type(QT.SELECT)
+
+    def enterRange_expression(
+        self,
+        ctx: SGHI_XLSFormParser.Range_expressionContext,
+    ) -> None:
+        self._ensure_question_is_of_type(QT.MULTI)
+
+    def enterSelection_expression(
+        self,
+        ctx: SGHI_XLSFormParser.Selection_expressionContext,
+    ) -> None:
+        self._ensure_question_is_of_type(QT.SELECT)
+
     def exitIf_bool_literal_equals_score(
         self,
         ctx: SGHI_XLSFormParser.If_bool_literal_equals_scoreContext,
@@ -260,12 +320,19 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
             self._expr_cache.pop()
         else:
             digits: float = float(_get_term_node_txt(ctx.DIGITS()))
+            question_expr: Expr = var(self._question.id)
             left_operand: NumberExpr = (
-                number(var(self._question.id))
-                if ctx.PERCENT() is not None
-                else count_selected(var(self._question.id))
+                count_selected(question_expr)
+                if self._question.question_type == QT.MULTI
+                else intf(number(question_expr))
+                if self._question.question_type == QT.COUNT
+                else number(question_expr)
             )
-            right_operand: NumberExpr = num(digits)
+            right_operand: NumberExpr = (
+                intf(num(digits))
+                if self._question.question_type in (QT.COUNT, QT.MULTI)
+                else num(digits)
+            )
 
             # If `self._conditional_expr` already has a value, move it to the
             # cache. The assumption is that if there exists more than one
@@ -318,8 +385,6 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         self,
         ctx: SGHI_XLSFormParser.If_count_equals_scoreContext,
     ) -> None:
-        qt = QuestionType
-        self._ensure_question_is_of_type(qt.MULTI, qt.COUNT)
         meta_count: float = float(_get_term_node_txt(ctx.DIGITS()))
         cee_score: str_ = _meta_cee_score_to_xls_form(
             meta_cee_score=_get_term_node_txt(ctx.CEE_SCORE()),
@@ -327,11 +392,11 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         count: NumberExpr = num(meta_count)
 
         match self._question.question_type:
-            case qt.MULTI:
+            case QT.MULTI:
                 self._conditional_expr = (  # pyright: ignore
                     count_selected(var(self._question.id)) == count
                 )
-            case qt.COUNT:
+            case QT.COUNT:
                 self._conditional_expr = (
                     number(var(self._question.id) ^ ZERO) == count
                 )
@@ -360,16 +425,16 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         self,
         ctx: SGHI_XLSFormParser.Range_expressionContext,
     ) -> None:
-        meta_lower_bound: float = float(
+        meta_lower_bound: int = int(
             _get_term_node_txt(terminal_node=ctx.DIGITS(0)),  # type: ignore
         )
-        meta_upper_bound: float = float(
+        meta_upper_bound: int = int(
             _get_term_node_txt(terminal_node=ctx.DIGITS(1)),  # type: ignore
         )
 
-        lower_bound: NumberExpr = num(meta_lower_bound)
-        upper_bound: NumberExpr = num(meta_upper_bound)
-        question: NumberExpr = count_selected(var(self._question.id))
+        lower_bound: IntExpr = int_(meta_lower_bound)
+        upper_bound: IntExpr = int_(meta_upper_bound)
+        question: IntExpr = count_selected(var(self._question.id))
 
         # Evaluate to something similar to:
         #   -> lower_bound <= question <= upper_bound
@@ -416,8 +481,8 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         all_q_types: set[QuestionType] = {q_type, *q_types}
         msg: str = (
             message
-            or "Unexpected question types. Expected one "
-            f"of: '{', '.join(all_q_types)}'."
+            or f"Unexpected question type for question '{self._question.id}'. "
+            f"Expected one of: '{', '.join(all_q_types)}'."
         )
         ensure_predicate(
             test=self._question.question_type in all_q_types,

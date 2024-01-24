@@ -38,7 +38,7 @@ class FunctionExpr(Expr, metaclass=ABCMeta):
 
 
 @frozen
-class CountSelected(NumberExpr, FunctionExpr):
+class CountSelected(IntExpr, FunctionExpr):
     multi_select_question: Expr = field(validator=validators.instance_of(Expr))
 
     def __eval__(self) -> XPathExpr:
@@ -110,7 +110,7 @@ class IntF(IntExpr, FunctionExpr):
     number: NumberExpr = field(validator=validators.instance_of(NumberExpr))
 
     def __eval__(self) -> XPathExpr:
-        return XPathExpr(f"int({self.number})")
+        return XPathExpr(f"int({eval(self.number)})")
 
 
 @frozen(eq=False)
