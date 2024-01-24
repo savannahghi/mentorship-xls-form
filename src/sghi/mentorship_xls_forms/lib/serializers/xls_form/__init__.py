@@ -190,6 +190,18 @@ def _create_question_int_score_record(question: Question) -> XLSFormRecord:
     )
 
 
+def _create_question_max_score_record(question: Question) -> XLSFormRecord:
+    ensure_not_none(question, "'question' MUST not be None.")
+
+    max_score: str = "0" if question.scoring_logic is None else "3"
+    return XLSFormRecord(
+        type="calculate",
+        calculation=max_score,
+        default="0",
+        name=_get_question_max_score_record_id(question),
+    )
+
+
 def _create_question_score_record(question: Question) -> XLSFormRecord:
     ensure_not_none(question, "'question' MUST not be None.")
 
@@ -205,6 +217,11 @@ def _create_question_score_record(question: Question) -> XLSFormRecord:
 def _get_question_int_score_record_id(question: Question) -> str:
     ensure_not_none(question, "'question' MUST not be None.")
     return f"{question.id}_INT_SCORE"
+
+
+def _get_question_max_score_record_id(question: Question) -> str:
+    ensure_not_none(question, "'question' MUST not be None.")
+    return f"{question.id}_MAX_SCORE"
 
 
 def _get_question_score_record_id(question: Question) -> str:
@@ -532,6 +549,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
+            _create_question_max_score_record(question),
         )
 
         return XLSFormItem.of_records(records=records)
@@ -552,6 +570,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
+            _create_question_max_score_record(question),
         )
 
         return XLSFormItem.of_records(records=records)
@@ -580,6 +599,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         # Add score for the question
         records.append(_create_question_score_record(question))
         records.append(_create_question_int_score_record(question))
+        records.append(_create_question_max_score_record(question))
         # Close the group
         records.append(XLSFormRecord.end_group())
         return XLSFormItem(records=records, choices=choices)
@@ -601,6 +621,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
+            _create_question_max_score_record(question),
         )
 
         return XLSFormItem.of_records(records=records)
@@ -637,6 +658,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
+            _create_question_max_score_record(question),
         )
         return XLSFormItem(records=records, choices=choices)
 
@@ -716,6 +738,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
+            _create_question_max_score_record(question),
             XLSFormRecord.end_group(),
         )
         return XLSFormItem.of_records(records=records)
@@ -737,6 +760,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
+            _create_question_max_score_record(question),
         )
 
         return XLSFormItem.of_records(records=records)
@@ -773,6 +797,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
+            _create_question_max_score_record(question),
         )
         return XLSFormItem(records=records, choices=choices)
 
@@ -860,12 +885,11 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
                     name=int_scr_rec_id,
                 ),
                 XLSFormRecord(
-                    type="hidden",
-                    default=str(
-                        len(item.questions) * _MAX_QUESTION_SCORE
-                        if item.questions
-                        else 1,
+                    type="calculate",
+                    calculation=eval(
+                        self._get_section_max_score_calculation(section=item),
                     ),
+                    default="1",
                     name=max_scr_rec_id,
                 ),
                 XLSFormRecord(
@@ -926,6 +950,18 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
         _qisr = _get_question_int_score_record_id
         return reduce(
             lambda _acc, _qst: _acc + number(var(_qisr(_qst))),
+            section.questions.values() if section.questions else (),
+            ZERO,
+        )
+
+    @staticmethod
+    def _get_section_max_score_calculation(section: Section) -> Expr:
+        ensure_not_none(section, "'section' MUST not be None.")
+        _acc: NumberExpr
+        _qst: Question
+        _qmsr = _get_question_max_score_record_id
+        return reduce(
+            lambda _acc, _qst: _acc + number(var(_qmsr(_qst))),
             section.questions.values() if section.questions else (),
             ZERO,
         )
