@@ -41,8 +41,10 @@ from .functions import (
     string,
 )
 from .literals import (
+    FALSE,
     ONE,
     THREE,
+    TRUE,
     TWO,
     ZERO,
     Boolean,
@@ -57,8 +59,10 @@ from .literals import (
 )
 
 __all__ = [
+    "FALSE",
     "ONE",
     "THREE",
+    "TRUE",
     "TWO",
     "ZERO",
     "Abs",

@@ -32,7 +32,7 @@ class LiteralValue(Expr, Generic[_T]):
 @frozen(eq=False)
 class Boolean(BoolExpr, LiteralValue[bool]):
     def __eval__(self) -> XPathExpr:
-        return XPathExpr(f'{"yes" if self.value else "no"}')
+        return XPathExpr(f'{"true()" if self.value else "false()"}')
 
 
 @frozen(eq=False)

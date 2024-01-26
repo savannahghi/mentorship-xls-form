@@ -24,10 +24,13 @@ from sghi.mentorship_xls_forms.lib.xls_forms import (
     XLSFormSettings,
 )
 from sghi.mentorship_xls_forms.lib.xls_forms.expressions import (
+    FALSE,
     ONE,
     THREE,
+    TRUE,
     TWO,
     ZERO,
+    BoolExpr,
     Expr,
     NumberExpr,
     TextExpr,
@@ -642,9 +645,56 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     def _get_question_relevance_calculation(question: Question) -> XPathExpr:
         ensure_not_none(question)
 
-        relevant_expr: Expr = (
-            string(var(_get_question_relevance_record_id(question)))
-            == _YesNoCL.YES.expr
+        # THIS IS A HACK TO ENSURE APPLICABLE QUESTIONS ARE SHOWN ON COLLECT!!!
+        # ---------------------------------------------------------------------
+        #
+        # Ideally, this should be a simple boolean expression, i.e.:
+        #
+        #      string(var(_get_question_relevance_record_id(question))) == _YesNoCL.YES.expr  # noqa: ERA001, E501
+        #
+        # Unfortunately, on Collect(both ODK and Kobo), this doesn't work.
+        # This is because, in Collect, all values and expressions for
+        # non-relevant questions are treated as blank. Here are more details
+        # regarding this issue:
+        # https://forum.getodk.org/t/enketo-uses-non-relevant-values-in-calculations-whereas-collect-does-not/35567
+        # Specifically, see this comment:
+        # https://forum.getodk.org/t/enketo-uses-non-relevant-values-in-calculations-whereas-collect-does-not/35567/9#
+        # This is a Collect-only issue and does not occur in Enketo.
+        #
+        # To understand how this affects this tool, you need to know the
+        # following:
+        #
+        # 1. Each "primary" question has an associated "relevance" question.
+        # 2. Each "relevance" question accepts a yes/no answer(default "yes")
+        #    that determines whether its associated primary question should be
+        #    displayed. When the answer is yes, the associated primary question
+        #    will be shown.
+        # 3. Each applicable question has its associated relevance question
+        #    hidden (relevant set to false) since we know its answer will
+        #    always be yes.
+        #
+        # Taking all the above into account, when a simple boolean expression,
+        # as shown above, is used, the result is that all applicable questions
+        # are not shown in Collect. To fix this, we apply a short-circuiting if
+        # expression that avoids reading the value of the "relevance" question
+        # for applicable questions by always evaluating to true. This is
+        # possible because all applicable questions are known beforehand at
+        # form generation time.
+        #
+        # Another solution might be to remove "relevance" questions for
+        # applicable questions. However, this might have the downside of
+        # littering the code with dozens of "if, else" statements and
+        # complicating the scoring calculations. In the future, this approach
+        # may be considered. However, as of now, it's not clear whether this
+        # is a good idea.
+        short_circuit_value: BoolExpr = FALSE if question.na_option else TRUE
+        relevant_expr: Expr = if_(
+            short_circuit_value,
+            then=TRUE,
+            else_=(
+                string(var(_get_question_relevance_record_id(question)))
+                == _YesNoCL.YES.expr
+            ),
         )
         return eval(relevant_expr)
 
