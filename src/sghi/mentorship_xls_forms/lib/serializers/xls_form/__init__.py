@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from enum import UNIQUE, Enum, verify
 from functools import cache, reduce
-from typing import TYPE_CHECKING, Final, Self
+from typing import TYPE_CHECKING, Final, Self, assert_never
 
 from attrs import frozen
 
@@ -49,9 +50,81 @@ if TYPE_CHECKING:
 # =============================================================================
 
 
-_CEE_SCORE_CHOICE_LIST_NAME: Final[str] = "cee_score"
+@verify(UNIQUE)
+class _CeeScoreCL(Enum):
+    """CEE Score Choice List"""
 
-_YES_NO_CHOICE_LIST_NAME: Final[str] = "yes_no"
+    GRAY = "gray", "Gray", str_("gray")
+    GREEN = "green", "Green", str_("green")
+    RED = "red", "Red", str_("red")
+    YELLOW = "yellow", "Yellow", str_("yellow")
+
+    @property
+    def choice_label(self) -> str:
+        """The text of this choice to displayed to the user.
+
+        :returns: The text of this choice to display to the user.
+        """
+        return self.value[1]
+
+    @property
+    def choice_name(self) -> str:
+        """The unique variable name of this answer/choice.
+
+        :returns: The unique variable name of this answer/choice.
+        """
+        return self.value[0]
+
+    @property
+    def expr(self) -> TextExpr:
+        """
+        The :class:`XLSForm expression <TextExpr>` equivalent of this choice.
+
+        :returns: The XLSForm expression equivalent of this choice.
+        """
+        return self.value[2]
+
+    @classmethod
+    def list_name(cls) -> str:
+        return "cee_score"
+
+
+@verify(UNIQUE)
+class _YesNoCL(Enum):
+    """YES/NO Answers Choice List."""
+
+    NO = "no", "No", str_("no")
+    YES = "yes", "Yes", str_("yes")
+
+    @property
+    def choice_label(self) -> str:
+        """The text of this choice to displayed to the user.
+
+        :returns: The text of this choice to display to the user.
+        """
+        return self.value[1]
+
+    @property
+    def choice_name(self) -> str:
+        """The unique variable name of this answer/choice.
+
+        :returns: The unique variable name of this answer/choice.
+        """
+        return self.value[0]
+
+    @property
+    def expr(self) -> TextExpr:
+        """
+        The :class:`XLSForm expression <TextExpr>` equivalent of this choice.
+
+        :returns: The XLSForm expression equivalent of this choice.
+        """
+        return self.value[2]
+
+    @classmethod
+    def list_name(cls) -> str:
+        return "yes_no"
+
 
 _COVER_SHEET_RECORDS: Final[Sequence[XLSFormRecord]] = (
     XLSFormRecord.begin_field_list(
@@ -113,40 +186,40 @@ _COVER_SHEET_RECORDS: Final[Sequence[XLSFormRecord]] = (
     XLSFormRecord.end_group(),
 )
 
+
 _DEFAULT_CHOICES: Final[Sequence[XLSFormChoice]] = (
     XLSFormChoice(
-        label='<span style="color:gray">Gray</span>',
-        list_name=_CEE_SCORE_CHOICE_LIST_NAME,
-        name="gray",
+        label=f'<span style="color:gray">{_CeeScoreCL.GRAY.choice_label}</span>',  # noqa: E501
+        list_name=_CeeScoreCL.list_name(),
+        name=_CeeScoreCL.GRAY.choice_name,
     ),
     XLSFormChoice(
-        label='<span style="color:green">Green</span>',
-        list_name=_CEE_SCORE_CHOICE_LIST_NAME,
-        name="green",
+        label=f'<span style="color:green">{_CeeScoreCL.GREEN.choice_label}</span>',  # noqa: E501
+        list_name=_CeeScoreCL.list_name(),
+        name=_CeeScoreCL.GREEN.choice_name,
     ),
     XLSFormChoice(
-        label='<span style="color:red">Red</span>',
-        list_name=_CEE_SCORE_CHOICE_LIST_NAME,
-        name="red",
+        label=f'<span style="color:red">{_CeeScoreCL.RED.choice_label}</span>',
+        list_name=_CeeScoreCL.list_name(),
+        name=_CeeScoreCL.RED.choice_name,
     ),
     XLSFormChoice(
-        label='<span style="color:yellow">Yellow</span>',
-        list_name=_CEE_SCORE_CHOICE_LIST_NAME,
-        name="yellow",
+        label=f'<span style="color:yellow">{_CeeScoreCL.YELLOW.choice_label}</span>',  # noqa: E501
+        list_name=_CeeScoreCL.list_name(),
+        name=_CeeScoreCL.YELLOW.choice_name,
     ),
     XLSFormChoice(
-        label="Yes",
-        list_name=_YES_NO_CHOICE_LIST_NAME,
-        name="yes",
+        label=_YesNoCL.YES.choice_label,
+        list_name=_YesNoCL.list_name(),
+        name=_YesNoCL.YES.choice_name,
     ),
     XLSFormChoice(
-        label="No",
-        list_name=_YES_NO_CHOICE_LIST_NAME,
-        name="no",
+        label=_YesNoCL.NO.choice_label,
+        list_name=_YesNoCL.list_name(),
+        name=_YesNoCL.NO.choice_name,
     ),
 )
 
-_MAX_QUESTION_SCORE: Final[int] = 3
 
 _PERC_SUB_QUESTIONS_TYPES: Final[frozenset[QuestionType]] = frozenset(
     {
@@ -155,13 +228,8 @@ _PERC_SUB_QUESTIONS_TYPES: Final[frozenset[QuestionType]] = frozenset(
     },
 )
 
-_GRAY_CEE_SCORE_EXPR: Final[str_] = str_("gray")
 
-_GREEN_CEE_SCORE_EXPR: Final[str_] = str_("green")
-
-_RED_CEE_SCORE_EXPR: Final[str_] = str_("red")
-
-_YELLOW_CEE_SCORE_EXPR: Final[str_] = str_("yellow")
+_RELEVANCE_QUESTION_LABEL: Final[str] = "Is the question below applicable?"
 
 
 # =============================================================================
@@ -174,12 +242,12 @@ def _create_question_int_score_record(question: Question) -> XLSFormRecord:
 
     q_value: TextExpr = string(var(_get_question_score_record_id(question)))
     score_expr: Expr = if_(
-        q_value == _GREEN_CEE_SCORE_EXPR,
+        q_value == _CeeScoreCL.GREEN.expr,
         then=THREE,
         else_=if_(
-            q_value == _YELLOW_CEE_SCORE_EXPR,
+            q_value == _CeeScoreCL.YELLOW.expr,
             then=TWO,
-            else_=if_(q_value == _RED_CEE_SCORE_EXPR, then=ONE, else_=ZERO),
+            else_=if_(q_value == _CeeScoreCL.RED.expr, then=ONE, else_=ZERO),
         ),
     )
     return XLSFormRecord(
@@ -193,7 +261,21 @@ def _create_question_int_score_record(question: Question) -> XLSFormRecord:
 def _create_question_max_score_record(question: Question) -> XLSFormRecord:
     ensure_not_none(question, "'question' MUST not be None.")
 
-    max_score: str = "0" if question.scoring_logic is None else "3"
+    max_score: str
+    q_value: TextExpr
+    q_value = string(var(_get_question_relevance_record_id(question)))
+    match question.scoring_logic:
+        case str() if question.na_option:
+            max_score = eval(
+                if_(q_value == _YesNoCL.YES.expr, then=THREE, else_=ZERO),
+            )
+        case str():
+            max_score = "3"
+        case None:
+            max_score = "0"
+        case _:
+            assert_never(question.scoring_logic)
+
     return XLSFormRecord(
         type="calculate",
         calculation=max_score,
@@ -202,14 +284,32 @@ def _create_question_max_score_record(question: Question) -> XLSFormRecord:
     )
 
 
+def _create_question_relevance_record(question: Question) -> XLSFormRecord:
+    ensure_not_none(question, "'question' MUST not be None.")
+
+    label: str = _RELEVANCE_QUESTION_LABEL
+    if question.display_numbering is not None:
+        label = f"{question.display_numbering}. {label}"
+    return XLSFormRecord.of_select_one(
+        list_name=_YesNoCL.list_name(),
+        appearance="columns-pack",
+        default=_YesNoCL.YES.choice_name,
+        hint=f"Select '{_YesNoCL.NO.choice_label}' to skip to the next question.",
+        label=label,
+        name=_get_question_relevance_record_id(question),
+        relevant="yes" if question.na_option else "no",
+    )
+
+
 def _create_question_score_record(question: Question) -> XLSFormRecord:
     ensure_not_none(question, "'question' MUST not be None.")
 
+    gray_score: _CeeScoreCL = _CeeScoreCL.GRAY
     score_expr: Expr | None = parse_question_scoring_logic(question, None)
     return XLSFormRecord(
         type="calculate",
-        calculation=eval(score_expr) if score_expr else "gray",
-        default=eval(_GRAY_CEE_SCORE_EXPR),
+        calculation=eval(score_expr) if score_expr else gray_score.choice_name,
+        default=gray_score.choice_name,
         name=_get_question_score_record_id(question),
     )
 
@@ -222,6 +322,11 @@ def _get_question_int_score_record_id(question: Question) -> str:
 def _get_question_max_score_record_id(question: Question) -> str:
     ensure_not_none(question, "'question' MUST not be None.")
     return f"{question.id}_MAX_SCORE"
+
+
+def _get_question_relevance_record_id(question: Question) -> str:
+    ensure_not_none(question, "'question' MUST not be None.")
+    return f"{question.id}_RELEVANCE"
 
 
 def _get_question_score_record_id(question: Question) -> str:
@@ -516,8 +621,9 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
     def _create_question_label(question: Question) -> str:
         ensure_not_none(question)
         question_label: str = escape_markdown(question.label)
-        # Add display numbering when present.
-        if question.display_numbering is not None:
+        # Add display numbering when question is always applicable and the
+        # display number is present.
+        if not question.na_option and question.display_numbering is not None:
             question_label = f"{question.display_numbering}. {question_label}"
         return question_label
 
@@ -533,12 +639,24 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         return eval(percentage)
 
     @staticmethod
+    def _get_question_relevance_calculation(question: Question) -> XPathExpr:
+        ensure_not_none(question)
+
+        relevant_expr: Expr = (
+            string(var(_get_question_relevance_record_id(question)))
+            == _YesNoCL.YES.expr
+        )
+        return eval(relevant_expr)
+
+    @staticmethod
     def _serialize_bool_question(question: Question) -> XLSFormItem:
         ensure_not_none(question, "'question' MUST not be None.")
         self = QuestionXLSFormSerializer
         records: tuple[XLSFormRecord, ...] = (
+            _create_question_relevance_record(question),
             XLSFormRecord.of_select_one(
-                list_name=_YES_NO_CHOICE_LIST_NAME,
+                list_name=_YesNoCL.list_name(),
+                appearance="columns-pack",
                 hint=(
                     escape_markdown(question.prompt)
                     if question.prompt
@@ -546,6 +664,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                 ),
                 label=self._create_question_label(question),
                 name=question.id,
+                relevant=self._get_question_relevance_calculation(question),
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
@@ -559,6 +678,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         ensure_not_none(question, "'question' MUST not be None.")
         self = QuestionXLSFormSerializer
         records: tuple[XLSFormRecord, ...] = (
+            _create_question_relevance_record(question),
             XLSFormRecord.of_positive_integer(
                 hint=(
                     escape_markdown(question.prompt)
@@ -567,6 +687,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                 ),
                 label=self._create_question_label(question),
                 name=question.id,
+                relevant=self._get_question_relevance_calculation(question),
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
@@ -582,26 +703,30 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         ensure_not_none(question, "'question' MUST not be None.")
         self = QuestionXLSFormSerializer
         choices: list[XLSFormChoice] = []
-        records: list[XLSFormRecord] = []
-
-        # Create a group for the question and then add its
-        # sub-questions to the group.
-        records.append(
+        records: list[XLSFormRecord] = [
+            _create_question_relevance_record(question),
+            # Create a group for the question and then add its
+            # sub-questions to the group.
             XLSFormRecord.begin_group(
                 label=self._create_question_label(question),
                 name=question.id,
+                relevant=self._get_question_relevance_calculation(question),
             ),
-        )
+        ]
         for sub_question in question.sub_questions.values():  # pyright: ignore
             sq_records = QuestionXLSFormSerializer.of().serialize(sub_question)
             choices.extend(sq_records.choices)
             records.extend(sq_records.records)
-        # Add score for the question
-        records.append(_create_question_score_record(question))
-        records.append(_create_question_int_score_record(question))
-        records.append(_create_question_max_score_record(question))
-        # Close the group
-        records.append(XLSFormRecord.end_group())
+        records.extend(
+            (
+                # Add score for the question
+                _create_question_score_record(question),
+                _create_question_int_score_record(question),
+                _create_question_max_score_record(question),
+                # Close the group
+                XLSFormRecord.end_group(),
+            ),
+        )
         return XLSFormItem(records=records, choices=choices)
 
     @staticmethod
@@ -609,6 +734,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         ensure_not_none(question, "'question' MUST not be None.")
         self = QuestionXLSFormSerializer
         records: tuple[XLSFormRecord, ...] = (
+            _create_question_relevance_record(question),
             XLSFormRecord(
                 type="text",
                 hint=(
@@ -618,6 +744,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                 ),
                 label=self._create_question_label(question),
                 name=question.id,
+                relevant=self._get_question_relevance_calculation(question),
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
@@ -646,6 +773,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             for sub_question in question.sub_questions.values()
         )
         records: tuple[XLSFormRecord, ...] = (
+            _create_question_relevance_record(question),
             XLSFormRecord.of_select_multiple(
                 list_name=question.id,
                 hint=(
@@ -655,6 +783,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                 ),
                 label=self._create_question_label(question),
                 name=question.id,
+                relevant=self._get_question_relevance_calculation(question),
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
@@ -705,6 +834,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         )
 
         records: tuple[XLSFormRecord, ...] = (
+            _create_question_relevance_record(question),
             XLSFormRecord.begin_group(
                 appearance="table-list",
                 hint=(
@@ -714,6 +844,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                 ),
                 label=self._create_question_label(question),
                 name=f"{question.id}_PERC_GRP",
+                relevant=self._get_question_relevance_calculation(question),
             ),
             XLSFormRecord.of_positive_integer(
                 label=escape_markdown(numerator.label),
@@ -748,6 +879,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
         ensure_not_none(question, "'question' MUST not be None.")
         self = QuestionXLSFormSerializer
         records: tuple[XLSFormRecord, ...] = (
+            _create_question_relevance_record(question),
             XLSFormRecord(
                 type="decimal",
                 hint=(
@@ -757,6 +889,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                 ),
                 label=self._create_question_label(question),
                 name=question.id,
+                relevant=self._get_question_relevance_calculation(question),
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
@@ -785,6 +918,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
             for index, choice in enumerate(question.options_set, start=1)
         )
         records: tuple[XLSFormRecord, ...] = (
+            _create_question_relevance_record(question),
             XLSFormRecord.of_select_one(
                 list_name=question.id,
                 hint=(
@@ -794,6 +928,7 @@ class QuestionXLSFormSerializer(Serializer[Question, XLSFormItem]):
                 ),
                 label=self._create_question_label(question),
                 name=question.id,
+                relevant=self._get_question_relevance_calculation(question),
             ),
             _create_question_score_record(question),
             _create_question_int_score_record(question),
@@ -850,11 +985,11 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
         )
         sec_scr_calc: Expr = if_(
             number(var(per_scr_rec_id)) < 90,
-            then=_RED_CEE_SCORE_EXPR,
+            then=_CeeScoreCL.RED.expr,
             else_=if_(
                 number(var(per_scr_rec_id)) < 95,
-                then=_YELLOW_CEE_SCORE_EXPR,
-                else_=_GREEN_CEE_SCORE_EXPR,
+                then=_CeeScoreCL.YELLOW.expr,
+                else_=_CeeScoreCL.GREEN.expr,
             ),
         )
         # Add an expression to handle not applicable sections.
@@ -862,7 +997,7 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
         if item.na_option:
             sec_scr_calc: Expr = if_(
                 string(var(na_optn_rec_id)) == str_("OK"),
-                then=_GRAY_CEE_SCORE_EXPR,
+                then=_CeeScoreCL.GRAY.expr,
                 else_=sec_scr_calc,
             )
 
@@ -899,10 +1034,10 @@ class SectionXLSFormSerializer(Serializer[Section, XLSFormItem]):
                     name=per_scr_rec_id,
                 ),
                 XLSFormRecord.of_select_one(
-                    list_name=_CEE_SCORE_CHOICE_LIST_NAME,
+                    list_name=_CeeScoreCL.list_name(),
                     appearance="minimal",
                     calculation=eval(sec_scr_calc),
-                    default=eval(_RED_CEE_SCORE_EXPR),
+                    default=_CeeScoreCL.RED.choice_name,
                     label="Score",
                     name=f"{item.id}_SCORE",
                     read_only="yes",

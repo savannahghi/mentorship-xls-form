@@ -103,6 +103,7 @@ class XLSFormRecord:
         hint: str | None = None,
         label: str | None = None,
         name: str | None = None,
+        relevant: str | None = None,
     ) -> Self:
         return cls(
             type="begin_group",
@@ -110,6 +111,7 @@ class XLSFormRecord:
             hint=hint,
             label=label,
             name=name,
+            relevant=relevant,
         )
 
     @classmethod
@@ -117,8 +119,14 @@ class XLSFormRecord:
         cls,
         label: str | None = None,
         name: str | None = None,
+        relevant: str | None = None,
     ) -> Self:
-        return cls.begin_group(appearance="field-list", label=label, name=name)
+        return cls.begin_group(
+            appearance="field-list",
+            label=label,
+            name=name,
+            relevant=relevant,
+        )
 
     @classmethod
     def end_group(cls) -> Self:
@@ -131,6 +139,7 @@ class XLSFormRecord:
         name: str | None = None,
         calculation: str | None = None,
         hint: str | None = None,
+        relevant: str | None = None,
     ) -> Self:
         return cls(
             type="note",
@@ -138,6 +147,7 @@ class XLSFormRecord:
             name=name,
             calculation=calculation,
             hint=hint,
+            relevant=relevant,
         )
 
     @classmethod
@@ -150,6 +160,7 @@ class XLSFormRecord:
         name: str | None = None,
         label: str | None = None,
         read_only: XLSFormBoolean | None = None,
+        relevant: str | None = None,
     ) -> Self:
         return cls(
             type="integer",
@@ -161,6 +172,7 @@ class XLSFormRecord:
             name=name,
             label=label,
             read_only=read_only,
+            relevant=relevant,
         )
 
     @classmethod
@@ -171,6 +183,7 @@ class XLSFormRecord:
         hint: str | None = None,
         label: str | None = None,
         name: str | None = None,
+        relevant: str | None = None,
         required: XLSFormBoolean | None = None,
     ) -> Self:
         required_msg: str = "'list_name' MUST not be None or empty."
@@ -181,6 +194,7 @@ class XLSFormRecord:
             hint=hint,
             label=label,
             name=name,
+            relevant=relevant,
             required=required,
         )
 
@@ -196,6 +210,7 @@ class XLSFormRecord:
         label: str | None = None,
         name: str | None = None,
         read_only: XLSFormBoolean | None = None,
+        relevant: str | None = None,
         required: XLSFormBoolean | None = None,
     ) -> Self:
         required_msg: str = "'list_name' MUST not be None or empty."
@@ -210,6 +225,7 @@ class XLSFormRecord:
             label=label,
             name=name,
             read_only=read_only,
+            relevant=relevant,
             required=required,
         )
 
@@ -260,7 +276,7 @@ class XLSFormSettings:
     )
     instance_name: str | None = field(default=None, kw_only=True, repr=False)
     style: str | None = field(default="pages", kw_only=True, repr=False)
-    version: str | None = field(default="1.4.0", kw_only=True)
+    version: str | None = field(default="1.5.0", kw_only=True)
 
 
 @define
