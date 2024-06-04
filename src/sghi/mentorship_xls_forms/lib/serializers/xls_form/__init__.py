@@ -297,7 +297,10 @@ def _create_question_relevance_record(question: Question) -> XLSFormRecord:
         list_name=_YesNoCL.list_name(),
         appearance="columns-pack",
         default=_YesNoCL.YES.choice_name,
-        hint=f"Select '{_YesNoCL.NO.choice_label}' to skip to the next question.",
+        hint=(
+            f"Select '{_YesNoCL.NO.choice_label}' to skip to the next "
+            "question."
+        ),
         label=label,
         name=_get_question_relevance_record_id(question),
         relevant="yes" if question.na_option else "no",

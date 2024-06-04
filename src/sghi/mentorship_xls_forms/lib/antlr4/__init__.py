@@ -61,8 +61,7 @@ MetaCeeScore = Literal["Gray", "Green", "Red", "Yellow"]
 
 class _HasCeeScore(Protocol):
     @abstractmethod
-    def CEE_SCORE(self) -> TerminalNode | None:
-        ...
+    def CEE_SCORE(self) -> TerminalNode | None: ...
 
 
 # =============================================================================
@@ -92,7 +91,7 @@ QT = QuestionType
 def _get_term_node_txt(terminal_node: TerminalNode | None) -> str:
     assert isinstance(terminal_node, TerminalNodeImpl)
     assert terminal_node.getText() is not None
-    return terminal_node.getText()  # type: ignore
+    return terminal_node.getText()
 
 
 def _meta_cee_score_to_xls_form(meta_cee_score: MetaCeeScore | str) -> str_:
@@ -181,8 +180,7 @@ class MetadataExpressionSyntaxError(ParseError):
 class Listener(metaclass=ABCMeta):
     @property
     @abstractmethod
-    def walk_results(self) -> ListenerWalkResults:
-        ...
+    def walk_results(self) -> ListenerWalkResults: ...
 
 
 @define
@@ -279,9 +277,7 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
             #   if(not(selected(${SIMS.S_01_02_CondomAvail_Q2_RESP}, 'yes')), 'yellow', 'green'))  # noqa: E501
             #
             # The latter produces a better expression when working with XForm tools.  # noqa: E501
-            META_NO
-            if _get_term_node_txt(ctx.BOOLEAN()) == "Y"
-            else META_YES
+            META_NO if _get_term_node_txt(ctx.BOOLEAN()) == "Y" else META_YES
         )
         meta_cee_score: str_ = _meta_cee_score_to_xls_form(
             meta_cee_score=_get_term_node_txt(ctx.CEE_SCORE()),
@@ -324,9 +320,11 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
             left_operand: NumberExpr = (
                 count_selected(question_expr)
                 if self._question.question_type == QT.MULTI
-                else intf(number(question_expr))
-                if self._question.question_type == QT.COUNT
-                else number(question_expr)
+                else (
+                    intf(number(question_expr))
+                    if self._question.question_type == QT.COUNT
+                    else number(question_expr)
+                )
             )
             right_operand: NumberExpr = (
                 intf(num(digits))
@@ -426,10 +424,10 @@ class ScoringLogicListener(SGHI_XLSFormListener, Listener):
         ctx: SGHI_XLSFormParser.Range_expressionContext,
     ) -> None:
         meta_lower_bound: int = int(
-            _get_term_node_txt(terminal_node=ctx.DIGITS(0)),  # type: ignore
+            _get_term_node_txt(terminal_node=ctx.DIGITS(0)),
         )
         meta_upper_bound: int = int(
-            _get_term_node_txt(terminal_node=ctx.DIGITS(1)),  # type: ignore
+            _get_term_node_txt(terminal_node=ctx.DIGITS(1)),
         )
 
         lower_bound: IntExpr = int_(meta_lower_bound)
@@ -536,9 +534,9 @@ def parse_question_scoring_logic(
     # scoring logic expression.
     if not else_expr and len(scoring_expressions) < 2:
         err_msg: str = (
-            "Error parsing the scoring logic for question {}. the 'else_expr' "
-            "parameter is needed for questions with a single scoring "
-            "rule/predicate.".format(question.id)
+            f"Error parsing the scoring logic for question {question.id}. the "
+            "'else_expr' parameter is needed for questions with a single "
+            "scoring rule/predicate."
         )
         raise AssertionError(err_msg)
 

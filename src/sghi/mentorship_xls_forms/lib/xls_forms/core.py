@@ -61,7 +61,7 @@ class XLSFormChoice:
 
 @define
 class XLSFormRecord:
-    type: XLSFormElementType = field()  # noqa: A003
+    type: XLSFormElementType = field()
     appearance: str | None = field(default=None, kw_only=True, repr=False)
     calculation: str | None = field(default=None, kw_only=True, repr=False)
     choice_filter: str | None = field(default=None, kw_only=True, repr=False)

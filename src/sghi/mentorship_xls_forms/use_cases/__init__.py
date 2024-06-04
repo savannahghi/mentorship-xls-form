@@ -22,19 +22,19 @@ from sghi.utils import ensure_not_none, ensure_not_none_nor_empty
 # =============================================================================
 
 
-_CLF = Callable[[str], Loader[Iterable[Checklist]]]
+type _CLF = Callable[[str], Loader[Iterable[Checklist]]]
 """Checklist Loader Factory."""
 
-_CSF = Callable[[], Serializer[Checklist, XLSForm]]
+type _CSF = Callable[[], Serializer[Checklist, XLSForm]]
 """Checklist Serializer Factory."""
 
-_CWF = Callable[[str], Writer[XLSForm]]
+type _CWF = Callable[[str], Writer[XLSForm]]
 """Checklist Writer Factory."""
 
-_FLF = Callable[[str], Loader[Iterable[Facility]]]
+type _FLF = Callable[[str], Loader[Iterable[Facility]]]
 """Facility Loader Factory."""
 
-_FSF = Callable[[], Serializer[Iterable[Facility], XLSFormItem]]
+type _FSF = Callable[[], Serializer[Iterable[Facility], XLSFormItem]]
 """Facility Serializer Factory."""
 
 

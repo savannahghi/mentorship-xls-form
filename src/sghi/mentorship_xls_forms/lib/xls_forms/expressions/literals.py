@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Generic, TypeVar
-
 from attrs import field, frozen
 
 from .base import BoolExpr, Expr, IntExpr, NumberExpr, TextExpr, XPathExpr
@@ -13,8 +11,6 @@ from .base import BoolExpr, Expr, IntExpr, NumberExpr, TextExpr, XPathExpr
 
 _Number = int | float
 
-_T = TypeVar("_T")
-
 
 # =============================================================================
 # LITERALS
@@ -22,7 +18,7 @@ _T = TypeVar("_T")
 
 
 @frozen
-class LiteralValue(Expr, Generic[_T]):
+class LiteralValue[_T](Expr):
     value: _T = field()
 
     def __eval__(self) -> XPathExpr:
@@ -36,13 +32,11 @@ class Boolean(BoolExpr, LiteralValue[bool]):
 
 
 @frozen(eq=False)
-class Int(IntExpr, LiteralValue[int]):
-    ...
+class Int(IntExpr, LiteralValue[int]): ...
 
 
 @frozen(eq=False)
-class Number(NumberExpr, LiteralValue[_Number]):
-    ...
+class Number(NumberExpr, LiteralValue[_Number]): ...
 
 
 @frozen(eq=False)

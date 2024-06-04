@@ -67,7 +67,7 @@ class QuestionType(StrEnum):
 # =============================================================================
 
 
-class DomainObject(metaclass=ABCMeta):
+class DomainObject(metaclass=ABCMeta):  # noqa: B024
     """Marker interface that identifies a domain object.
 
     All domain objects should implement this interface.
@@ -94,7 +94,7 @@ class Facility(DomainObject):
 class Question(DomainObject):
     """A question in a mentorship checklist."""
 
-    id: str = field()  # noqa: A003
+    id: str = field()
     label: str = field(hash=False)
     question_type: QuestionType = field()
     answer_type: AnswerType = field(repr=False)
@@ -144,7 +144,7 @@ class Question(DomainObject):
 class Section(DomainObject):
     """A section in a mentorship checklist."""
 
-    id: str = field()  # noqa: A003
+    id: str = field()
     title: str = field(hash=False)
     standard: str | None = field(
         default=None,
@@ -181,7 +181,7 @@ class Section(DomainObject):
 class MentorshipChecklist(DomainObject):
     """A mentorship checklist."""
 
-    id: str = field()  # noqa: A003
+    id: str = field()
     name: str = field(hash=False)
     sections: Mapping[str, Section] | None = field(
         default=None,
