@@ -41,13 +41,13 @@ BLANK_RESULT: Final[XPathExpr] = XPathExpr("")
 
 
 @overload
-def python_number_to_xls_form_number(number: int | IntExpr) -> IntExpr:
-    ...
+def python_number_to_xls_form_number(number: int | IntExpr) -> IntExpr: ...
 
 
 @overload
-def python_number_to_xls_form_number(number: float | NumberExpr) -> NumberExpr:
-    ...
+def python_number_to_xls_form_number(
+    number: float | NumberExpr,
+) -> NumberExpr: ...
 
 
 def python_number_to_xls_form_number(
@@ -241,12 +241,10 @@ class NumberExpr(Expr, SupportsIndex, SupportsRound, metaclass=ABCMeta):
         return pow_(self, python_number_to_xls_form_number(power))
 
     @overload
-    def __round__(self, places: int = 2) -> NumberExpr:
-        ...
+    def __round__(self, places: int = 2) -> NumberExpr: ...
 
     @overload
-    def __round__(self, places: IntExpr | None = None) -> NumberExpr:
-        ...
+    def __round__(self, places: IntExpr | None = None) -> NumberExpr: ...
 
     def __round__(self, places: int | IntExpr | None = None) -> NumberExpr:
         from .functions import round_
@@ -386,7 +384,7 @@ class Variable(Expr):
         )
 
     def __eval__(self) -> XPathExpr:
-        return XPathExpr("${%s}" % self.question_name)
+        return XPathExpr(f"${self.question_name}")
 
 
 brkt = Brackets

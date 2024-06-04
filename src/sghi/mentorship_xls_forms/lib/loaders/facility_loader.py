@@ -55,9 +55,9 @@ class FacilityJSONMetadataLoader(Loader[Iterable[Facility]]):
                 fp=self._metadata_source,
             )
         except json.JSONDecodeError as exc:
-            _err_msg: (
-                str
-            ) = f"Error loading facilities from JSON metadata: '{exc!s}'"
+            _err_msg: str = (
+                f"Error loading facilities from JSON metadata: '{exc!s}'"
+            )
             raise LoadError(message=_err_msg) from exc
         return _CONVERTER.structure(raw_metadata, Sequence[Facility])
 
@@ -77,7 +77,7 @@ class FacilityJSONMetadataLoader(Loader[Iterable[Facility]]):
                 metadata_source=open(metadata_file_path),  # noqa: SIM115
             )
         except OSError as exc:
-            _err_msg: (
-                str
-            ) = f"Error while opening metadata source file: '{exc!s}'"
+            _err_msg: str = (
+                f"Error while opening metadata source file: '{exc!s}'"
+            )
             raise LoadError(message=_err_msg) from exc

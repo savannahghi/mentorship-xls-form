@@ -1,17 +1,10 @@
 from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
-from typing import Generic, TypeVar
+from typing import override
 
-from sghi.disposable import Disposable
+from sghi.etl.core import Source
 from sghi.exceptions import SGHIError
-
-# =============================================================================
-# TYPES
-# =============================================================================
-
-_D = TypeVar("_D")
-
 
 # =============================================================================
 # EXCEPTIONS
@@ -27,7 +20,7 @@ class LoadError(SGHIError):
 # =============================================================================
 
 
-class Loader(Disposable, Generic[_D], metaclass=ABCMeta):
+class Loader[_DT](Source[_DT], metaclass=ABCMeta):
     """
     Interface representing objects that read data from a source (or generate
     the data) for further processing or internal consumption by this tool.
@@ -36,7 +29,7 @@ class Loader(Disposable, Generic[_D], metaclass=ABCMeta):
     __slots__ = ()
 
     @abstractmethod
-    def load(self) -> _D:
+    def load(self) -> _DT:
         """
         Read data from a source and return it for further processing or
         internal consumption.
@@ -47,3 +40,7 @@ class Loader(Disposable, Generic[_D], metaclass=ABCMeta):
             source.
         """
         ...
+
+    @override
+    def draw(self) -> _DT:
+        return self.load()

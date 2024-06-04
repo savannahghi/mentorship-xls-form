@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABCMeta
-from typing import Generic, Self, TypeVar
+from typing import Self
 
 from attrs import field, frozen
 
@@ -15,10 +15,6 @@ from .base import BoolExpr, Expr, NumberExpr, TextExpr, XPathExpr, eval
 
 
 _AlphaNumeric = NumberExpr | TextExpr
-
-_E1 = TypeVar("_E1", bound=Expr)
-
-_E2 = TypeVar("_E2", bound=Expr)
 
 
 # =============================================================================
@@ -42,12 +38,12 @@ class Operator(Expr, metaclass=ABCMeta):
 
 
 @frozen
-class BiOperator(Operator, Generic[_E1, _E2]):
+class BiOperator[_LHT: Expr, _RHT: Expr](Operator):
     """An XLSForm binary operator."""
 
     operator: str = field()
-    left_operand: _E1 = field()
-    right_operand: _E2 = field()
+    left_operand: _LHT = field()
+    right_operand: _RHT = field()
 
     def __attrs_post_init__(self) -> None:
         ensure_not_none(self.operator, "'operator' MUST not be None.")
@@ -59,7 +55,7 @@ class BiOperator(Operator, Generic[_E1, _E2]):
 
     def __eval__(self) -> XPathExpr:
         return XPathExpr(
-            "{}{}{}".format(
+            "{}{}{}".format(  # noqa: UP032
                 eval(self.left_operand),
                 self.operator,
                 eval(self.right_operand),

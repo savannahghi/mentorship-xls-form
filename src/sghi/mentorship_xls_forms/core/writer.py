@@ -1,17 +1,10 @@
 from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
-from typing import Generic, TypeVar
+from typing import override
 
-from sghi.disposable import Disposable
+from sghi.etl.core import Sink
 from sghi.exceptions import SGHIError
-
-# =============================================================================
-# TYPES
-# =============================================================================
-
-_D = TypeVar("_D")
-
 
 # =============================================================================
 # EXCEPTIONS
@@ -27,7 +20,7 @@ class WriteError(SGHIError):
 # =============================================================================
 
 
-class Writer(Disposable, Generic[_D], metaclass=ABCMeta):
+class Writer[_DT](Sink[_DT], metaclass=ABCMeta):
     """
     Interface representing objects that persist processed data to a final
     destination for further consumption by other tools *down stream*.
@@ -36,7 +29,7 @@ class Writer(Disposable, Generic[_D], metaclass=ABCMeta):
     __slots__ = ()
 
     @abstractmethod
-    def write(self, data: _D) -> None:
+    def write(self, data: _DT) -> None:
         """Persist the given data to a destination.
 
         :param data: The data to persist.
@@ -47,3 +40,7 @@ class Writer(Disposable, Generic[_D], metaclass=ABCMeta):
             data.
         """
         ...
+
+    @override
+    def drain(self, processed_data: _DT) -> None:
+        return self.write(processed_data)

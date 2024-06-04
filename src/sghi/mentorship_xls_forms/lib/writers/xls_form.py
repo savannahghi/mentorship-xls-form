@@ -1,10 +1,9 @@
 from collections.abc import Iterable, Sequence
-from typing import Any, BinaryIO, Final, Self, TypeVar, cast
+from typing import Any, BinaryIO, Final, Self, cast, override
 
 import cattrs
 import pyexcel
-from attrs import AttrsInstance, define, field, fields
-from typing_extensions import override
+from attrs import define, field, fields
 
 from sghi.disposable import not_disposed
 from sghi.mentorship_xls_forms.core import Writer
@@ -15,14 +14,6 @@ from sghi.mentorship_xls_forms.lib.xls_forms import (
     XLSFormSettings,
 )
 from sghi.utils import ensure_not_none
-
-# =============================================================================
-# TYPES
-# =============================================================================
-
-
-_AT = TypeVar("_AT", bound=AttrsInstance)
-
 
 # =============================================================================
 # CONSTANT
@@ -106,14 +97,18 @@ class XLSFormWriter(Writer[XLSForm]):
         )
 
     @staticmethod
-    def _objects_to_xls(
+    def _objects_to_xls[
+        _AT
+    ](
         object_klass: type[_AT],
         objects: Iterable[_AT],
-    ) -> Sequence[Sequence[Any]]:
+    ) -> Sequence[
+        Sequence[Any]
+    ]:
         ensure_not_none(object_klass, "'object_klass' MUST not be None.")
         ensure_not_none(objects, "'objects' MUST not be None.")
-        xls_entries = [
-            _CONVERTER.unstructure(an_object) for an_object in objects
+        xls_entries: list[Any] = [
+            list(_CONVERTER.unstructure(an_object)) for an_object in objects
         ]
         header_row: Sequence[str] = [
             attribute.name for attribute in fields(object_klass)
