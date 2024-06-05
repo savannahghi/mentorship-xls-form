@@ -4,10 +4,11 @@ from typing import TYPE_CHECKING, Literal
 
 import click
 
-from .use_cases import main_pipeline_factory
+from sghi.etl.commons import run_workflow
+from sghi.mentorship_xls_forms.use_cases import app_workflow_factory
 
 if TYPE_CHECKING:
-    from .lib.loaders import SupportedMetaFormats
+    from sghi.mentorship_xls_forms.lib.loaders import SupportedMetaFormats
 
 # =============================================================================
 # TYPES
@@ -107,7 +108,13 @@ def main(
     """
 
     click.secho("Starting ...", fg="bright_blue")
-    main_pipeline_factory()((checklist_metadata, facility_metadata))
+    app_workflow = app_workflow_factory(
+        checklist_metadata_path=checklist_metadata,
+        facility_metadata_path=facility_metadata,
+        output_dir=output_dir,
+    )
+    run_workflow(lambda: app_workflow)
+    # -> main_pipeline_factory()((checklist_metadata, facility_metadata))
     click.secho("Done :)", fg="bright_blue")
 
 

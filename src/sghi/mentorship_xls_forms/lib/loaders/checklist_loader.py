@@ -204,7 +204,7 @@ class ChecklistsExcelMetadataLoader(Loader[Iterable[MentorshipChecklist]]):
         self._is_disposed = True
         pyexcel.free_resources()
 
-    @not_disposed()
+    @not_disposed
     def load(self) -> Iterable[MentorshipChecklist]:
         checklists_meta: ExcelWorksheet
         checklists_meta = self._metadata_source.sheets[CHECKLISTS_SHEET_NAME]

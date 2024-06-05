@@ -48,7 +48,7 @@ class FacilityJSONMetadataLoader(Loader[Iterable[Facility]]):
     def dispose(self) -> None:
         self._metadata_source.close()
 
-    @not_disposed()
+    @not_disposed
     def load(self) -> Iterable[Facility]:
         try:
             raw_metadata: Sequence[_FacilityMapping] = json.load(

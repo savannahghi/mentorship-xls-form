@@ -7,6 +7,7 @@ from sghi.mentorship_xls_forms.core import MentorshipChecklist as Checklist
 from sghi.mentorship_xls_forms.lib.loaders import (
     ChecklistsExcelMetadataLoader,
     FacilityJSONMetadataLoader,
+    KMHFLFacilityLoader,
 )
 from sghi.mentorship_xls_forms.lib.serializers.xls_form import (
     ChecklistXLSFormSerializer,
@@ -16,6 +17,8 @@ from sghi.mentorship_xls_forms.lib.writers import XLSFormWriter
 from sghi.mentorship_xls_forms.lib.xls_forms import XLSForm, XLSFormItem
 from sghi.task import Pipe, Task
 from sghi.utils import ensure_not_none, ensure_not_none_nor_empty
+
+from .app_workflow import app_workflow_factory
 
 # =============================================================================
 # TYPES
@@ -126,7 +129,7 @@ class WriteResult(Task[Iterable[tuple[Checklist, XLSForm]], None]):
 
 def main_pipeline_factory() -> Pipe[tuple[str, str], None]:
     return Pipe(
-        LoadMetadata(),
+        LoadMetadata(facility_loader_factory=KMHFLFacilityLoader.of_file_path),
         ProcessChecklist(),
         WriteResult(),
     )
@@ -137,4 +140,4 @@ def main_pipeline_factory() -> Pipe[tuple[str, str], None]:
 # =============================================================================
 
 
-__all__ = ("main_pipeline_factory",)
+__all__ = ("app_workflow_factory", "main_pipeline_factory")

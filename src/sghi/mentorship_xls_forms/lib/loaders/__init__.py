@@ -9,6 +9,7 @@ from sghi.mentorship_xls_forms.core import (
 
 from .checklist_loader import ChecklistsExcelMetadataLoader
 from .facility_loader import FacilityJSONMetadataLoader
+from .kmfl_facility_loader import KMHFLFacilityLoader
 
 # =============================================================================
 # TYPES
@@ -76,6 +77,7 @@ def load_metadata(
 __all__ = [
     "ChecklistsExcelMetadataLoader",
     "FacilityJSONMetadataLoader",
+    "KMHFLFacilityLoader",
     "LoadError",
     "SupportedMetaFormats",
     "load_metadata",

@@ -384,7 +384,7 @@ class Variable(Expr):
         )
 
     def __eval__(self) -> XPathExpr:
-        return XPathExpr(f"${self.question_name}")
+        return XPathExpr("${%s}" % self.question_name)  # noqa: UP031
 
 
 brkt = Brackets
