@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
+import logging
 from collections.abc import Iterable, Sequence
+from logging import Logger
 from typing import Final, Self, TextIO, TypedDict
 
 import cattrs
@@ -9,7 +11,7 @@ from attrs import define, field
 
 from sghi.disposable import not_disposed
 from sghi.mentorship_xls_forms.core import Facility, Loader, LoadError
-from sghi.utils import ensure_not_none
+from sghi.utils import ensure_not_none, type_fqn
 
 # =============================================================================
 # TYPES
@@ -40,6 +42,10 @@ _CONVERTER: Final[cattrs.Converter] = cattrs.Converter()
 @define
 class FacilityJSONMetadataLoader(Loader[Iterable[Facility]]):
     _metadata_source: Final[TextIO] = field(eq=False, hash=False, repr=False)
+    _logger: Logger = field(init=False, repr=False)
+
+    def __attrs_post_init__(self) -> None:
+        self._logger = logging.getLogger(type_fqn(self.__class__))
 
     @property
     def is_disposed(self) -> bool:
@@ -47,9 +53,11 @@ class FacilityJSONMetadataLoader(Loader[Iterable[Facility]]):
 
     def dispose(self) -> None:
         self._metadata_source.close()
+        self._logger.info("Disposal complete.")
 
-    @not_disposed()
+    @not_disposed
     def load(self) -> Iterable[Facility]:
+        self._logger.info("Loading facilities from a JSON source.")
         try:
             raw_metadata: Sequence[_FacilityMapping] = json.load(
                 fp=self._metadata_source,
