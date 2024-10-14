@@ -276,7 +276,7 @@ class XLSFormSettings:
     )
     instance_name: str | None = field(default=None, kw_only=True, repr=False)
     style: str | None = field(default="pages", kw_only=True, repr=False)
-    version: str | None = field(default="1.5.0", kw_only=True)
+    version: str | None = field(default="1.7.0", kw_only=True)
 
 
 @define

@@ -34,6 +34,7 @@ dependencies = [
     "pyexcel-io~=0.6.6",
     "pyexcel-xls~=0.7.0",
     "pyexcel-xlsx~=0.6.0",
+    "requests~=2.32.3",
     "sghi-commons @ git+https://github.com/savannahghi/sghi-commons.git@v1.4.0",
     "sghi-etl-commons @ git+https://github.com/savannahghi/sghi-etl-commons.git@v1.1.0-rc.2",
     "typing_extensions>=4.8.0",
@@ -84,7 +85,7 @@ test = [
 ]
 
 [project.scripts]
-mentorship-xls-forms = "sghi.mentorship_xls_forms.__main__:main"
+mentorship-xls-forms = "sghi.mentorship_xls_forms.cli.__main__:main"
 
 [project.urls]
 changelog = "https://github.com/savannahghi/mentorship-xls-form/blob/develop/docs/CHANGELOG.md"
