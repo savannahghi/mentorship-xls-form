@@ -165,7 +165,7 @@ class KMHFRFacilityLoader(Loader[Iterable[Facility]]):
     @override
     def load(self) -> Iterable[Facility]:
         self._logger.info(
-            "Loading facilities from the KHMFL instance at: %s.",
+            "Loading facilities from the KMHFR instance at: %s.",
             self._kmhfr_api_url,
         )
         page: int = 1
@@ -181,8 +181,8 @@ class KMHFRFacilityLoader(Loader[Iterable[Facility]]):
         # This is needed to conform to the interface required by the
         # `sghi.use_cases.LoadMetadata` task.
         # The function is expected to take a file path of the metadata to
-        # load. The given file path is not needed by this functon so it is
-        # ignored.
+        # load.
+        # This function does not need the given file path, so it is ignored.
         return cls()
 
     @not_disposed
@@ -190,6 +190,7 @@ class KMHFRFacilityLoader(Loader[Iterable[Facility]]):
         self,
         page: int,
     ) -> tuple[Iterable[Facility], bool]:
+        # noinspection PyArgumentList
         res: Response = self._make_request(
             req=Request(
                 method="GET",
@@ -197,6 +198,7 @@ class KMHFRFacilityLoader(Loader[Iterable[Facility]]):
                     "county": ",".join(
                         (_COUNTY_KAJIADO_ID, _COUNTY_NAIROBI_ID)
                     ),
+                    "format": "json",
                     "page": str(page),
                     "page_size": "250",
                 },
@@ -232,7 +234,7 @@ class KMHFRFacilityLoader(Loader[Iterable[Facility]]):
             raise RuntimeError(_err_msg)
         res_content: _AuthResponse = res.json()
         return _Authenticated(
-            {"Authorization": f"Bearer {res_content["access_token"]}"},
+            {"Authorization": f"Bearer {res_content['access_token']}"},
         )
 
     def _log_response(
@@ -270,16 +272,32 @@ class KMHFRFacilityLoader(Loader[Iterable[Facility]]):
             url=req.url,
         )
 
-        if res.status_code in {401, 403} and remaining_retries >= 0:
+        unauthenticated_status_codes: set[int] = {
+            401,
+            403,
+            # Why 500?
+            # Currently, there is a bug with KMHFR where it runs a response
+            # with status code 500 when the request is unauthenticated.
+            500,
+        }
+        if (
+            res.status_code in unauthenticated_status_codes
+            and remaining_retries >= 0
+        ):
             # Authenticate and then retry the response.
+            # noinspection PyArgumentList
             self._auth = self._authenticate()
+            # noinspection PyArgumentList
             return self._make_request(
                 req=req,
                 valid_res_predicate=valid_res_predicate,
                 remaining_retries=remaining_retries - 1,
             )
 
-        if res.status_code in {401, 403} and remaining_retries < 0:
+        if (
+            res.status_code in unauthenticated_status_codes
+            and remaining_retries < 0
+        ):
             _err_msg: str = "Authentication loop detected. Exiting."
             raise RuntimeError(_err_msg)
 

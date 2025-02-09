@@ -8,7 +8,7 @@ from attrs import define, field, validators
 from sghi.disposable import not_disposed
 from sghi.etl.commons import (
     GatherSource,
-    SimpleWorkflowDefinition,
+    WorkflowBuilder,
 )
 from sghi.etl.core import Processor
 from sghi.mentorship_xls_forms.core import Facility, Loader, Serializer, Writer
@@ -27,7 +27,7 @@ from sghi.mentorship_xls_forms.lib.xls_forms import XLSForm, XLSFormItem
 from sghi.utils import ensure_not_none
 
 if TYPE_CHECKING:
-    from sghi.etl.core import Sink, Source, WorkflowDefinition
+    from sghi.etl.core import Sink, WorkflowDefinition
 
 # =============================================================================
 # TYPES
@@ -62,7 +62,6 @@ type _PDT = Iterable[tuple[Checklist, XLSForm]]
 
 @define
 class _ChecklistFacilityLoader(Loader[Iterable[Facility]]):
-
     _facility_metadata_path: str = field(
         alias="facility_metadata_path",
         validator=[validators.instance_of(str), validators.min_len(2)],
@@ -128,7 +127,6 @@ class _ChecklistFacilityLoader(Loader[Iterable[Facility]]):
 
 @define
 class _ChecklistProcessor(Processor[_RDT, _PDT]):
-
     _checklist_serializer_factory: _CSF = field(
         alias="checklist_serializer_factory",
         default=ChecklistXLSFormSerializer.of,
@@ -179,7 +177,6 @@ class _ChecklistProcessor(Processor[_RDT, _PDT]):
 
 @define
 class _ChecklistWriter(Writer[_PDT]):
-
     _out_dir: str = field(
         alias="out_dir",
         validator=[validators.instance_of(str), validators.min_len(2)],
@@ -226,14 +223,13 @@ def app_workflow_factory(
     checklist_serializer_factory: _CSF = ChecklistXLSFormSerializer.of,
     facility_serializer_factory: _FSF = FacilitiesXLSFormSerializer.of,
     checklist_writer_factory: _CWF = XLSFormWriter.of_file_path,
-) -> WorkflowDefinition[_RDT, _PDT]:
-    def source_factory() -> Source[_RDT]:
-        return GatherSource[Iterable[Checklist | Facility]](
-            sources=(
-                checklist_loader_factory(checklist_metadata_path),  # type: ignore
-                facility_loader_factory(facility_metadata_path),
-            ),
-        )
+) -> Callable[[], WorkflowDefinition[_RDT, _PDT]]:
+    wb: WorkflowBuilder[_RDT, _PDT]
+    wb = WorkflowBuilder(
+        id="fyj-mentorship-checklist",
+        name="FyJ Mentorship Checklist",
+        composite_source_factory=GatherSource,
+    )
 
     def processor_factory() -> Processor[_RDT, _PDT]:
         return _ChecklistProcessor(
@@ -247,13 +243,11 @@ def app_workflow_factory(
             checklist_writer_factory=checklist_writer_factory,
         )
 
-    return SimpleWorkflowDefinition(
-        id="fyj-mentorship-checklist",
-        name="FyJ Mentorship Checklist",
-        source_factory=source_factory,
-        processor_factory=processor_factory,
-        sink_factory=sink_factory,
-    )
+    wb.draw_from(checklist_loader_factory(checklist_metadata_path))
+    wb.draw_from(facility_loader_factory(facility_metadata_path))
+    wb.apply_processor(processor_factory)
+    wb.drain_to(sink_factory)
+    return wb
 
 
 # =============================================================================

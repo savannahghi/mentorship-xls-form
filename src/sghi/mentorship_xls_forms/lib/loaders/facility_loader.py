@@ -82,7 +82,7 @@ class FacilityJSONMetadataLoader(Loader[Iterable[Facility]]):
         )
         try:
             return cls.of(
-                metadata_source=open(metadata_file_path),  # noqa: SIM115
+                metadata_source=open(metadata_file_path),
             )
         except OSError as exc:
             _err_msg: str = (

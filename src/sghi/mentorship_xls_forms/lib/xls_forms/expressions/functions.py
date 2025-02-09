@@ -11,7 +11,7 @@ from .base import (
     NumberExpr,
     TextExpr,
     XPathExpr,
-    eval,
+    eval,  # noqa: A004
 )
 
 # =============================================================================

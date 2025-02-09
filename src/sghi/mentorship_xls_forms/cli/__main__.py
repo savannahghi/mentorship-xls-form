@@ -217,7 +217,7 @@ def main(
             facility_metadata_path=facility_metadata,
             output_dir=output_dir,
         )
-        run_workflow(lambda: app_workflow)
+        run_workflow(app_workflow)
         print_success("Done :)")
     except Exception as exp:  # noqa: BLE001
         _err_msg: str = (

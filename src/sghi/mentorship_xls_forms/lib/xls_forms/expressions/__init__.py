@@ -10,7 +10,7 @@ from .base import (
     Variable,
     XPathExpr,
     brkt,
-    eval,
+    eval,  # noqa: A004
     var,
 )
 from .functions import (

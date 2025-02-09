@@ -560,7 +560,11 @@ def parse_section_scoring_logic(section: Section) -> Expr | None:
     # so only top level questions are parsed for scoring logic rules.
     return reduce(
         lambda _acc, _qtn: parse_question_scoring_logic(_qtn, _acc) or _acc,
-        reversed(section.questions.values()) if section.questions else (),
+        (
+            reversed(list(section.questions.values()))
+            if section.questions
+            else ()
+        ),
         None,
     )
 

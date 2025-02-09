@@ -35,7 +35,7 @@ from sghi.mentorship_xls_forms.lib.xls_forms.expressions import (
     NumberExpr,
     TextExpr,
     XPathExpr,
-    eval,
+    eval,  # noqa: A004
     if_,
     number,
     str_,

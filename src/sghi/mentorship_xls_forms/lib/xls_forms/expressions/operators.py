@@ -7,7 +7,14 @@ from attrs import field, frozen
 
 from sghi.utils import ensure_not_none
 
-from .base import BoolExpr, Expr, NumberExpr, TextExpr, XPathExpr, eval
+from .base import (
+    BoolExpr,
+    Expr,
+    NumberExpr,
+    TextExpr,
+    XPathExpr,
+    eval,  # noqa: A004
+)
 
 # =============================================================================
 # TYPES
