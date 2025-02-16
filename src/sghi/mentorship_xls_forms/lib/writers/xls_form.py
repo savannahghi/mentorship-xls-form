@@ -93,18 +93,14 @@ class XLSFormWriter(Writer[XLSForm]):
     def of_file_path(cls, write_file_path: str) -> Self:
         ensure_not_none(write_file_path, "'write_file_path' MUST not be None.")
         return cls.of(
-            target_file=open(file=write_file_path, mode="wb"),  # noqa: SIM115
+            target_file=open(file=write_file_path, mode="wb"),
         )
 
     @staticmethod
-    def _objects_to_xls[
-        _AT
-    ](
+    def _objects_to_xls[_AT](
         object_klass: type[_AT],
         objects: Iterable[_AT],
-    ) -> Sequence[
-        Sequence[Any]
-    ]:
+    ) -> Sequence[Sequence[Any]]:
         ensure_not_none(object_klass, "'object_klass' MUST not be None.")
         ensure_not_none(objects, "'objects' MUST not be None.")
         xls_entries: list[Any] = [
